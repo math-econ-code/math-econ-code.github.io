@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>L1_linear-programming-intro</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>LP1_linear_programming_intro</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -36,6 +36,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .m { color: var(--jp-mirror-editor-number-color) } /* Literal.Number */
 .highlight .s { color: var(--jp-mirror-editor-string-color) } /* Literal.String */
 .highlight .ow { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator.Word */
+.highlight .pm { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation.Marker */
 .highlight .w { color: var(--jp-mirror-editor-variable-color) } /* Text.Whitespace */
 .highlight .mb { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Bin */
 .highlight .mf { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Float */
@@ -56,6 +57,19 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .s1 { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Single */
 .highlight .ss { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Symbol */
 .highlight .il { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Integer.Long */
+  </style>
+<style type="text/css">
+    /*This file contains any manual css for this page that needs to override the global styles.
+This is only required when different pages style the same element differently. This is just
+a hack to deal with our current css styles and no new styling should be added in this file.*/
+
+#ipython-main-app {
+    position: relative;
+}
+#jupyter-main-app {
+    position: relative;
+}
+
   </style>
 
 
@@ -14464,10 +14478,6 @@ a.anchor-link {
   display: none;
 }
 
-.highlight  {
-  margin: 0.4em;
-}
-
 /* Input area styling */
 .jp-InputArea {
   overflow: hidden;
@@ -14477,9 +14487,26 @@ a.anchor-link {
   overflow: hidden;
 }
 
-.CodeMirror pre {
+.CodeMirror.cm-s-jupyter .highlight pre {
+/* weird, but --jp-code-padding defined to be 5px but 4px horizontal padding is hardcoded for pre.CodeMirror-line */
+  padding: var(--jp-code-padding) 4px;
   margin: 0;
-  padding: 0;
+
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+
+}
+
+.jp-OutputArea-output pre {
+  line-height: inherit;
+  font-family: inherit;
+}
+
+.jp-RenderedText pre {
+  color: var(--jp-content-font-color1);
+  font-size: var(--jp-code-font-size);
 }
 
 /* Using table instead of flexbox so that we can use break-inside property */
@@ -14525,6 +14552,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
   display: none;
 }
 
+@page {
+    margin: 0.5in; /* Margin for each printed piece of paper */
+}
+
 @media print {
   .jp-Cell-inputWrapper,
   .jp-Cell-outputWrapper {
@@ -14559,12 +14590,12 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
                 },
                 displayAlign: 'center',
                 CommonHTML: {
-                    linebreaks: { 
-                    automatic: true 
+                    linebreaks: {
+                    automatic: true
                     }
                 }
             });
-        
+
             MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
         }
     }
@@ -14579,8 +14610,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Linear-programming-introduction"><center>Linear programming introduction</center><a class="anchor-link" href="#Linear-programming-introduction">&#182;</a></h1><h3><center>Alfred Galichon (NYU & Sciences Po)</center></h3>
-<h2 id="'math+econ+code'-masterclass-on-linear-programming-and-economic-applications"><center>'math+econ+code' masterclass on linear programming and economic applications</center><a class="anchor-link" href="#'math+econ+code'-masterclass-on-linear-programming-and-economic-applications">&#182;</a></h2><h4 id="With-python-code-examples"><center>With python code examples</center><a class="anchor-link" href="#With-python-code-examples">&#182;</a></h4><p>© 2018-2023 by Alfred Galichon. Past and present support from NSF grant DMS-1716489, ERC grant CoG-866274 are acknowledged, as well as inputs from contributors listed <a href="http://www.math-econ-code.org/team">here</a>.</p>
+<h1 id="Linear-programming-introduction"><center>Linear programming introduction</center><a class="anchor-link" href="#Linear-programming-introduction">&#182;</a></h1><h3 id="Alfred-Galichon-(NYU-&amp;-Sciences-Po)"><center>Alfred Galichon (NYU &amp; Sciences Po)</center><a class="anchor-link" href="#Alfred-Galichon-(NYU-&amp;-Sciences-Po)">&#182;</a></h3><h2 id="'math+econ+code'-masterclass-on-linear-programming-and-economic-applications"><center>'math+econ+code' masterclass on linear programming and economic applications</center><a class="anchor-link" href="#'math+econ+code'-masterclass-on-linear-programming-and-economic-applications">&#182;</a></h2><h4 id="With-python-code-examples"><center>With python code examples</center><a class="anchor-link" href="#With-python-code-examples">&#182;</a></h4><p>© 2018–2023 by Alfred Galichon. Past and present support from NSF grant DMS-1716489, ERC grant CoG-866274 are acknowledged, as well as inputs from contributors listed <a href="http://www.math-econ-code.org/team">here</a>.</p>
 <p><strong>If you reuse material from this masterclass, please cite as:</strong><br>
 Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic applications. <a href="https://github.com/math-econ-code/mec_linprog">https://github.com/math-econ-code/mec_linprog</a></p>
 
@@ -14631,15 +14661,15 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="The-diet-problem">The diet problem<a class="anchor-link" href="#The-diet-problem">&#182;</a></h3><p>During World War II, engineers in US Army were wondering how to feed their personnel at minimal cost, leading to what is now called the <strong>optimal diet problem</strong>.</p>
 <ul>
-<li><p>Nutritionists have identified a number of vital nutrients (calories, protein, calcium, iron, etc.) that matter for a person's health, and have determined the minimum daily intake of each nutrient</p>
+<li><p>Nutritionists have identified a number of vital nutrients (calories, protein, calcium, iron, etc.) that matter for a person's health, and have determined the minimum daily intake of each nutrient.</p>
 </li>
-<li><p>For each basic food (pasta, butter, bread, etc), nutritionists have characterized the intake in each of the various nutrients</p>
+<li><p>For each basic food (pasta, butter, bread, etc), nutritionists have characterized the intake in each of the various nutrients.</p>
 </li>
-<li><p>Each food has a unit cost, and the problem is to find the optimal diet = combination of foods that meet the minimal intake in each of the nutrients and achieves minimal cost</p>
+<li><p>Each food has a unit cost, and the problem is to find the optimal diet, i.e. the combination of foods that meets the minimal intake in each of the nutrients and achieves minimal cost.</p>
 </li>
 </ul>
-<p>The problem was taken on by G. Stigler, who published a paper about it in 1945, giving a first heuristic solution, exhibiting a diet that costs $\$39.93$ per year in $1939$ dollars. Later (in $1947$) it was one of the first
-application of G.B. Dantzig's method (the simplex algorithm), which provided the exact solution ($\$39.67$). It then took $120$ man-day to perform this operation. However today the computer will perform it for us in a
+<p>The problem was taken on by G. Stigler, who published a paper about it in 1945, giving a first heuristic solution, exhibiting a diet that costs \$ 39.93 per year in 1939 dollars. Later (in 1947) it was one of the first
+application of G.B. Dantzig's method (the simplex algorithm), which provided the exact solution ($39.67). It then took 120 man-day to perform this operation. However today the computer will perform it for us in a
 fraction of second.</p>
 <p>However, don't try this diet at home! Dantzig did so and almost died from it...</p>
 
@@ -14666,9 +14696,9 @@ fraction of second.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
 <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
 
 <span class="n">thepath</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/math-econ-code/mec_optim_2021-01/master/data_mec_optim/lp_stigler-diet/&#39;</span>
@@ -14690,7 +14720,7 @@ fraction of second.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Our dataset has the nutritional content of $77$ commodities:</p>
+<p>Our dataset has the nutritional content of 77 commodities:</p>
 
 </div>
 </div>
@@ -14700,7 +14730,7 @@ fraction of second.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">thedata</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -14717,16 +14747,17 @@ fraction of second.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
 
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
+
+  <div id="df-ba765df2-c2ac-419a-889c-58e30e0d112a">
+    <div class="colab-df-container">
+      <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -14843,6 +14874,82 @@ fraction of second.</p>
   </tbody>
 </table>
 </div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-ba765df2-c2ac-419a-889c-58e30e0d112a')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-ba765df2-c2ac-419a-889c-58e30e0d112a button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-ba765df2-c2ac-419a-889c-58e30e0d112a');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  
 </div>
 
 </div>
@@ -14868,7 +14975,7 @@ fraction of second.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">commodities</span> <span class="o">=</span> <span class="p">(</span><span class="n">thedata</span><span class="p">[</span><span class="s1">&#39;Commodity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -14887,11 +14994,9 @@ fraction of second.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 
 
 
@@ -14924,16 +15029,16 @@ Name: 77, dtype: float64</pre>
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="The-Diet-problem">The Diet problem<a class="anchor-link" href="#The-Diet-problem">&#182;</a></h3><p>Problem setup:</p>
 <ul>
-<li><p>Assume there are nutrients $i\in\left\{  1,...,I\right\}  $ (calories, protein, calcium, iron, etc.) that matter for a person's health, in such way that the minimum daily intake of nutrient $i$ should be $d_{i}$.</p>
+<li><p>Assume there are nutrients $i \in \{1,\dots,I\}$ (calories, protein, calcium, iron, etc.) that matter for a person's health, in such way that the minimum daily intake of nutrient $i$ should be $d_{i}$.</p>
 </li>
-<li><p>Nutrients do not come as standalone elements, but are combined into various foods. One dollar worth of food $j\in\left\{  1,...,J\right\}$ yields a quantity $N_{ij}$ of nutrient $i\in\left\{1,...,I\right\}$.</p>
+<li><p>Nutrients do not come as standalone elements, but are combined into various foods. One dollar worth of food $j \in \{1,\dots,J\}$ yields a quantity $N_{ij}$ of nutrient $i \in \{1,\dots,I\}$.</p>
 </li>
 </ul>
-<p>The problem is to find the diet that achieves the minimal intake of each nutrient at a cheapest price. If $q\in\mathbb{R}^{J}$ is a vector such that $q_{j}\geq0$ is the quantity of food $i$ purchased, the quantity of nutrient $i$ ingested is $\sum_{j=1}^{J}N_{ij}q_{j}$, and the cost of the diet is $\sum_{j=1}^{J}q_{j}$. Letting $1_J$ be the column vector of ones of size $J$, the optimal diet is therefore given by</p>
+<p>The problem is to find the diet that achieves the minimal intake of each nutrient for the cheapest price. If $q\in\mathbb{R}^{J}$ is a vector such that $q_{j}\geq0$ is the quantity of food $j$ purchased, the quantity of nutrient $i$ ingested is $\sum_{j=1}^{J}N_{ij}q_{j}$, and the cost of the diet is $\sum_{j=1}^{J}q_{j}$. Letting $1_J$ be the column vector of ones of size $J$, the optimal diet is therefore given by</p>
 \begin{align*}
-\min_{q\geq 0}  &amp;  ~1_J^{\top}q\\
-s.t.~  &amp;  Nq\geq d.\nonumber
-\end{align*}<p>Before we tackle this problem, let's look at the more general instance of  linear programming problem in standard form.</p>
+\min_{q\geq 0} &amp; ~ 1_J^{\top}q\\
+\text{s.t.} &amp; ~ Nq \geq d.
+\end{align*}<p>Before we tackle this problem, let's look at the more general instance of  a linear programming problem in standard form.</p>
 
 </div>
 </div>
@@ -14945,17 +15050,17 @@ s.t.~  &amp;  Nq\geq d.\nonumber
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="A-Crash-Course-on-Linear-Programming">A Crash Course on Linear Programming<a class="anchor-link" href="#A-Crash-Course-on-Linear-Programming">&#182;</a></h2><h3 id="Linear-programming-in-standard-form">Linear programming in standard form<a class="anchor-link" href="#Linear-programming-in-standard-form">&#182;</a></h3><p>Let $c\in\mathbb{R}^{n}$, $d\in\mathbb{R}^{m}$, $A$ be a $m\times n$ matrix, and consider the following problem</p>
+<h2 id="A-Crash-Course-on-Linear-Programming">A Crash Course on Linear Programming<a class="anchor-link" href="#A-Crash-Course-on-Linear-Programming">&#182;</a></h2><h3 id="Linear-programming-in-canonical-form">Linear programming in canonical form<a class="anchor-link" href="#Linear-programming-in-canonical-form">&#182;</a></h3><p>Let $c\in\mathbb{R}^{n}$, $d\in\mathbb{R}^{m}$, $A$ be a $m\times n$ matrix, and consider the following problem</p>
 \begin{align}
-V_{P} = \max_{x\in\mathbb{R}_{+}^{n}}  &amp; \, c^{\top} x \\
-s.t.~Ax  &amp;  \leq d
-\end{align}<p>This problem is a <em>linear programming problem</em>, as the objective function, namely $x\rightarrow c^{\top}x$ is linear, and as the constraint, namely $x\in\mathbb{R}_{+}^{n}$ and $Ax=d$ are also linear (or more accurately, affine). This problem is called the <em>primal program</em>, for reasons to be explained soon. The set of $x$'s that satisfy the constraint are called <em>feasible solutions</em>; the set of solutions of the primal problem are called <em>optimal solutions</em>.</p>
+V_{P} = \max_{x\in\mathbb{R}_{+}^{n}}  &amp; ~ c^{\top} x \\
+\text{s.t.} &amp; ~ Ax \leq d.
+\end{align}<p>This problem is a <em>linear programming problem</em>, as the objective function $x \mapsto c^{\top}x$ is linear, and as the constraints, namely $x \in \mathbb{R}_{+}^{n}$ and $Ax \leq d$, are also linear (or more accurately, affine). This problem is called the <em>primal program</em>, for reasons to be explained soon. The set of $x$'s that satisfy the constraints are called <em>feasible solutions</em>; the set of solutions of the primal problem are called <em>optimal solutions</em>.</p>
 <h4 id="Remarks">Remarks<a class="anchor-link" href="#Remarks">&#182;</a></h4><ul>
-<li><p>The previous diet problem can be reformulate into this problem - why?</p>
+<li><p>The previous diet problem can be reformulated into this problem — why?</p>
 </li>
-<li><p>A problem does not necessarly have a feasible solution (e.g. if $A=0$ and $d\neq0$), in which case (by convention) $V_{P}=-\infty$.</p>
+<li><p>A problem doesn't necessarily have a feasible solution (e.g. if $A=0$ and $d_j&lt;0$ for some $j$), in which case (by convention) $V_{P}=-\infty$.</p>
 </li>
-<li><p>The whole space may be solution (e.g. if $A=0$ and $d=0$), in which case $V_{P}=+\infty$.</p>
+<li><p>If there are feasible solutions with $c^\top x$ arbitrarily large, the primal problem is unbounded and $V_{P}=+\infty$.</p>
 </li>
 </ul>
 
@@ -14971,19 +15076,17 @@ s.t.~Ax  &amp;  \leq d
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Duality">Duality<a class="anchor-link" href="#Duality">&#182;</a></h3><p>There is a powerful tool called <em>duality</em> which provides much insight into the analysis of the primal problem. The idea is to rewrite the problem as</p>
 \begin{align*}
-V_{P}=\max_{x\in\mathbb{R}_{+}^{n}}\left\{  c^{\top}x+L_{P}\left(
-d-Ax\right)  \right\}
-\end{align*}<p>where $L_{P}\left(z\right)$ is a penalty function whose value is zero if the constraint is met, that is if $z=0$, and $-\infty$ if it is not, namely if $z\neq0$. The simplest choice of such penalty function is given by $L_{P}\left(  z\right)  =\min_{y\in\mathbb{R}^{m}}\left\{  z^{\top}y\right\}$. One has</p>
+V_{P} = \max_{x\in\mathbb{R}_{+}^{n}} \left\{ c^{\top}x + L_{P}\left(d-Ax\right) \right\}
+\end{align*}<p>where $L_{P}\left(z\right)$ is a penalty function whose value is zero if the constraint is met, that is if $z\geq0$, and $-\infty$ if it is not, namely if $z_j&lt;0$ for at least one $j$. The simplest choice of such a penalty function is given by $L_{P}\left(  z\right)  =\min_{y\in\mathbb{R}^{m}_{+}}\left\{  z^{\top}y\right\}$. One has</p>
 \begin{align*}
-V_{P}=\max_{x\in\mathbb{R}_{+}^{n}}\min_{y\in\mathbb{R}^{m}}\left\{c^{\top}x+\left(  d-Ax\right)  ^{\top}y\right\}  .
+V_{P} = \max_{x\in\mathbb{R}_{+}^{n}} \min_{y\in\mathbb{R}^{m}_{+}} \left\{ c^{\top}x + (d-Ax)^{\top}y \right\}.
 \end{align*}<p>However, the minimax inequality $\max_{x}\min_{y}\leq\min_{y}\max_{x}$ always holds, thus</p>
 \begin{align*}
-V_{P}  &amp;  \leq\min_{y\in\mathbb{R}^{m}}\max_{x\in\mathbb{R}_{+}^{n}}\left\{
-c^{\top}x+\left(  d-Ax\right)  ^{\top}y\right\}  =\min_{y\in\mathbb{R}^{m}
-}\max_{x\in\mathbb{R}_{+}^{n}}\left\{  x^{\top}\left(  c-A^{\top}y\right)
-+d^{\top}y\right\} \\
-&amp;  \leq\min_{y\in\mathbb{R}^{m}}\left\{  d^{\top}y+L_{D}\left(  c-A^{\top
-}y\right)  \right\}  =:V_{D}
+V_{P}
+&amp;\leq \min_{y\in\mathbb{R}^{m}_{+}} \max_{x\in\mathbb{R}_{+}^{n}} \left\{
+c^{\top}x + (d-Ax)^{\top}y \right\}
+= \min_{y\in\mathbb{R}^{m}_{+}} \max_{x\in\mathbb{R}_{+}^{n}} \left\{ x^{\top}(c-A^{\top}y) + d^{\top}y \right\} \\
+&amp;\leq \min_{y\in\mathbb{R}^{m}_{+}} \left\{ d^{\top}y + L_{D} \left(c-A^{\top}y\right) \right\} =:V_{D}
 \end{align*}<p>where $L_{D}\left(z\right) = \max_{x\in\mathbb{R}_{+}^{n}}\left\{x^{\top}z\right\}$ is equal to $0$ if $z\in\mathbb{R}_{-}^{n}$, and to $+\infty$ if not.</p>
 
 </div>
@@ -14998,14 +15101,14 @@ c^{\top}x+\left(  d-Ax\right)  ^{\top}y\right\}  =\min_{y\in\mathbb{R}^{m}
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Therefore, the value $V_{D}$ is expressed by the <em>dual program</em></p>
 \begin{align}
-V_{D}=\min_{y\in\mathbb{R}^{m}}  &amp; \,  d^{\top}y, \\
-s.t.~A^{\top}y  &amp;  \geq c
+V_{D} = \min_{y\in\mathbb{R}^{m}_{+}}  &amp; ~ d^{\top}y, \\
+\text{s.t.} &amp; ~ A^{\top}y \geq c
 \end{align}<p>and the weak duality inequality $V_{P}\leq V_{D}$ holds.</p>
 <p>It turns out that as soon as either the primal or dual program has an optimal solution, then both
 programs have an optimal solution and the values of the two programs coincide,
-so the weak duality becomes an equality $V_{P}=V_{D}$ called strong duality.
+so the weak duality becomes an equality $V_{P}=V_{D}$ called <em>strong duality</em>.
 Further, if $x^{\ast}\in\mathbb{R}_{+}^{n}$ is an optimal primal solution, and
-$y^{\ast}\in\mathbb{R}^{m}$ is an optimal dual solution, then complementary
+$y^{\ast}\in\mathbb{R}^{m}_{+}$ is an optimal dual solution, then complementary
 slackness holds, that is $x_{i}^{\ast}&gt;0$ implies $\left(  A^{\top}y^{\ast
 }\right)  _{i}=c_{i}$.</p>
 
@@ -15020,24 +15123,25 @@ slackness holds, that is $x_{i}^{\ast}&gt;0$ implies $\left(  A^{\top}y^{\ast
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Duality-theorem">Duality theorem<a class="anchor-link" href="#Duality-theorem">&#182;</a></h3><p>We summarize these results into the following statement.</p>
-<hr>
+<hr />
 <p><strong>Theorem.</strong> In the setting described above:</p>
 <ol>
 <li>The weak duality inequality holds:</li>
 </ol>
 \begin{align}
 V_{P}\leq V_{D}.
-\end{align}<ol>
-<li>As soon as the primal or the dual program have an optimal solution, then both programs have an optimal solution, and strong duality holds:</li>
+\end{align}<ol start="2">
+<li>As soon as the primal or the dual program has an optimal solution, then both programs have an optimal solution, and strong duality holds:</li>
 </ol>
 \begin{align}
 V_{P}=V_{D}.
-\end{align}<ol>
-<li>If $x^{\ast}\in\mathbb{R}_{+}^{n}$ is an optimal primal solution, and $y^{\ast}\in\mathbb{R}^{m}$ is an optimal dual solution, then complementary slackness holds:</li>
+\end{align}<ol start="3">
+<li>If $x^{\ast}\in\mathbb{R}_{+}^{n}$ is an optimal primal solution, and $y^{\ast}\in\mathbb{R}^{m}_{+}$ is an optimal dual solution, then complementary slackness holds:</li>
 </ol>
 \begin{align}
-x_{i}^{\ast}&gt;0\text{  implies  }\left(  A^{\top}y^{\ast}\right)  _{i}=c_{i}.
-\end{align}<hr>
+x_{i}^{\ast}&gt;0 &amp;\implies (A^{\top}y^{\ast})_{i} = c_{i}, \\
+y_{j}^* &gt; 0 &amp;\implies (Ax^*)_j = d_j.
+\end{align}<hr />
 
 </div>
 </div>
@@ -15051,24 +15155,13 @@ x_{i}^{\ast}&gt;0\text{  implies  }\left(  A^{\top}y^{\ast}\right)  _{i}=c_{i}.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="Back-to-the-diet-problem">Back to the diet problem<a class="anchor-link" href="#Back-to-the-diet-problem">&#182;</a></h1><p>Recall the optimal diet problem</p>
 \begin{align*}
-\min_{q\geq0}  &amp;  \, c^{\top}q\\
-s.t.~  &amp;  Nq\geq d.
-\end{align*}<p>which has minimax formulation $\min_{q\geq0}\max_{\pi\geq0}c^{\top}q+d^{\top}\pi-q^{\top}N^{\top}\pi$, so the dual is</p>
+\min_{q\geq0} &amp; ~ c^{\top}q \\
+\text{s.t.} &amp; ~  Nq \geq d
+\end{align*}<p>which has minimax formulation $\min_{q\geq0} \max_{\pi\geq0} c^{\top}q + d^{\top}\pi - q^{\top}N^{\top}\pi$, so the dual is</p>
 \begin{align*}
-\max_{\pi\geq0}  &amp; \, d^{\top}\pi\\
-s.t.~  &amp;  N^{\top}\pi\leq c
-\end{align*}<p>Complementary slackness yields:</p>
-<ul>
-<li><p>$q_{j}&gt;0$ implies $\left(  N^{\intercal}\pi\right)  _{j}=c_{j}$; that
-is, if natural food $j$ is actually purchased, then the prices of its
-synthetic and natural versions coincide</p>
-</li>
-<li><p>$\pi_{i}&gt;0$ implies $\left(  Nq\right)  _{i}=d_{i}$; that is, if
-nutrient $i$ has a positive price, then the natural diet has the
-"just right" amount.</p>
-</li>
-</ul>
-
+\max_{\pi\geq0} &amp; ~ d^{\top}\pi \\
+\text{s.t.} ~ &amp; N^{\top}\pi \leq c.
+\end{align*}
 </div>
 </div>
 </div>
@@ -15079,11 +15172,22 @@ nutrient $i$ has a positive price, then the natural diet has the
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Interpretation-of-duality">Interpretation of duality<a class="anchor-link" href="#Interpretation-of-duality">&#182;</a></h2><p>Imagine that there is a new firm called Nutrient Shoppe, who sells raw nutrients. Let $\pi_{i}$ be the price of nutrient $i$. The cost of the diet is $d^{\top}\pi$. Consumer purchase raw nutrients and can generate
-"synthetic foods". The cost of the synthetic version of food $j$ is $\sum_{i=1}^{m}N_{ij}\pi_{i}=\left(N^{\intercal}\pi\right)_{j}$. The constraint thus means that each "synthetic food" is more affordable than its natural counterpart.</p>
+<h2 id="Interpretation-of-duality">Interpretation of duality<a class="anchor-link" href="#Interpretation-of-duality">&#182;</a></h2><p>Imagine that there is a new firm called Nutrient Shoppe, who sells raw nutrients. Let $\pi_{i}$ be the price of nutrient $i$. The cost of the diet is $d^{\top}\pi$. Consumers purchase raw nutrients and can generate
+&quot;synthetic foods&quot;. The cost of the synthetic version of food $j$ is $\sum_{i=1}^{m} N_{ij}\pi_{i} = (N^{\top}\pi)_{j}$. The constraint thus means that each &quot;synthetic food&quot; is more affordable than its natural counterpart.</p>
 <p>The duality means that it is possible to price the nutrients so that the
 synthetic foods are cheaper than the natural ones, in such a way that the
 price of the synthetic diet equals the price of the natural diet.</p>
+<p>Complementary slackness yields:</p>
+<ul>
+<li>$q_{j}&gt;0$ implies $(N^{\top}\pi)_{j} = c_{j}$; that</li>
+</ul>
+<p>is, if natural food $j$ is actually purchased, then the prices of its
+synthetic and natural versions coincide.</p>
+<ul>
+<li>$\pi_{i}&gt;0$ implies $\left(  Nq\right)  _{i}=d_{i}$; that is, if</li>
+</ul>
+<p>nutrient $i$ has a positive price, then the natural diet has the
+&quot;just right&quot; amount.</p>
 
 </div>
 </div>
@@ -15095,7 +15199,7 @@ price of the synthetic diet equals the price of the natural diet.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Numerically-solving-the-diet-problem">Numerically solving the diet problem<a class="anchor-link" href="#Numerically-solving-the-diet-problem">&#182;</a></h2><p>To solve the primal problem we need to construct the objects $N$ and $d$. $c$ is simply a vector of ones, the size of the number of commodities. $N$ is a matrix of amount of nutrients in each commodity. $d$ is the required daily allowance of each nutrient.</p>
+<h2 id="Numerically-solving-the-diet-problem">Numerically solving the diet problem<a class="anchor-link" href="#Numerically-solving-the-diet-problem">&#182;</a></h2><p>To solve the primal problem we need to construct the objects $N$ and $d$. $c$ is simply a vector of ones, the size of the number of commodities. $N$ is a matrix of amounts of nutrients in each commodity. $d$ is the required daily allowance of each nutrient.</p>
 
 </div>
 </div>
@@ -15105,7 +15209,7 @@ price of the synthetic diet equals the price of the natural diet.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">N_i_j</span> <span class="o">=</span> <span class="n">thedata</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">:]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
@@ -15127,7 +15231,7 @@ price of the synthetic diet equals the price of the natural diet.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Finding-a-solver">Finding a solver<a class="anchor-link" href="#Finding-a-solver">&#182;</a></h3><p>There are many solvers available. Some are open-souce, some are commercially available, even though the latter often come for free for an academic use. <code>scipy</code> has a linear programming solver called <code>scipy.optimize.linprog</code>, which we don't recommend except for small problems.</p>
-<p>Actually, with a problem of the (tiny) size that we are discussing in this introduction, the choice of the solver does not matter: all of them will return a solution whithin a fraction of seconds. But later on, we shall deal with problem with hundreds of thousands of variables or constraints, and the choice of the right linear programming solver will become crucial.
+<p>Actually, with a problem of the (tiny) size that we are discussing in this introduction, the choice of the solver does not matter: all of them will return a solution whithin a fraction of seconds. But later on, we shall deal with problems with hundreds of thousands of variables or constraints, and the choice of the right linear programming solver will become crucial.
 We will need <em>large scale</em> solvers, which deal with sparse constraints (often the case as we shall see).</p>
 <p>See a benchmark of large scale solvers at:</p>
 <p><a href="http://plato.asu.edu/ftp/lpsimp.html">http://plato.asu.edu/ftp/lpsimp.html</a></p>
@@ -15138,12 +15242,12 @@ We will need <em>large scale</em> solvers, which deal with sparse constraints (o
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># !python -m pip install -i https://pypi.gurobi.com gurobipy  ## only if Gurobi not here</span>
@@ -15152,6 +15256,32 @@ We will need <em>large scale</em> solvers, which deal with sparse constraints (o
      </div>
 </div>
 </div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Looking in indexes: https://pypi.gurobi.com, https://us-python.pkg.dev/colab-wheels/public/simple/
+Collecting gurobipy
+  Downloading gurobipy-10.0.1-cp310-cp310-manylinux2014_x86_64.whl (12.7 MB)
+     <span class="ansi-black-intense-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-green-fg">12.7/12.7 MB</span> <span class="ansi-red-fg">90.1 MB/s</span> eta <span class="ansi-cyan-fg">0:00:00</span>
+Installing collected packages: gurobipy
+Successfully installed gurobipy-10.0.1
+</pre>
+</div>
+</div>
+
+</div>
+
 </div>
 
 </div>
@@ -15171,7 +15301,7 @@ We will need <em>large scale</em> solvers, which deal with sparse constraints (o
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">grb</span>
@@ -15201,7 +15331,7 @@ We will need <em>large scale</em> solvers, which deal with sparse constraints (o
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
@@ -15222,18 +15352,17 @@ We will need <em>large scale</em> solvers, which deal with sparse constraints (o
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Set parameter Username
-Academic license - for non-commercial use only - expires 2024-01-12
-Gurobi Optimizer version 9.5.2 build v9.5.2rc0 (win64)
-Thread count: 4 physical cores, 8 logical processors, using up to 8 threads
+<pre>Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (linux64)
+
+CPU model: Intel(R) Xeon(R) CPU @ 2.20GHz, instruction set [SSE2|AVX|AVX2]
+Thread count: 1 physical cores, 2 logical processors, using up to 2 threads
+
 Optimize a model with 9 rows, 77 columns and 570 nonzeros
 Model fingerprint: 0x7ae6b743
 Coefficient statistics:
@@ -15242,14 +15371,14 @@ Coefficient statistics:
   Bounds range     [0e+00, 0e+00]
   RHS range        [8e-01, 8e+01]
 Presolve removed 0 rows and 47 columns
-Presolve time: 0.02s
+Presolve time: 0.01s
 Presolved: 9 rows, 30 columns, 240 nonzeros
 
 Iteration    Objective       Primal Inf.    Dual Inf.      Time
        0    0.0000000e+00   1.384688e+01   0.000000e+00      0s
        5    1.0866228e-01   0.000000e+00   0.000000e+00      0s
 
-Solved in 5 iterations and 0.03 seconds (0.00 work units)
+Solved in 5 iterations and 0.02 seconds (0.00 work units)
 Optimal objective  1.086622782e-01
 </pre>
 </div>
@@ -15266,7 +15395,7 @@ Optimal objective  1.086622782e-01
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>We are after the optimal solutions <code>x</code>, the dual solution <code>pi</code> and the value function <code>objval</code></p>
+<p>We are after the optimal solutions <code>X</code>, the dual solution <code>pi</code> and the value function <code>objval</code>.</p>
 
 </div>
 </div>
@@ -15276,7 +15405,7 @@ Optimal objective  1.086622782e-01
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_j</span><span class="p">,</span><span class="n">π_i</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">),</span><span class="n">m</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span>
@@ -15304,7 +15433,7 @@ Optimal objective  1.086622782e-01
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_optimal_diet</span><span class="p">(</span><span class="n">q_j</span><span class="p">):</span>
@@ -15331,9 +15460,7 @@ Optimal objective  1.086622782e-01
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15363,44 +15490,45 @@ Total cost (optimal):      39.6617
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>As promised, we achieve the minimum cost bundle at $\$39.67$ per year in $1939$ dollars. We can compare this to Stigler's solutions which was:</p>
+<p>As promised, we achieve the minimum cost bundle at $39.67 per year in 1939 dollars. We can compare this to Stigler's solution which was:</p>
 <table>
-<thead><tr>
-<th>Food</th>
-<th>Annual Quantities</th>
-<th>Annual Cost</th>
+<thead>
+<tr>
+  <th>Food</th>
+  <th>Annual Quantities</th>
+  <th>Annual Cost</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Wheat Flour</td>
-<td>370 lb.</td>
-<td>\$13.33</td>
+  <td>Wheat Flour</td>
+  <td>370 lb.</td>
+  <td>$13.33</td>
 </tr>
 <tr>
-<td>Evaporated Milk</td>
-<td>57 cans</td>
-<td>\$3.84</td>
+  <td>Evaporated Milk</td>
+  <td>57 cans</td>
+  <td>$3.84</td>
 </tr>
 <tr>
-<td>Cabbage</td>
-<td>111 lb.</td>
-<td>\$4.11</td>
+  <td>Cabbage</td>
+  <td>111 lb.</td>
+  <td>$4.11</td>
 </tr>
 <tr>
-<td>Spinach</td>
-<td>23 lb.</td>
-<td>\$1.85</td>
+  <td>Spinach</td>
+  <td>23 lb.</td>
+  <td>$1.85</td>
 </tr>
 <tr>
-<td>Dried Navy Beans</td>
-<td>285 lb.</td>
-<td>\$16.80</td>
+  <td>Dried Navy Beans</td>
+  <td>285 lb.</td>
+  <td>$16.80</td>
 </tr>
 <tr>
-<td>Total Annual Cost</td>
-<td>&nbsp;</td>
-<td>\$39.93</td>
+  <td>Total Annual Cost</td>
+  <td> </td>
+  <td>$39.93</td>
 </tr>
 </tbody>
 </table>
@@ -15425,14 +15553,14 @@ Total cost (optimal):      39.6617
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># answer:</span>
 
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">linprog</span> <span class="k">as</span> <span class="n">lp</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">lp</span><span class="p">(</span><span class="n">c_j</span><span class="p">,</span> <span class="n">A_ub</span><span class="o">=-</span><span class="n">N_i_j</span><span class="p">,</span> <span class="n">b_ub</span><span class="o">=-</span> <span class="n">d_i</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">lp</span><span class="p">(</span><span class="n">c_j</span><span class="p">,</span> <span class="n">A_ub</span><span class="o">=-</span><span class="n">N_i_j</span><span class="p">,</span> <span class="n">b_ub</span><span class="o">=-</span><span class="n">d_i</span><span class="p">)</span>
 <span class="n">qbis_j</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
 
 <span class="n">print_optimal_diet</span><span class="p">(</span><span class="n">qbis_j</span><span class="p">)</span>
@@ -15449,95 +15577,21 @@ Total cost (optimal):      39.6617
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>***Optimal solution***
---------------------------  ------------
-1. Wheat Flour (Enriched)    0.0295191
-2. Macaroni                  2.69383e-11
-3. Wheat Cereal (Enriched)   1.0197e-10
-4. Corn Flakes               2.72318e-11
-5. Corn Meal                 6.0005e-11
-6. Hominy Grits              3.88996e-11
-7. Rice                      3.41005e-11
-8. Rolled Oats               5.77955e-11
-9. White Bread (Enriched)    3.63285e-11
-10. Whole Wheat Bread        3.31689e-11
-11. Rye Bread                2.86764e-11
-12. Pound Cake               2.67509e-11
-13. Soda Crackers            2.62806e-11
-14. Milk                     6.82482e-11
-15. Evaporated Milk (can)    1.14937e-10
-16. Butters                  2.68373e-11
-17. Oleomargarine            3.30129e-11
-18. Eggs                     2.73709e-11
-19. Cheese (Cheddar)         3.56602e-11
-20. Cream                    2.66032e-11
-21. Peanut Butter            3.37896e-11
-22. Mayonnaise               2.55105e-11
-23. Crisco                   3.05842e-11
-24. Lard                     1.37821e-10
-25. Sirloin Steak            2.41758e-11
-26. Round Steak              2.35709e-11
-27. Rib Roast                2.34897e-11
-28. Chuck Roast              2.45044e-11
-29. Plate                    2.36852e-11
-30. Liver (Beef)             0.00189256
-31. Leg of Lamb              2.47764e-11
-32. Lamb Chops               2.44085e-11
-33. Pork Chops               2.52071e-11
-34. Pork Loin Roast          2.59896e-11
-35. Bacon                    2.65385e-11
-36. Ham-smoked               2.61689e-11
-37. Salt Pork                3.04753e-11
-38. Roasting Chicken         2.3239e-11
-39. Veal Cutlets             2.35608e-11
-40. Salmon Pink (can)        3.48787e-11
-41. Apples                   2.86292e-11
-42. Bananas                  2.8492e-11
-43. Lemons                   2.68134e-11
-44. Oranges                  3.65674e-11
-45. Green Beans              3.75442e-11
-46. Cabbage                  0.0112144
-47. Carrots                  3.56125e-11
-48. Celery                   2.76272e-11
-49. Lettuce                  2.87153e-11
-50. Onions                   4.20915e-11
-51. Potatoes                 7.66904e-11
-52. Spinach                  0.00500766
-53. Sweet Potatoes           7.30235e-11
-54. Peaches (can)            2.5266e-11
-55. Pears (can)              2.41665e-11
-56. Pineapple (can)          2.54708e-11
-57. Asparagus (can)          2.49018e-11
-58. Green Beans (can)        2.9468e-11
-59. Pork and Beans (can)     3.38503e-11
-60. Corn (can)               2.6227e-11
-61. Peas (can)               2.64744e-11
-62. Tomatoes (can)           3.14935e-11
-63. Tomato Soup (can)        2.9087e-11
-64. Peaches Dried            2.966e-11
-65. Prunes Dried             3.54171e-11
-66. Raisins Dried            3.14438e-11
-67. Peas Dried               6.20057e-11
-68. Lima Beans Dried         1.24477e-09
-69. Navy Beans Dried         0.0610286
-70. Coffee                   2.5488e-11
-71. Tea                      2.34891e-11
-72. Cocoa                    3.75439e-11
-73. Chocolate                2.77994e-11
-74. Sugar                    4.11513e-11
-75. Corn Sirup               2.78184e-11
-76. Molasses                 4.7827e-11
-77. Strawberry Preserves     2.48598e-11
-Total cost (optimal):       39.6617
---------------------------  ------------
+-------------------------  -----------
+1. Wheat Flour (Enriched)   0.0295191
+30. Liver (Beef)            0.00189256
+46. Cabbage                 0.0112144
+52. Spinach                 0.00500766
+69. Navy Beans Dried        0.0610286
+Total cost (optimal):      39.6617
+-------------------------  -----------
 </pre>
 </div>
 </div>
