@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>L5_zero-sum-games</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>LP05_zero-sum-games</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -56,6 +56,19 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .s1 { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Single */
 .highlight .ss { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Symbol */
 .highlight .il { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Integer.Long */
+  </style>
+<style type="text/css">
+    /*This file contains any manual css for this page that needs to override the global styles.
+This is only required when different pages style the same element differently. This is just
+a hack to deal with our current css styles and no new styling should be added in this file.*/
+
+#ipython-main-app {
+    position: relative;
+}
+#jupyter-main-app {
+    position: relative;
+}
+
   </style>
 
 
@@ -14559,12 +14572,12 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
                 },
                 displayAlign: 'center',
                 CommonHTML: {
-                    linebreaks: { 
-                    automatic: true 
+                    linebreaks: {
+                    automatic: true
                     }
                 }
             });
-        
+
             MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
         }
     }
@@ -14619,12 +14632,12 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The following data is taken from Palacios-Huerta (2003). Player 1 (kicker) takes action $i \in \{L,C, R \}$, and so does Player 2. The following table indicates the probability of a score as a matrix $\Pi_{ij}$ if Player 1 plays $i$ and Player 2 plays $j$.</p>
+<p>The following data is taken from Palacios-Huerta (2003). Player 1 (kicker) takes action $i \in \{L,C, R \}$, and so does Player 2. The following table indicates the probability of a score as a matrix $\Phi_{ij}$ if Player 1 plays $i$ and Player 2 plays $j$.</p>
 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14636,43 +14649,10 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 <span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">grb</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">spr</span>
 
-<span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">93.8</span><span class="p">],</span> 
+<span class="n">Phi_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">93.8</span><span class="p">],</span> 
                     <span class="p">[</span><span class="mf">93.9</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">82.8</span><span class="p">],</span> 
                     <span class="p">[</span><span class="mf">97.6</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">73.2</span><span class="p">]])</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">strategies_played</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">.158</span><span class="p">,</span><span class="mf">.006</span><span class="p">,</span><span class="mf">.225</span><span class="p">],[</span><span class="mf">.032</span><span class="p">,</span><span class="mf">.005</span><span class="p">,</span><span class="mf">.034</span><span class="p">],[</span><span class="mf">.208</span><span class="p">,</span><span class="mf">.006</span><span class="p">,</span><span class="mf">.321</span><span class="p">]])</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">phat_i</span> <span class="o">=</span> <span class="n">strategies_played</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">qhat_j</span> <span class="o">=</span> <span class="n">strategies_played</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">phat_i</span><span class="p">,</span> <span class="n">qhat_j</span>
+<span class="n">Phi_i_j</span>
 </pre></div>
 
      </div>
@@ -14690,83 +14670,21 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[1]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>(array([0.389, 0.071, 0.535]), array([0.398, 0.017, 0.58 ]))</pre>
+<pre>array([[ 50. , 100. ,  93.8],
+       [ 93.9,  60. ,  82.8],
+       [ 97.6, 100. ,  73.2]])</pre>
 </div>
 
 </div>
 
 </div>
 
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">strategies_played</span> <span class="o">/</span> <span class="p">(</span><span class="n">phat_i</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">qhat_j</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,:])</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>array([[1.0205268 , 0.9073038 , 0.99725202],
-       [1.13242268, 4.14250207, 0.82564352],
-       [0.97684685, 0.65970313, 1.03448276]])</pre>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Matrix_game</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Pi</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span> <span class="o">=</span> <span class="n">Pi</span><span class="o">.</span><span class="n">shape</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span> <span class="o">=</span> <span class="n">Pi</span>
-
-<span class="n">thegame</span> <span class="o">=</span> <span class="n">Matrix_game</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
 </div>
 
 </div>
@@ -14776,7 +14694,87 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Pure-strategy-equilibrium">Pure strategy equilibrium<a class="anchor-link" href="#Pure-strategy-equilibrium">&#182;</a></h2>
+<p>The next table indicates the probability that player 1 takes action $i$ and that player 2 takes action $j$.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pi_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">.158</span><span class="p">,</span><span class="mf">.006</span><span class="p">,</span><span class="mf">.225</span><span class="p">],[</span><span class="mf">.032</span><span class="p">,</span><span class="mf">.005</span><span class="p">,</span><span class="mf">.034</span><span class="p">],[</span><span class="mf">.208</span><span class="p">,</span><span class="mf">.006</span><span class="p">,</span><span class="mf">.321</span><span class="p">]])</span>
+<span class="n">pi_i_j</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>array([[0.158, 0.006, 0.225],
+       [0.032, 0.005, 0.034],
+       [0.208, 0.006, 0.321]])</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="The-zero-sum-game">The zero-sum game<a class="anchor-link" href="#The-zero-sum-game">&#182;</a></h1><p>Consider a zero sum game.</p>
+<p>If player $1$ plays $i\in I$ and player 2 plays $j\in J$, then:</p>
+<ul>
+<li><p>Payoff to player 1 is $\Phi _{ij}$</p>
+</li>
+<li><p>Payoff to player 2 is $-\Phi _{ij}$</p>
+</li>
+</ul>
+<p>We have $\Phi _{ij}&gt;0$.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Pure-strategies">Pure strategies<a class="anchor-link" href="#Pure-strategies">&#182;</a></h1><p>If player 1 plays $i$, then player 2's best response is $J(i) = \arg\min_j \Phi_{ij}$.</p>
+<p>If player 2 plays $j$, then player 1's best response is $I(j) = \arg\max_i \Phi_{ij}$.</p>
+<p>An equilibrium in pure strategy is a pair $(i^\star,j^\star)$ such that<div>
+$i^\star=I(j^\star)$ and $j^\star=J(i^\star)$.</p>
+
 </div>
 </div>
 </div>
@@ -14785,14 +14783,35 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Matrix_game</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Phi_i_j</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span> <span class="o">=</span> <span class="n">Phi_i_j</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Phi_i_j</span> <span class="o">=</span> <span class="n">Phi_i_j</span>
+
+<span class="n">thegame</span> <span class="o">=</span> <span class="n">Matrix_game</span><span class="p">(</span><span class="n">Phi_i_j</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">BRI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">j</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="p">[:,</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="p">[:,</span><span class="n">j</span><span class="p">]))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Phi_i_j</span><span class="p">[:,</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Phi_i_j</span><span class="p">[:,</span><span class="n">j</span><span class="p">]))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
 <span class="k">def</span> <span class="nf">BRJ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="p">[</span><span class="n">i</span><span class="p">,:]))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Phi_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Phi_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,:]))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
 <span class="n">Matrix_game</span><span class="o">.</span><span class="n">BRI</span> <span class="o">=</span> <span class="n">BRI</span>
 <span class="n">Matrix_game</span><span class="o">.</span><span class="n">BRJ</span> <span class="o">=</span> <span class="n">BRJ</span>
@@ -14808,7 +14827,7 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">thegame</span><span class="o">.</span><span class="n">BRI</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span><span class="n">thegame</span><span class="o">.</span><span class="n">BRJ</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> 
@@ -14829,7 +14848,7 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 
 
 
@@ -14861,7 +14880,7 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">compute_eq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -14887,7 +14906,7 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 
 
 
@@ -14909,77 +14928,11 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Mixed-strategy-equilibrium">Mixed strategy equilibrium<a class="anchor-link" href="#Mixed-strategy-equilibrium">&#182;</a></h2>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">brI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">delta_j</span><span class="p">):</span>
-    <span class="n">Pidelta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span> <span class="o">@</span> <span class="n">delta_j</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">Pidelta</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">Pidelta</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<p>We see that in this game, there is no equilibrium in pure strategy. In fact, it is possible to show that a game has an equilibrium in pure strategy if there is no advantage in playing first in the sequential version of the game, i.e. the value of the game is the same regardless of whether player 1 plays first or second. Clearly, this is not the case here: if the kicker plays first, then the goalkeeper can move to where the kicker kicked in order to decrease the probability of a goal. If the goalkeeper plays first, then the kicker can kick where the goalkeeper did not move.</p>
 
-<span class="k">def</span> <span class="nf">brJ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">delta_i</span><span class="p">):</span>
-    <span class="n">deltaPi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">delta_i</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">deltaPi</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">deltaPi</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-
-<span class="n">Matrix_game</span><span class="o">.</span><span class="n">brI</span> <span class="p">,</span> <span class="n">Matrix_game</span><span class="o">.</span><span class="n">brJ</span> <span class="o">=</span> <span class="n">brI</span> <span class="p">,</span> <span class="n">brJ</span>
-</pre></div>
-
-     </div>
 </div>
 </div>
 </div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[[</span><span class="nb">str</span><span class="p">(</span><span class="n">thegame</span><span class="o">.</span><span class="n">Pi</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>[[&#39;50.0&#39;, &#39;100.0&#39;, &#39;93.8&#39;],
- [&#39;93.9&#39;, &#39;60.0&#39;, &#39;82.8&#39;],
- [&#39;97.6&#39;, &#39;100.0&#39;, &#39;73.2&#39;]]</pre>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -14987,7 +14940,216 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Solution-using-Gurobi">Solution using Gurobi<a class="anchor-link" href="#Solution-using-Gurobi">&#182;</a></h2>
+<h1 id="Mixed-strategies">Mixed strategies<a class="anchor-link" href="#Mixed-strategies">&#182;</a></h1><p>Assume player 1 plays mixed strategy $\left( p_{i}\right) \in \Delta _{I}$,
+and player 2 plays mixed strategy $\left( q_{j}\right) \in \Delta _{J}$. Then</p>
+<ul>
+<li><p>Expected payoff to player 1 is $\sum_{ij}p_{i}q_{j}\Phi _{ij}=p^{\top }\Phi
+q $</p>
+</li>
+<li><p>Payoff to player 2 is minus the former</p>
+</li>
+</ul>
+<p>If player 1 plays mixed strategy $p$, then player 2's best response is $Q(p) = \arg\min_{q \in \Delta_J} p^{\top }\Phi
+q$.</p>
+<p>If player 2 plays mixed strategy $q$, then player 1's best response is $P(q) = \arg\max_{p \in \Delta_I} p^{\top }\Phi
+q$.</p>
+<p>An equilibrium in pure strategy is a pair $(p^\star,q^\star)$ such that<div>
+$p^\star=P(q^\star)$ and $q^\star=Q(p^\star)$.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Equilibrium-as-a-linear-programming-problem">Equilibrium as a linear programming problem<a class="anchor-link" href="#Equilibrium-as-a-linear-programming-problem">&#182;</a></h1><p>Therefore at equilibrium, $p$ and $q$ are played so that 
+\begin{equation*}
+\max_{p\in \Delta _{I}}\min_{q\in \Delta _{J}}p^{\top }\Phi q
+\end{equation*}
+In general, we have 
+\begin{equation*}
+\max_{p\in \Delta _{I}}\min_{q\in \Delta _{J}}p^{\top }\Phi q\leq \min_{q\in
+\Delta _{J}}\max_{p\in \Delta _{I}}p^{\top }\Phi q
+\end{equation*}
+but here we have in fact equality, so 
+\begin{equation*}
+\max_{p\in \Delta _{I}}\min_{q\in \Delta _{J}}p^{\top }\Phi q=\min_{q\in
+\Delta _{J}}\max_{p\in \Delta _{I}}p^{\top }\Phi q.
+\end{equation*}</p>
+<p>Consider the problem of 
+\begin{equation*}
+\max_{p\in \Delta _{I}}\min_{q\in \Delta _{J}}p^{\top }\Phi q
+\end{equation*}</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Let us focus on the problem of player 2 if player 2 anticipates that player
+1 will play $p$. This is 
+\begin{eqnarray*}
+\min_{q\in \Delta _{J}}p^{\top }\Phi q &amp;=&amp;\min_{q\in \Delta _{J}}\sum_{j\in
+J}q_{j}\underset{U_{j}}{\underbrace{\left( \sum_{i}\Phi _{ij}p_{i}\right) }}
+\\
+&amp;=&amp;\min_{j\in J}\left\{ U_{j}\right\} \\
+&amp;=&amp;\min_{j\in J}\left\{ \sum_{i}\Phi _{ij}p_{i}\right\}
+\end{eqnarray*}</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Recall that player 1 wants to 
+\begin{equation*}
+\max_{p\in \Delta _{I},U}\left\{ U:U=\min_{j\in J}\left\{ \sum_{i}\Phi
+_{ij}p_{i}\right\} \right\}
+\end{equation*}
+but this is equivalent with 
+\begin{equation*}
+\max_{p\in \Delta _{I},U}\left\{ U:U\leq \min_{j\in J}\left\{ \sum_{i}\Phi
+_{ij}p_{i}\right\} \right\}
+\end{equation*}</p>
+<p>Thus the program of player 1 is 
+\begin{equation*}
+\max_{p\in \Delta _{I},U}\left\{ U:U\leq \sum_{i}\Phi _{ij}p_{i}\text{ for
+all }j\right\}
+\end{equation*}
+that is
+\begin{eqnarray*}
+V_{1}=\max_{p_{i}\geq 0,U} &amp;&amp;U \\
+s.t.~ &amp;&amp;U\leq \sum_{i}\Phi _{ij}p_{i}\text{ for all }j \\
+&amp;&amp;\sum_{i}p_{i}=1
+\end{eqnarray*}</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Introduce $x_{i}=p_{i}/U$. We can reformulate the previous problem after setting 
+$p_{i}=x_{i}U$ by
+\begin{eqnarray*}
+V_{1}=\max_{x_{i}\geq 0,U} &amp;&amp;U \\
+s.t.~ &amp;&amp;U\leq \sum_{i}\Phi _{ij}x_{i}U\text{ for all }j \\
+&amp;&amp;\sum_{i}x_{i}U=1
+\end{eqnarray*}
+which simplifies into
+\begin{eqnarray*}
+V_{1}=\max_{x_{i}\geq 0,U} &amp;&amp;U \\
+s.t.~ &amp;&amp;1\leq \sum_{i}\Phi _{ij}x_{i}\text{ for all }j \\
+&amp;&amp;U=\frac{1}{\sum_{i}x_{i}}
+\end{eqnarray*}
+therefore
+\begin{eqnarray*}
+V_{1}=\max_{x_{i}\geq 0} &amp;&amp;\frac{1}{\sum_{i}x_{i}} \\
+s.t.~ &amp;&amp;1\leq \sum_{i}\Phi _{ij}x_{i}\text{ for all }j
+\end{eqnarray*}
+that is
+\begin{eqnarray*}
+\frac{1}{V_{1}}=\min_{x_{i}\geq 0} &amp;&amp;\sum_{i}x_{i} \\
+s.t.~ &amp;&amp;\sum_{i}\Phi _{ij}x_{i}\geq 1\text{ for all }j~\left[ y_{j}\geq 0%
+\right]
+\end{eqnarray*}</p>
+<p>Recall that $x_{i}=p_{i}/U$ and $U=\frac{1}{\sum_{i}x_{i}}$.</p>
+<p>Therefore
+\begin{equation*}
+p_{i}=x_{i}U=\frac{x_{i}}{\sum_{i}x_{i}}
+\end{equation*}</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Player-2's-problem">Player 2's problem<a class="anchor-link" href="#Player-2's-problem">&#182;</a></h2><p>Consider the problem of 
+\begin{equation*}
+\min_{q\in \Delta _{J}}\max_{p\in \Delta _{I}}p^{\top }\Phi q
+\end{equation*}
+If player 1 anticipates that player 2 will play $q$, then she does 
+\begin{equation*}
+\max_{p\in \Delta _{I}}p^{\top }\Phi q=\max_{i\in I}\left\{ \sum_{j}\Phi
+_{ij}q_{j}\right\}
+\end{equation*}</p>
+<p>Recall that player 2 wants to 
+\begin{equation*}
+\min_{q\in \Delta _{J},V}\left\{ V:V\geq \max_{i\in I}\left\{ \sum_{j}\Phi
+_{ij}q_{j}\right\} \right\}
+\end{equation*}
+but this is equivalent with 
+\begin{equation*}
+\min_{q\in \Delta _{J},V}\left\{ V:V\geq \sum_{j}\Phi _{ij}q_{j}\right\}
+\end{equation*}
+that
+\begin{eqnarray*}
+V_{2}=\min_{q_{j}\geq 0,V} &amp;&amp;V \\
+s.t.~ &amp;&amp;V\geq \sum_{j}\Phi _{ij}q_{j}\text{ for all }i \\
+&amp;&amp;\sum_{j}q_{j}=1
+\end{eqnarray*}</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Introduce $y_{j}=q_{j}/V$. We can reformulate the previous problem as $
+q_{j}=y_{j}V$ 
+\begin{eqnarray*}
+V_{2}=\min_{q_{j}\geq 0} &amp;&amp;\frac{1}{\sum_{j}y_{j}} \\
+s.t.~ &amp;&amp;1\geq \sum_{j}\Phi _{ij}y_{j}\text{ for all }i
+\end{eqnarray*}
+that is
+\begin{eqnarray*}
+\frac{1}{V_{2}}=\max_{q_{j}\geq 0} &amp;&amp;\sum_{j}y_{j} \\
+s.t.~ &amp;&amp;1\geq \sum_{j}\Phi _{ij}y_{j}\text{ for all }i
+\end{eqnarray*}</p>
+<p>We have 
+\begin{eqnarray*}
+q_{j} &amp;=&amp;y_{j}V=\frac{y_{j}}{\sum_{j}y_{j}} \\
+V &amp;=&amp;\frac{1}{\sum_{j}y_{j}}
+\end{eqnarray*}</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Computing-the-mixed-strategy-equilibrium-using-linear-programming">Computing the mixed strategy equilibrium using linear programming<a class="anchor-link" href="#Computing-the-mixed-strategy-equilibrium-using-linear-programming">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -14996,7 +15158,7 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">minimax_LP</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -15004,10 +15166,10 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
     <span class="n">model</span><span class="o">.</span><span class="n">Params</span><span class="o">.</span><span class="n">OutputFlag</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)</span>
     <span class="n">model</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span><span class="p">,</span> <span class="n">grb</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Pi</span> <span class="o">@</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Phi_i_j</span> <span class="o">@</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">))</span>
     <span class="n">model</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span> 
-    <span class="n">ystar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">))</span>
-    <span class="n">xstar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">))</span>
+    <span class="n">ystar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">'x'</span><span class="p">))</span>
+    <span class="n">xstar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">'pi'</span><span class="p">))</span>
     <span class="n">S</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span>  <span class="n">xstar</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="n">p_i</span> <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">xstar</span>
     <span class="n">q_j</span> <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">ystar</span>
@@ -15026,7 +15188,7 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">minimax_LP</span><span class="p">(</span><span class="n">thegame</span><span class="p">)</span>
@@ -15052,7 +15214,7 @@ Alfred Galichon, 'math+econ+code' masterclass on linear programming and economic
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>Set parameter Username
-Academic license - for non-commercial use only - expires 2024-01-12
+Academic license - for non-commercial use only - expires 2023-12-23
 </pre>
 </div>
 </div>
@@ -15060,7 +15222,7 @@ Academic license - for non-commercial use only - expires 2024-01-12
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
 
 
 
@@ -15092,11 +15254,11 @@ Academic license - for non-commercial use only - expires 2024-01-12
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">minimax_CP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">gap_threshold</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span><span class="n">max_iter</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">):</span>
-    <span class="n">L1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="p">))</span>
+    <span class="n">L1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Phi_i_j</span><span class="p">))</span>
     <span class="n">sigma</span><span class="p">,</span> <span class="n">tau</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">L1</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">L1</span>
 
     <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span>
@@ -15107,13 +15269,13 @@ Academic license - for non-commercial use only - expires 2024-01-12
     <span class="n">i</span><span class="o">=</span><span class="mi">0</span>
     <span class="k">while</span> <span class="p">(</span><span class="n">gap</span> <span class="o">&gt;</span>  <span class="n">gap_threshold</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">max_iter</span><span class="p">):</span>
         <span class="n">q_tilde</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">q</span> <span class="o">-</span> <span class="n">q_prev</span>
-        <span class="n">p</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">sigma</span><span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span> <span class="o">@</span> <span class="n">q_tilde</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">sigma</span><span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Phi_i_j</span> <span class="o">@</span> <span class="n">q_tilde</span><span class="p">)</span>
         <span class="n">p</span> <span class="o">/=</span> <span class="n">p</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
         <span class="n">q_prev</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">q</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tau</span><span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">p</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tau</span><span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Phi_i_j</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">p</span><span class="p">)</span>
         <span class="n">q</span> <span class="o">/=</span> <span class="n">q</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-        <span class="n">gap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="o">.</span><span class="n">T</span><span class="nd">@p</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="nd">@q</span><span class="p">)</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Phi_i_j</span><span class="o">.</span><span class="n">T</span><span class="nd">@p</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Phi_i_j</span><span class="nd">@q</span><span class="p">)</span>
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">return</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">gap</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
 
@@ -15130,7 +15292,7 @@ Academic license - for non-commercial use only - expires 2024-01-12
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">thegame</span><span class="o">.</span><span class="n">minimax_CP</span><span class="p">()</span>
@@ -15152,7 +15314,7 @@ Academic license - for non-commercial use only - expires 2024-01-12
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
 
 
 
