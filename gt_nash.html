@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>L05_bimatrix-games</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>nash</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -15364,7 +15364,7 @@ s.t.~ &amp;&amp;\alpha \geq \left( Aq\right) _{i} \\
     <span class="k">if</span> <span class="n">thevar</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nonbasic</span><span class="p">):</span>
         <span class="k">return</span> <span class="mf">0.0</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">[</span><span class="n">thevar</span><span class="p">]</span><span class="o">.</span><span class="n">evalf</span><span class="p">(</span><span class="n">subs</span> <span class="o">=</span> <span class="p">{</span><span class="n">variable</span><span class="p">:</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nonbasic</span><span class="p">}</span> <span class="p">))</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">[</span><span class="n">thevar</span><span class="p">]</span><span class="o">.</span><span class="n">evalf</span><span class="p">(</span><span class="n">subs</span> <span class="o">=</span> <span class="p">{</span><span class="n">variable</span><span class="p">:</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nonbasic</span><span class="p">}</span> <span class="p">))</span>
 
 <span class="n">Tableau</span><span class="o">.</span><span class="n">evaluate</span><span class="o">=</span><span class="n">Tableau_evaluate</span>
 
@@ -15500,20 +15500,6 @@ s.t.~ &amp;&amp;\alpha \geq \left( Aq\right) _{i} \\
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\alfre\AppData\Local\Temp\ipykernel_31092\2842941333.py:5: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  return np.float(self.base[thevar].evalf(subs = {variable:0.0 for variable in self.nonbasic} ))
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
 
 
@@ -15613,20 +15599,6 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\alfre\AppData\Local\Temp\ipykernel_31092\2842941333.py:5: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  return np.float(self.base[thevar].evalf(subs = {variable:0.0 for variable in self.nonbasic} ))
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
 
 
@@ -15722,20 +15694,6 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\alfre\AppData\Local\Temp\ipykernel_31092\2842941333.py:5: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  return np.float(self.base[thevar].evalf(subs = {variable:0.0 for variable in self.nonbasic} ))
-</pre>
-</div>
-</div>
 
 <div class="jp-OutputArea-child">
 

@@ -14940,7 +14940,7 @@ Academic license - for non-commercial use only - expires 2023-12-23
     <span class="k">if</span> <span class="n">thevar</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nonbasic</span><span class="p">):</span>
         <span class="k">return</span> <span class="mf">0.0</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">[</span><span class="n">thevar</span><span class="p">]</span><span class="o">.</span><span class="n">evalf</span><span class="p">(</span><span class="n">subs</span> <span class="o">=</span> <span class="p">{</span><span class="n">variable</span><span class="p">:</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nonbasic</span><span class="p">}</span> <span class="p">))</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">[</span><span class="n">thevar</span><span class="p">]</span><span class="o">.</span><span class="n">evalf</span><span class="p">(</span><span class="n">subs</span> <span class="o">=</span> <span class="p">{</span><span class="n">variable</span><span class="p">:</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nonbasic</span><span class="p">}</span> <span class="p">))</span>
 
 <span class="n">Tableau</span><span class="o">.</span><span class="n">evaluate</span><span class="o">=</span><span class="n">Tableau_evaluate</span>
 
@@ -15057,20 +15057,6 @@ w_3 = 2.0*w_1 - z_0 + 2.0*z_2 + z_3 + 2.0
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\alfre\AppData\Local\Temp\ipykernel_7112\2842941333.py:5: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  return np.float(self.base[thevar].evalf(subs = {variable:0.0 for variable in self.nonbasic} ))
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 
 
@@ -15154,20 +15140,6 @@ Entering = z_1; departing = w_2
 z_1 = 0.5*w_1 - 0.5*w_2 + z_2 + z_3 + 0.5
 Entering = z_2; departing = z_0
 z_2 = 0.5*w_1 + 0.5*w_2 - z_0 - 4.0*z_3 + 2.5
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\alfre\AppData\Local\Temp\ipykernel_7112\2842941333.py:5: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  return np.float(self.base[thevar].evalf(subs = {variable:0.0 for variable in self.nonbasic} ))
 </pre>
 </div>
 </div>
