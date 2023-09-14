@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>LP1_linear_programming_intro</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>LP01_lp-intro</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -14478,6 +14478,10 @@ a.anchor-link {
   display: none;
 }
 
+.highlight  {
+  margin: 0.4em;
+}
+
 /* Input area styling */
 .jp-InputArea {
   overflow: hidden;
@@ -14487,26 +14491,9 @@ a.anchor-link {
   overflow: hidden;
 }
 
-.CodeMirror.cm-s-jupyter .highlight pre {
-/* weird, but --jp-code-padding defined to be 5px but 4px horizontal padding is hardcoded for pre.CodeMirror-line */
-  padding: var(--jp-code-padding) 4px;
+.CodeMirror pre {
   margin: 0;
-
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-
-}
-
-.jp-OutputArea-output pre {
-  line-height: inherit;
-  font-family: inherit;
-}
-
-.jp-RenderedText pre {
-  color: var(--jp-content-font-color1);
-  font-size: var(--jp-code-font-size);
+  padding: 0;
 }
 
 /* Using table instead of flexbox so that we can use break-inside property */
@@ -14550,10 +14537,6 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 /* Hiding the collapser by default */
 .jp-Collapser {
   display: none;
-}
-
-@page {
-    margin: 0.5in; /* Margin for each printed piece of paper */
 }
 
 @media print {
@@ -14610,9 +14593,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Linear-programming-introduction"><center>Linear programming introduction</center><a class="anchor-link" href="#Linear-programming-introduction">&#182;</a></h1><h3 id="Alfred-Galichon-(NYU-&amp;-Sciences-Po)"><center>Alfred Galichon (NYU &amp; Sciences Po)</center><a class="anchor-link" href="#Alfred-Galichon-(NYU-&amp;-Sciences-Po)">&#182;</a></h3><h2 id="'math+econ+code'-masterclass-on-linear-programming-and-economic-applications"><center>'math+econ+code' masterclass series</center><a class="anchor-link" href="#'math+econ+code'-masterclass-on-linear-programming-and-economic-applications">&#182;</a></h2><h4 id="With-python-code-examples"><center>With python code examples</center><a class="anchor-link" href="#With-python-code-examples">&#182;</a></h4><p>© 2018–2023 by Alfred Galichon. Past and present support from NSF grant DMS-1716489, ERC grant CoG-866274 are acknowledged, as well as inputs from contributors listed <a href="http://www.math-econ-code.org/team">here</a>.</p>
+<h1 id="Linear-programming-introduction"><center>Linear programming introduction</center><a class="anchor-link" href="#Linear-programming-introduction">&#182;</a></h1><h3><center>Alfred Galichon (NYU & Sciences Po)</center></h3>
+<h2 id="'math+econ+code'-masterclass-series"><center>'math+econ+code' masterclass series</center><a class="anchor-link" href="#'math+econ+code'-masterclass-series">&#182;</a></h2><h4 id="With-python-code-examples"><center>With python code examples</center><a class="anchor-link" href="#With-python-code-examples">&#182;</a></h4><p>© 2018–2023 by Alfred Galichon. Past and present support from NSF grant DMS-1716489, ERC grant CoG-866274 are acknowledged, as well as inputs from contributors listed <a href="http://www.math-econ-code.org/team">here</a>.</p>
 <p><strong>If you reuse material from this masterclass, please cite as:</strong><br>
-Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://github.com/math-econ-code/mec_linprog">https://github.com/math-econ-code/mec_linprog</a></p>
+Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://www.math-econ-code.org/">https://www.math-econ-code.org/</a></p>
 
 </div>
 </div>
@@ -14669,7 +14653,7 @@ Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://github.co
 </li>
 </ul>
 <p>The problem was taken on by G. Stigler, who published a paper about it in 1945, giving a first heuristic solution, exhibiting a diet that costs \$ 39.93 per year in 1939 dollars. Later (in 1947) it was one of the first
-application of G.B. Dantzig's method (the simplex algorithm), which provided the exact solution ($39.67). It then took 120 man-day to perform this operation. However today the computer will perform it for us in a
+application of G.B. Dantzig's method (the simplex algorithm), which provided the exact solution (\$39.67). It then took 120 man-day to perform this operation. However today the computer will perform it for us in a
 fraction of second.</p>
 <p>However, don't try this diet at home! Dantzig did so and almost died from it...</p>
 
@@ -14696,16 +14680,10 @@ fraction of second.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
-
-<span class="n">thepath</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/math-econ-code/mec_optim_2021-01/master/data_mec_optim/lp_stigler-diet/&#39;</span>
-
-<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;StiglerData1939.txt&#39;</span>
-<span class="n">thedata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">thepath</span> <span class="o">+</span> <span class="n">filename</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="n">thedata</span> <span class="o">=</span> <span class="n">thedata</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14713,27 +14691,37 @@ fraction of second.</p>
 </div>
 </div>
 
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Our dataset has the nutritional content of 77 commodities:</p>
-
-</div>
-</div>
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">thedata</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">load_stigler_data</span><span class="p">(</span><span class="n">nbi</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">nbj</span> <span class="o">=</span> <span class="mi">77</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    <span class="n">thepath</span> <span class="o">=</span> <span class="s1">'https://raw.githubusercontent.com/math-econ-code/mec_optim_2021-01/master/data_mec_optim/lp_stigler-diet/'</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s1">'StiglerData1939.txt'</span>
+    <span class="n">thedata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">thepath</span> <span class="o">+</span> <span class="n">filename</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">thedata</span> <span class="o">=</span> <span class="n">thedata</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span> <span class="o">=</span> <span class="s1">'all'</span><span class="p">)</span>
+    <span class="n">commodities</span> <span class="o">=</span> <span class="p">(</span><span class="n">thedata</span><span class="p">[</span><span class="s1">'Commodity'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">allowance</span> <span class="o">=</span> <span class="n">thedata</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">:]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+    <span class="n">nbi</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">allowance</span><span class="p">),</span><span class="n">nbi</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">commodities</span><span class="p">))</span>
+    <span class="n">nbj</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">commodities</span><span class="p">),</span><span class="n">nbj</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Daily nutrient content:'</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">thedata</span><span class="o">.</span><span class="n">head</span><span class="p">()))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Daily nutrient requirement:'</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">allowance</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">({</span><span class="s1">'N_i_j'</span><span class="p">:</span><span class="n">thedata</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">nbj</span><span class="p">,</span> <span class="mi">4</span><span class="p">:(</span><span class="mi">4</span><span class="o">+</span><span class="n">nbi</span><span class="p">)]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+            <span class="s1">'d_i'</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">allowance</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="n">nbi</span><span class="p">],</span>
+            <span class="s1">'c_j'</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">commodities</span><span class="p">))[</span><span class="mi">0</span><span class="p">:</span><span class="n">nbj</span><span class="p">],</span>
+            <span class="s1">'names_i'</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">thedata</span><span class="o">.</span><span class="n">columns</span><span class="p">)[</span><span class="mi">4</span><span class="p">:(</span><span class="mi">4</span><span class="o">+</span><span class="n">nbi</span><span class="p">)],</span>
+            <span class="s1">'names_j'</span><span class="p">:</span><span class="n">commodities</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nbj</span><span class="p">]})</span> 
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">load_stigler_data</span><span class="p">(</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14747,262 +14735,26 @@ fraction of second.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+
+<div class="jp-OutputArea-child">
+
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
 
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>77
+Daily nutrient content:
+-  --------------------------  ------  ----  -----  ----  ----  ----  ---  -----  ----  ----  ---  ---
+0  1. Wheat Flour (Enriched)   10 lb.  36    12600  44.7  1411   2    365  nan    55.4  33.3  441  nan
+1  2. Macaroni                 1 lb.   14.1   3217  11.6   418   0.7   54  nan     3.2   1.9   68  nan
+2  3. Wheat Cereal (Enriched)  28 oz.  24.2   3280  11.8   377  14.4  175  nan    14.4   8.8  114  nan
+3  4. Corn Flakes              8 oz.    7.1   3194  11.4   252   0.1   56  nan    13.5   2.3   68  nan
+4  5. Corn Meal                1 lb.    4.6   9861  36     897   1.7   99   30.9  17.4   7.9  106  nan
+-  --------------------------  ------  ----  -----  ----  ----  ----  ---  -----  ----  ----  ---  ---
 
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-
-  <div id="df-ba765df2-c2ac-419a-889c-58e30e0d112a">
-    <div class="colab-df-container">
-      <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Commodity</th>
-      <th>Unit</th>
-      <th>Price Aug.15 1939(cents)</th>
-      <th>Edible Weight per $1.00 (grams)</th>
-      <th>Calories (1000)</th>
-      <th>Protein(grams)</th>
-      <th>Calcium(grams)</th>
-      <th>Iron(mg.)</th>
-      <th>Vitamin A(1000 I.U)</th>
-      <th>Thiamine(mg.)</th>
-      <th>Riboflavin(mg.)</th>
-      <th>Niacin(mg.)</th>
-      <th>Asorbic Acid (mg.)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1. Wheat Flour (Enriched)</td>
-      <td>10 lb.</td>
-      <td>36.0</td>
-      <td>12600.0</td>
-      <td>44.7</td>
-      <td>1411.0</td>
-      <td>2.0</td>
-      <td>365.0</td>
-      <td>NaN</td>
-      <td>55.4</td>
-      <td>33.3</td>
-      <td>441.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2. Macaroni</td>
-      <td>1 lb.</td>
-      <td>14.1</td>
-      <td>3217.0</td>
-      <td>11.6</td>
-      <td>418.0</td>
-      <td>0.7</td>
-      <td>54.0</td>
-      <td>NaN</td>
-      <td>3.2</td>
-      <td>1.9</td>
-      <td>68.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>3. Wheat Cereal (Enriched)</td>
-      <td>28 oz.</td>
-      <td>24.2</td>
-      <td>3280.0</td>
-      <td>11.8</td>
-      <td>377.0</td>
-      <td>14.4</td>
-      <td>175.0</td>
-      <td>NaN</td>
-      <td>14.4</td>
-      <td>8.8</td>
-      <td>114.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>4. Corn Flakes</td>
-      <td>8 oz.</td>
-      <td>7.1</td>
-      <td>3194.0</td>
-      <td>11.4</td>
-      <td>252.0</td>
-      <td>0.1</td>
-      <td>56.0</td>
-      <td>NaN</td>
-      <td>13.5</td>
-      <td>2.3</td>
-      <td>68.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>5. Corn Meal</td>
-      <td>1 lb.</td>
-      <td>4.6</td>
-      <td>9861.0</td>
-      <td>36.0</td>
-      <td>897.0</td>
-      <td>1.7</td>
-      <td>99.0</td>
-      <td>30.9</td>
-      <td>17.4</td>
-      <td>7.9</td>
-      <td>106.0</td>
-      <td>NaN</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-ba765df2-c2ac-419a-889c-58e30e0d112a')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-        
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
-  </svg>
-      </button>
-      
-  <style>
-    .colab-df-container {
-      display:flex;
-      flex-wrap:wrap;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-      <script>
-        const buttonEl =
-          document.querySelector('#df-ba765df2-c2ac-419a-889c-58e30e0d112a button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-ba765df2-c2ac-419a-889c-58e30e0d112a');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
-
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
-    </div>
-  </div>
-  
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The final row contains the daily minimum requirement of each of these nutrients:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">commodities</span> <span class="o">=</span> <span class="p">(</span><span class="n">thedata</span><span class="p">[</span><span class="s1">&#39;Commodity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">allowance</span> <span class="o">=</span> <span class="n">thedata</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">:]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
-<span class="n">allowance</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>Calories (1000)         3.0
+Daily nutrient requirement:
+Calories (1000)         3.0
 Protein(grams)         70.0
 Calcium(grams)          0.8
 Iron(mg.)              12.0
@@ -15011,7 +14763,9 @@ Thiamine(mg.)           1.8
 Riboflavin(mg.)         2.7
 Niacin(mg.)            18.0
 Asorbic Acid (mg.)     75.0
-Name: 77, dtype: float64</pre>
+Name: 77, dtype: float64
+</pre>
+</div>
 </div>
 
 </div>
@@ -15019,7 +14773,17 @@ Name: 77, dtype: float64</pre>
 </div>
 
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Our dataset has the nutritional content of 77 commodities, and 9 nutrients.</p>
 
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -15123,25 +14887,25 @@ slackness holds, that is $x_{i}^{\ast}&gt;0$ implies $\left(  A^{\top}y^{\ast
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Duality-theorem">Duality theorem<a class="anchor-link" href="#Duality-theorem">&#182;</a></h3><p>We summarize these results into the following statement.</p>
-<hr />
+<hr>
 <p><strong>Theorem.</strong> In the setting described above:</p>
 <ol>
 <li>The weak duality inequality holds:</li>
 </ol>
 \begin{align}
 V_{P}\leq V_{D}.
-\end{align}<ol start="2">
+\end{align}<ol>
 <li>As soon as the primal or the dual program has an optimal solution, then both programs have an optimal solution, and strong duality holds:</li>
 </ol>
 \begin{align}
 V_{P}=V_{D}.
-\end{align}<ol start="3">
+\end{align}<ol>
 <li>If $x^{\ast}\in\mathbb{R}_{+}^{n}$ is an optimal primal solution, and $y^{\ast}\in\mathbb{R}^{m}_{+}$ is an optimal dual solution, then complementary slackness holds:</li>
 </ol>
 \begin{align}
 x_{i}^{\ast}&gt;0 &amp;\implies (A^{\top}y^{\ast})_{i} = c_{i}, \\
 y_{j}^* &gt; 0 &amp;\implies (Ax^*)_j = d_j.
-\end{align}<hr />
+\end{align}<hr>
 
 </div>
 </div>
@@ -15173,21 +14937,21 @@ y_{j}^* &gt; 0 &amp;\implies (Ax^*)_j = d_j.
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Interpretation-of-duality">Interpretation of duality<a class="anchor-link" href="#Interpretation-of-duality">&#182;</a></h2><p>Imagine that there is a new firm called Nutrient Shoppe, who sells raw nutrients. Let $\pi_{i}$ be the price of nutrient $i$. The cost of the diet is $d^{\top}\pi$. Consumers purchase raw nutrients and can generate
-&quot;synthetic foods&quot;. The cost of the synthetic version of food $j$ is $\sum_{i=1}^{m} N_{ij}\pi_{i} = (N^{\top}\pi)_{j}$. The constraint thus means that each &quot;synthetic food&quot; is more affordable than its natural counterpart.</p>
+"synthetic foods". The cost of the synthetic version of food $j$ is $\sum_{i=1}^{m} N_{ij}\pi_{i} = (N^{\top}\pi)_{j}$. The constraint thus means that each "synthetic food" is more affordable than its natural counterpart.</p>
 <p>The duality means that it is possible to price the nutrients so that the
 synthetic foods are cheaper than the natural ones, in such a way that the
 price of the synthetic diet equals the price of the natural diet.</p>
 <p>Complementary slackness yields:</p>
 <ul>
-<li>$q_{j}&gt;0$ implies $(N^{\top}\pi)_{j} = c_{j}$; that</li>
-</ul>
-<p>is, if natural food $j$ is actually purchased, then the prices of its
+<li><p>$q_{j}&gt;0$ implies $(N^{\top}\pi)_{j} = c_{j}$; that
+is, if natural food $j$ is actually purchased, then the prices of its
 synthetic and natural versions coincide.</p>
-<ul>
-<li>$\pi_{i}&gt;0$ implies $\left(  Nq\right)  _{i}=d_{i}$; that is, if</li>
+</li>
+<li><p>$\pi_{i}&gt;0$ implies $\left(  Nq\right)  _{i}=d_{i}$; that is, if
+nutrient $i$ has a positive price, then the natural diet has the
+"just right" amount.</p>
+</li>
 </ul>
-<p>nutrient $i$ has a positive price, then the natural diet has the
-&quot;just right&quot; amount.</p>
 
 </div>
 </div>
@@ -15204,25 +14968,6 @@ synthetic and natural versions coincide.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">N_i_j</span> <span class="o">=</span> <span class="n">thedata</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">:]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
-<span class="n">nbi</span><span class="p">,</span> <span class="n">nbj</span> <span class="o">=</span> <span class="n">N_i_j</span><span class="o">.</span><span class="n">shape</span>
-<span class="n">c_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nbj</span><span class="p">)</span>
-<span class="n">d_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">allowance</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -15242,12 +14987,12 @@ We will need <em>large scale</em> solvers, which deal with sparse constraints (o
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># !python -m pip install -i https://pypi.gurobi.com gurobipy  ## only if Gurobi not here</span>
@@ -15256,32 +15001,6 @@ We will need <em>large scale</em> solvers, which deal with sparse constraints (o
      </div>
 </div>
 </div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Looking in indexes: https://pypi.gurobi.com, https://us-python.pkg.dev/colab-wheels/public/simple/
-Collecting gurobipy
-  Downloading gurobipy-10.0.1-cp310-cp310-manylinux2014_x86_64.whl (12.7 MB)
-     <span class="ansi-black-intense-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-green-fg">12.7/12.7 MB</span> <span class="ansi-red-fg">90.1 MB/s</span> eta <span class="ansi-cyan-fg">0:00:00</span>
-Installing collected packages: gurobipy
-Successfully installed gurobipy-10.0.1
-</pre>
-</div>
-</div>
-
-</div>
-
 </div>
 
 </div>
@@ -15301,7 +15020,7 @@ Successfully installed gurobipy-10.0.1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">grb</span>
@@ -15331,13 +15050,13 @@ Successfully installed gurobipy-10.0.1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
-<span class="n">varq_j</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">nbj</span><span class="p">)</span>
+<span class="n">varq_j</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'N_i_j'</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">m</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">varq_j</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">grb</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">MINIMIZE</span><span class="p">)</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">N_i_j</span> <span class="o">@</span> <span class="n">varq_j</span> <span class="o">&gt;=</span> <span class="n">d_i</span><span class="p">)</span>
+<span class="n">c_j</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'N_i_j'</span><span class="p">]</span> <span class="o">@</span> <span class="n">varq_j</span> <span class="o">&gt;=</span> <span class="n">data</span><span class="p">[</span><span class="s1">'d_i'</span><span class="p">]</span> <span class="p">)</span>
 <span class="n">m</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
 </pre></div>
 
@@ -15352,16 +15071,20 @@ Successfully installed gurobipy-10.0.1
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
+
 <div class="jp-OutputArea-child">
+
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (linux64)
+<pre>Set parameter Username
+Academic license - for non-commercial use only - expires 2023-12-23
+Gurobi Optimizer version 10.0.2 build v10.0.2rc0 (win64)
 
-CPU model: Intel(R) Xeon(R) CPU @ 2.20GHz, instruction set [SSE2|AVX|AVX2]
-Thread count: 1 physical cores, 2 logical processors, using up to 2 threads
+CPU model: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 4 physical cores, 8 logical processors, using up to 8 threads
 
 Optimize a model with 9 rows, 77 columns and 570 nonzeros
 Model fingerprint: 0x7ae6b743
@@ -15371,14 +15094,14 @@ Coefficient statistics:
   Bounds range     [0e+00, 0e+00]
   RHS range        [8e-01, 8e+01]
 Presolve removed 0 rows and 47 columns
-Presolve time: 0.01s
+Presolve time: 0.00s
 Presolved: 9 rows, 30 columns, 240 nonzeros
 
 Iteration    Objective       Primal Inf.    Dual Inf.      Time
        0    0.0000000e+00   1.384688e+01   0.000000e+00      0s
        5    1.0866228e-01   0.000000e+00   0.000000e+00      0s
 
-Solved in 5 iterations and 0.02 seconds (0.00 work units)
+Solved in 5 iterations and 0.01 seconds (0.00 work units)
 Optimal objective  1.086622782e-01
 </pre>
 </div>
@@ -15405,10 +15128,10 @@ Optimal objective  1.086622782e-01
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_j</span><span class="p">,</span><span class="n">π_i</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">),</span><span class="n">m</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_j</span><span class="p">,</span><span class="n">π_i</span> <span class="o">=</span> <span class="n">varq_j</span><span class="o">.</span><span class="n">X</span><span class="p">,</span><span class="n">c_j</span><span class="o">.</span><span class="n">pi</span>
 </pre></div>
 
      </div>
@@ -15433,17 +15156,17 @@ Optimal objective  1.086622782e-01
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_optimal_diet</span><span class="p">(</span><span class="n">q_j</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***Optimal solution***&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'***Optimal solution***'</span><span class="p">)</span>
     <span class="n">total</span><span class="p">,</span><span class="n">thelist</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">commodity</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">commodities</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">commodity</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'names_j'</span><span class="p">]):</span>
         <span class="k">if</span> <span class="n">q_j</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">total</span> <span class="o">+=</span> <span class="n">q_j</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="mi">365</span>
-            <span class="n">thelist</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">commodity</span><span class="p">,</span><span class="n">q_j</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
-    <span class="n">thelist</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Total cost (optimal):&#39;</span><span class="p">,</span> <span class="n">total</span><span class="p">])</span>
+            <span class="n">thelist</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="s1">'names_j'</span><span class="p">][</span><span class="n">j</span><span class="p">],</span><span class="n">q_j</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
+    <span class="n">thelist</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">'Total cost (optimal):'</span><span class="p">,</span> <span class="n">total</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">thelist</span><span class="p">))</span>
 
 <span class="n">print_optimal_diet</span><span class="p">(</span><span class="n">q_j</span><span class="p">)</span>
@@ -15460,7 +15183,9 @@ Optimal objective  1.086622782e-01
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
+
 <div class="jp-OutputArea-child">
+
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15490,45 +15215,44 @@ Total cost (optimal):      39.6617
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>As promised, we achieve the minimum cost bundle at $39.67 per year in 1939 dollars. We can compare this to Stigler's solution which was:</p>
+<p>As promised, we achieve the minimum cost bundle at \$39.67 per year in 1939 dollars. We can compare this to Stigler's solution which was:</p>
 <table>
-<thead>
-<tr>
-  <th>Food</th>
-  <th>Annual Quantities</th>
-  <th>Annual Cost</th>
+<thead><tr>
+<th>Food</th>
+<th>Annual Quantities</th>
+<th>Annual Cost</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-  <td>Wheat Flour</td>
-  <td>370 lb.</td>
-  <td>$13.33</td>
+<td>Wheat Flour</td>
+<td>370 lb.</td>
+<td>\$13.33</td>
 </tr>
 <tr>
-  <td>Evaporated Milk</td>
-  <td>57 cans</td>
-  <td>$3.84</td>
+<td>Evaporated Milk</td>
+<td>57 cans</td>
+<td>\$3.84</td>
 </tr>
 <tr>
-  <td>Cabbage</td>
-  <td>111 lb.</td>
-  <td>$4.11</td>
+<td>Cabbage</td>
+<td>111 lb.</td>
+<td>\$4.11</td>
 </tr>
 <tr>
-  <td>Spinach</td>
-  <td>23 lb.</td>
-  <td>$1.85</td>
+<td>Spinach</td>
+<td>23 lb.</td>
+<td>\$1.85</td>
 </tr>
 <tr>
-  <td>Dried Navy Beans</td>
-  <td>285 lb.</td>
-  <td>$16.80</td>
+<td>Dried Navy Beans</td>
+<td>285 lb.</td>
+<td>\$16.80</td>
 </tr>
 <tr>
-  <td>Total Annual Cost</td>
-  <td> </td>
-  <td>$39.93</td>
+<td>Total Annual Cost</td>
+<td>&nbsp;</td>
+<td>\$39.93</td>
 </tr>
 </tbody>
 </table>
@@ -15553,15 +15277,14 @@ Total cost (optimal):      39.6617
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># answer:</span>
-
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">linprog</span> <span class="k">as</span> <span class="n">lp</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">lp</span><span class="p">(</span><span class="n">c_j</span><span class="p">,</span> <span class="n">A_ub</span><span class="o">=-</span><span class="n">N_i_j</span><span class="p">,</span> <span class="n">b_ub</span><span class="o">=-</span><span class="n">d_i</span><span class="p">)</span>
-<span class="n">qbis_j</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">lp</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'c_j'</span><span class="p">],</span> <span class="n">A_ub</span><span class="o">=-</span><span class="n">data</span><span class="p">[</span><span class="s1">'N_i_j'</span><span class="p">],</span> <span class="n">b_ub</span><span class="o">=-</span><span class="n">data</span><span class="p">[</span><span class="s1">'d_i'</span><span class="p">])</span>
+<span class="n">qbis_j</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
 
 <span class="n">print_optimal_diet</span><span class="p">(</span><span class="n">qbis_j</span><span class="p">)</span>
 </pre></div>
@@ -15577,7 +15300,9 @@ Total cost (optimal):      39.6617
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
+
 <div class="jp-OutputArea-child">
+
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15594,6 +15319,195 @@ Total cost (optimal):      39.6617
 -------------------------  -----------
 </pre>
 </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Creating-a-LP-class">Creating a <code>LP</code> class<a class="anchor-link" href="#Creating-a-LP-class">&#182;</a></h1><p>We create a <code>LP</code> class that solves the problem:<br>
+$\max_{x \geq 0} c^\top x$<br>
+s.t. $Ax = d$.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">LP</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">A_i_j</span><span class="p">,</span><span class="n">d_i</span><span class="p">,</span><span class="n">c_j</span><span class="p">,</span><span class="n">decision_var_names_j</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">slack_var_names_i</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">=</span> <span class="n">A_i_j</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span> <span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbj</span> <span class="o">=</span> <span class="n">A_i_j</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_i</span> <span class="o">=</span> <span class="n">d_i</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c_j</span> <span class="o">=</span> <span class="n">c_j</span>
+        <span class="k">if</span> <span class="n">decision_var_names_j</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">decision_var_names_j</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'x_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">slack_var_names_i</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">slack_var_names_i</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'s_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decision_var_names_j</span> <span class="o">=</span> <span class="n">decision_var_names_j</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slack_var_names_i</span> <span class="o">=</span> <span class="n">slack_var_names_i</span>
+        
+    <span class="k">def</span> <span class="nf">gurobi_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">setParam</span><span class="p">(</span><span class="s1">'OutputFlag'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">xg_j</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">xg_j</span><span class="nd">@self</span><span class="o">.</span><span class="n">c_j</span><span class="p">,</span><span class="n">sense</span><span class="o">=</span><span class="n">grb</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">)</span>
+        <span class="n">constr_i</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">@</span> <span class="n">xg_j</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_i</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">xg_j</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">constr_i</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="n">m</span><span class="o">.</span><span class="n">objVal</span><span class="p">)</span>
+        
+    
+    <span class="k">def</span> <span class="nf">plot2d</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">the_path</span><span class="o">=</span><span class="p">[],</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c_j</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'The number of variables differs from two.'</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">()</span>
+        <span class="n">x1max</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">di</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">di</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d_i</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">di</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">x2max</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">di</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">di</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d_i</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">di</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">.2</span><span class="o">*</span><span class="n">x1max</span><span class="p">,</span> <span class="mf">1.4</span><span class="o">*</span><span class="n">x1max</span><span class="p">,</span> <span class="mi">400</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">.2</span><span class="o">*</span><span class="n">x2max</span><span class="p">,</span> <span class="mf">1.4</span><span class="o">*</span><span class="n">x2max</span><span class="p">,</span> <span class="mi">400</span><span class="p">))</span>
+        <span class="n">feasible_region</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x2</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">di</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d_i</span><span class="p">):</span>
+            <span class="n">feasible_region</span> <span class="o">=</span> <span class="n">feasible_region</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">&lt;=</span> <span class="n">di</span><span class="p">)</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">feasible_region</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_j</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_j</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="mi">50</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray_r'</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">di</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d_i</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">di</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">slack_var_names_i</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="s1">' = 0'</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">di</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">slack_var_names_i</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="s1">' = 0'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">the_path</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span> <span class="k">for</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="n">the_path</span><span class="p">],</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="n">the_path</span><span class="p">],</span> <span class="s1">'r--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Agorithm path'</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="n">a</span> <span class="k">for</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="n">the_path</span><span class="p">],</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="n">the_path</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">.2</span><span class="o">*</span><span class="n">x1max</span><span class="p">,</span> <span class="mf">1.4</span><span class="o">*</span><span class="n">x1max</span><span class="p">),</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">.2</span><span class="o">*</span><span class="n">x2max</span><span class="p">,</span> <span class="mf">1.4</span><span class="o">*</span><span class="n">x2max</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decision_var_names_j</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decision_var_names_j</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span> <span class="s1">'left'</span> <span class="p">]</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="s1">'zero'</span><span class="p">),</span> <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'bottom'</span><span class="p">]</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="s1">'zero'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">'none'</span><span class="p">),</span> <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">'none'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">legend</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">'upper right'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dietLP</span> <span class="o">=</span> <span class="n">LP</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'N_i_j'</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">data</span><span class="p">[</span><span class="s1">'c_j'</span><span class="p">],</span><span class="n">data</span><span class="p">[</span><span class="s1">'d_i'</span><span class="p">])</span>
+<span class="n">dietLP</span><span class="o">.</span><span class="n">gurobi_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>(array([0.00876515, 0.        , 0.03173771, 0.        , 0.00040023,
+        0.        , 0.01635803, 0.        , 0.00014412]),
+ array([0.02951906, 0.        , 0.        , 0.        , 0.        ,
+        0.        , 0.        , 0.        , 0.        , 0.        ,
+        0.        , 0.        , 0.        , 0.        , 0.        ,
+        0.        , 0.        , 0.        , 0.        , 0.        ,
+        0.        , 0.        , 0.        , 0.        , 0.        ,
+        0.        , 0.        , 0.        , 0.        , 0.00189256,
+        0.        , 0.        , 0.        , 0.        , 0.        ,
+        0.        , 0.        , 0.        , 0.        , 0.        ,
+        0.        , 0.        , 0.        , 0.        , 0.        ,
+        0.01121444, 0.        , 0.        , 0.        , 0.        ,
+        0.        , 0.00500766, 0.        , 0.        , 0.        ,
+        0.        , 0.        , 0.        , 0.        , 0.        ,
+        0.        , 0.        , 0.        , 0.        , 0.        ,
+        0.        , 0.        , 0.        , 0.06102856, 0.        ,
+        0.        , 0.        , 0.        , 0.        , 0.        ,
+        0.        , 0.        ]),
+ 0.10866227820675685)</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">small_ex</span> <span class="o">=</span> <span class="n">LP</span><span class="p">(</span><span class="n">A_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">20</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]),</span>
+              <span class="n">d_i</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span>
+              <span class="n">c_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]),</span>
+              <span class="n">decision_var_names_j</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'x_1'</span><span class="p">,</span> <span class="s1">'x_2'</span><span class="p">],</span>
+              <span class="n">slack_var_names_i</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'x_3'</span><span class="p">,</span> <span class="s1">'x_4'</span><span class="p">,</span><span class="s1">'x_5'</span><span class="p">])</span>
+<span class="n">small_ex</span><span class="o">.</span><span class="n">plot2d</span><span class="p">([])</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+<div class="jp-RenderedImage jp-OutputArea-output ">
+<img src="data:image/png;base64,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"
+class="
+"
+>
+</div>
+
 </div>
 
 </div>
