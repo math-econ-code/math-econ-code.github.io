@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>LP02_simplex</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>lp02_simplex</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -14608,7 +14608,7 @@ Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://www.math-
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Linear-programming:-the-simplex-algorithm">Linear programming: the simplex algorithm<a class="anchor-link" href="#Linear-programming:-the-simplex-algorithm">&#182;</a></h2><h3 id="Learning-objectives">Learning objectives<a class="anchor-link" href="#Learning-objectives">&#182;</a></h3><ul>
+<h3 id="Learning-objectives">Learning objectives<a class="anchor-link" href="#Learning-objectives">&#182;</a></h3><ul>
 <li>Standard form of a LP and slack variables</li>
 <li>The simplex algorithm</li>
 </ul>
@@ -14626,7 +14626,7 @@ Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://www.math-
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Principle">Principle<a class="anchor-link" href="#Principle">&#182;</a></h3><p>The simplex algorithm was developed by G. B. Dantzig in 1947 as a way to solve linear programming problems of the canonical form</p>
+<h1 id="1.-Primal-simplex-via-dictionary">1. Primal simplex via dictionary<a class="anchor-link" href="#1.-Primal-simplex-via-dictionary">&#182;</a></h1><p>The simplex algorithm was developed by G. B. Dantzig in 1947 as a way to solve linear programming problems of the canonical form</p>
 \begin{align}
 \max_{x\in\mathbf R_+^J} &amp; ~ c^\top x \\
 \text{s.t.} &amp; ~ Ax \leq d
@@ -14665,7 +14665,8 @@ Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://www.math-
 <span class="kn">from</span> <span class="nn">sympy.solvers</span> <span class="kn">import</span> <span class="n">solve</span>
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">mec.lp</span> <span class="kn">import</span> <span class="n">LP</span><span class="p">,</span><span class="n">load_stigler_data</span><span class="p">,</span><span class="n">round_expr</span><span class="p">,</span> <span class="n">limited_tabulate</span>
+<span class="kn">from</span> <span class="nn">mec.lp</span> <span class="kn">import</span> <span class="n">LP</span><span class="p">,</span><span class="n">round_expr</span><span class="p">,</span> <span class="n">limited_tabulate</span>
+<span class="kn">from</span> <span class="nn">mec.data</span> <span class="kn">import</span> <span class="n">load_stigler_data</span>
 </pre></div>
 
      </div>
@@ -14680,7 +14681,7 @@ Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://www.math-
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="The-simplex-algorithm-with-an-example">The simplex algorithm with an example<a class="anchor-link" href="#The-simplex-algorithm-with-an-example">&#182;</a></h2><p>Consider the linear programming problem:</p>
+<h2 id="1.1-An-example">1.1 An example<a class="anchor-link" href="#1.1-An-example">&#182;</a></h2><p>Consider the linear programming problem:</p>
 \begin{align*}
 \max_{x_1, x_2 \geq 0}  &amp; ~ x_1 + x_2 \\
 \text{s.t.} &amp; ~ 2 x_1 + x_2 \leq 2 \\
@@ -14790,9 +14791,13 @@ $Obj = (c_b)^\top B^{-1} d + ((c_n)^\top - (c_b)^\top B^{-1} N )z_n$.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dictionary_example</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="p">(</span><span class="n">A_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]),</span>
-                                <span class="n">d_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]),</span>
-                                <span class="n">c_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]),</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">build_simple_example</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">({</span><span class="s1">'A_i_j'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]),</span>
+            <span class="s1">'d_i'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]),</span>
+            <span class="s1">'c_j'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+           <span class="p">})</span>
+
+<span class="n">dictionary_example</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="p">(</span><span class="o">**</span><span class="n">build_simple_example</span><span class="p">(),</span>
                                 <span class="n">slack_var_names_i</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'s_1'</span><span class="p">,</span> <span class="s1">'s_2'</span><span class="p">],</span>
                                 <span class="n">decision_var_names_j</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'x_1'</span><span class="p">,</span> <span class="s1">'x_2'</span><span class="p">]</span>
                                 <span class="p">)</span>
@@ -14839,7 +14844,7 @@ s_2 = -x_1 - 2*x_2 + 2
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Description-of-the-algorithm">Description of the algorithm<a class="anchor-link" href="#Description-of-the-algorithm">&#182;</a></h3><p>Let's take a step-by-step approach to understand the simplex algorithm.
+<h2 id="1.2-Description-of-the-algorithm">1.2 Description of the algorithm<a class="anchor-link" href="#1.2-Description-of-the-algorithm">&#182;</a></h2><p>Let's take a step-by-step approach to understand the simplex algorithm.
 Along the way, we will also code these steps.</p>
 <h4 id="Step-1:-Initialize."><strong>Step 1: Initialize.</strong><a class="anchor-link" href="#Step-1:-Initialize.">&#182;</a></h4><p>Our first step is to establish a (feasible) starting point. There is an obvious one which consists in setting $x_1 = x_2 = 0$ and $s_1 = 2$, $s_2 = 2$. This starting point is called a <em>basic feasible solution</em> because it is zero outside of the basic variables. The value of the objective at this solution is $0$.</p>
 <p>We create a method which computes the basic feasible solution associated with a dictionary, as well as the value of the objective at this solution.</p>
@@ -15397,7 +15402,33 @@ class="
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Our new basic feasible solution is $s_1 = s_2 = 0$ (nonbasic variables) and $x_1 = \tfrac{2}{3}$, $x_2 = \tfrac{2}{3}$ (basic variables). But because the coefficients of the nonbasic variables in the objective are negative, we cannot increase it anymore: the algorithm stops.</p>
-<p>We verify this with our code, as there is no entering variable anymore.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Geometric-interpretation">Geometric interpretation<a class="anchor-link" href="#Geometric-interpretation">&#182;</a></h3><p>The simplex algorithm has a simple geometric interpretation.</p>
+<p>The feasible set of the linear programming problem, delimited by its constraints, forms a polygon in $\mathbb R^2$ (a polyhedron in $\mathbb R^3$, etc.).</p>
+<p>We start from one of the corners of this polygon. At each iteration of the algorithm, we move along the edge of the polygon to a neighboring corner, always moving in the direction that most increases the value of the objective function. When it reaches the corner with the highest possible value of the objective function, the algorithm stops, and we have our solution.</p>
+<p>The simplex algorithm must stop eventually since there is a finite limited number of corners. Furthermore, it can be shown that if a corner isn't a maximum, then there must be an adjoining edge leading to a higher value of the objective function. This guarantees that the end point of the algorithm is indeed an optimal solution.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We verify this with our code that there is no entering variable anymore.</p>
 
 </div>
 </div>
@@ -15477,7 +15508,164 @@ class="
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>We also want to compute the dual solutions. Recall that the objective is<br>
+<h1 id="2.-Dual-simplex">2. Dual simplex<a class="anchor-link" href="#2.-Dual-simplex">&#182;</a></h1><p>The dual program is</p>
+\begin{align}
+\min_{(y_j) \geq 0} &amp; d^\top y  \\
+\text{s.t.} &amp; ~ A ^\top y \geq c
+\end{align}<p>and we introduce dual slack variables</p>
+<p>$t_j = (A^\top y)_j - c_j$</p>
+<p>After adding the slack variables, the constraint matrix becomes $[A^\top ~ I]$. This is a $J \times (I+J)$ matrix, which has $J$ free columns, and thus it is of rank $J$. Therefore a dual basis will be of cardinality $J$ -- in contrast with the primal basis, which is of cardinality $I$.</p>
+<h2 id="2.1-Dual-dictionary">2.1 Dual dictionary<a class="anchor-link" href="#2.1-Dual-dictionary">&#182;</a></h2><p>An initial dual basis is provided by the dual slack variables $t_j$. We note that at step zero, the dual basis $(t_j)$ is in an a one-to-one correspondence with the complement of the primal basis, which is $(s_i)$. Indeed, we associate an nonbasic primal variable $x_j$ to each basic dual variable $t_j$, and a basic primal variable $t_i$ to each nonbasic dual variable $y_i$.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A_i_j</span><span class="p">,</span><span class="n">d_i</span><span class="p">,</span><span class="n">c_j</span> <span class="o">=</span> <span class="n">build_simple_example</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+
+<span class="n">primal_dictionary</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="p">(</span><span class="n">A_i_j</span><span class="p">,</span><span class="n">d_i</span><span class="p">,</span><span class="n">c_j</span> <span class="p">,</span>
+                                <span class="n">slack_var_names_i</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'s_1'</span><span class="p">,</span> <span class="s1">'s_2'</span><span class="p">],</span>
+                                <span class="n">decision_var_names_j</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'x_1'</span><span class="p">,</span> <span class="s1">'x_2'</span><span class="p">]</span>
+                                <span class="p">)</span>
+
+<span class="n">dual_dictionary</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="p">(</span><span class="n">A_i_j</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">c_j</span> <span class="p">,</span><span class="n">d_i</span><span class="p">,</span>
+                                <span class="n">slack_var_names_i</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'t_1'</span><span class="p">,</span> <span class="s1">'t_2'</span><span class="p">],</span>
+                                <span class="n">decision_var_names_j</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'y_1'</span><span class="p">,</span> <span class="s1">'y_2'</span><span class="p">]</span>
+                                <span class="p">)</span>
+<span class="n">corresp</span> <span class="o">=</span> <span class="p">{</span><span class="n">Symbol</span><span class="p">(</span><span class="n">primalvar</span><span class="p">):</span><span class="n">Symbol</span><span class="p">(</span><span class="n">dualvar</span><span class="p">)</span> 
+           <span class="k">for</span> <span class="p">(</span><span class="n">primalvar</span><span class="p">,</span><span class="n">dualvar</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">primal_dictionary</span><span class="o">.</span><span class="n">slack_var_names_i</span><span class="o">+</span><span class="n">primal_dictionary</span><span class="o">.</span><span class="n">decision_var_names_j</span><span class="p">,</span>
+                                         <span class="n">dual_dictionary</span><span class="o">.</span><span class="n">decision_var_names_j</span><span class="o">+</span><span class="n">dual_dictionary</span><span class="o">.</span><span class="n">slack_var_names_i</span><span class="p">)}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">corresp</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>{s_1: y_1, s_2: y_2, x_1: t_1, x_2: t_2}
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We will therefore re-run the simplex algorithm, but we will update the dual dictionary in addition to the primal dictionary. If a primal variable enters the primal basis, the corresponding dual variable will exit the dual basis, and conversely.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">finished</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">while</span> <span class="ow">not</span> <span class="n">finished</span><span class="p">:</span>    
+    <span class="n">entering_var</span> <span class="o">=</span> <span class="n">primal_dictionary</span><span class="o">.</span><span class="n">determine_entering</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">entering_var</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Optimal solution found.</span><span class="se">\n</span><span class="s1">======================='</span><span class="p">)</span>
+        <span class="n">primal_dictionary</span><span class="o">.</span><span class="n">primal_solution</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">dual_dictionary</span><span class="o">.</span><span class="n">primal_solution</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">finished</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">departing_var</span> <span class="o">=</span> <span class="n">primal_dictionary</span><span class="o">.</span><span class="n">determine_departing</span><span class="p">(</span><span class="n">entering_var</span><span class="p">)</span>
+        <span class="n">primal_dictionary</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">entering_var</span><span class="p">,</span><span class="n">departing_var</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">dual_dictionary</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">corresp</span><span class="p">[</span><span class="n">departing_var</span><span class="p">],</span><span class="n">corresp</span><span class="p">[</span><span class="n">entering_var</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">primal_dictionary</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="n">dual_dictionary</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Entering = x_1; departing = s_1
+Entering = y_1; departing = t_1
+Entering = x_2; departing = s_2
+Entering = y_2; departing = t_2
+Optimal solution found.
+=======================
+x_1 = 0.6666666666666666
+x_2 = 0.6666666666666666
+y_1 = 0.3333333333333333
+y_2 = 0.3333333333333333
+-------------------------- 
+Objective and constraints:
+obj = -0.33*s_1 - 0.33*s_2 + 1.33
+x_1 = -0.67*s_1 + 0.33*s_2 + 0.67
+x_2 = 0.33*s_1 - 0.67*s_2 + 0.67
+-------------------------- 
+Objective and constraints:
+obj = -0.67*t_1 - 0.67*t_2 + 1.33
+y_1 = -0.67*t_1 + 0.33*t_2 + 0.33
+y_2 = 0.33*t_1 - 0.67*t_2 + 0.33
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="2.2-Recovering-the-dual-solution-from-the-primal-dictionary">2.2 Recovering the dual solution from the primal dictionary<a class="anchor-link" href="#2.2-Recovering-the-dual-solution-from-the-primal-dictionary">&#182;</a></h2><p>In fact, we can recover the dual solution directly from the primal dictionary. Recall that the objective is<br>
 $Obj = (c_b)^\top B^{-1} d + ((c_n)^\top - y^\top N )z_n$<br>
 where $y^\top = (c_b)^\top B^{-1}$.</p>
 <p>Therefore, we have:<br>
@@ -15493,7 +15681,7 @@ $\frac {\partial Obj} {\partial z_n} = -y_i$.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Dictionary_dual_solution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
@@ -15537,7 +15725,7 @@ pi_1= 0.3333333333333333
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
 
 
 
@@ -15559,90 +15747,7 @@ pi_1= 0.3333333333333333
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>We benchmark our solution with the one obtained by <code>Gurobi</code>, and verify that it is the same:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dictionary_example</span><span class="o">.</span><span class="n">gurobi_solve</span><span class="p">()</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Set parameter Username
-Academic license - for non-commercial use only - expires 2023-12-23
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>(array([0.66666667, 0.66666667]),
- array([0.33333333, 0.33333333]),
- 1.3333333333333335)</pre>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Geometric-interpretation">Geometric interpretation<a class="anchor-link" href="#Geometric-interpretation">&#182;</a></h3><p>The simplex algorithm has a simple geometric interpretation.</p>
-<p>The feasible set of the linear programming problem, delimited by its constraints, forms a polygon in $\mathbb R^2$ (a polyhedron in $\mathbb R^3$, etc.).</p>
-<p>We start from one of the corners of this polygon. At each iteration of the algorithm, we move along the edge of the polygon to a neighboring corner, always moving in the direction that most increases the value of the objective function. When it reaches the corner with the highest possible value of the objective function, the algorithm stops, and we have our solution.</p>
-<p>The simplex algorithm must stop eventually since there is a finite limited number of corners. Furthermore, it can be shown that if a corner isn't a maximum, then there must be an adjoining edge leading to a higher value of the objective function. This guarantees that the end point of the algorithm is indeed an optimal solution.</p>
-
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Second-example">Second example<a class="anchor-link" href="#Second-example">&#182;</a></h2><p>Consider a slightly more complex example:</p>
+<h1 id="3.-Complements">3. Complements<a class="anchor-link" href="#3.-Complements">&#182;</a></h1><h2 id="3.1-A-more-complex-example">3.1 A more complex example<a class="anchor-link" href="#3.1-A-more-complex-example">&#182;</a></h2><p>Consider a slightly more complex example:</p>
 \begin{align*}
 \max_{x_1, x_2 \geq 0}  &amp; ~ 3 x_1 + 2 x_2 \\
 \text{s.t.} &amp; ~ \cos\left(\tfrac{k}{K}\tfrac{\pi}{2}\right) x_1 + \sin\left(\tfrac{k}{K}\tfrac{\pi}{2}\right) x_2 \leq 1, \quad k = 0, \dots, K.
@@ -15668,7 +15773,7 @@ Academic license - for non-commercial use only - expires 2023-12-23
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Dictionary_simplex_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
@@ -15701,7 +15806,7 @@ Academic license - for non-commercial use only - expires 2023-12-23
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">10</span>
@@ -15762,7 +15867,7 @@ class="
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 
 
 
@@ -15786,7 +15891,7 @@ class="
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dictionary_example2</span><span class="o">.</span><span class="n">primal_solution</span><span class="p">()</span>
@@ -15807,7 +15912,7 @@ class="
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 
 
 
@@ -15841,7 +15946,7 @@ class="
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Application-to-the-diet-problem">Application to the diet problem<a class="anchor-link" href="#Application-to-the-diet-problem">&#182;</a></h2><p>Recall the diet problem:</p>
+<h2 id="3.2-Application-to-the-diet-problem">3.2 Application to the diet problem<a class="anchor-link" href="#3.2-Application-to-the-diet-problem">&#182;</a></h2><p>Recall the diet problem:</p>
 <ul>
 <li><p>Assume there are nutrients $i \in \{1,\dots,I\}$ (calories, protein, calcium, iron, etc.) that matter for a person's health, in such way that the minimum daily intake of nutrient $i$ should be $d_{i}$.</p>
 </li>
@@ -15877,7 +15982,7 @@ class="
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">N_i_j</span><span class="p">,</span><span class="n">minallowance_i</span><span class="p">,</span><span class="n">unitcost_j</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">]</span> <span class="o">=</span> <span class="n">load_stigler_data</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
@@ -15905,7 +16010,7 @@ class="
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">stigler_dictionary</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="p">(</span><span class="n">N_i_j</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">unitcost_j</span> <span class="p">,</span> <span class="n">minallowance_i</span><span class="p">,</span>
@@ -15944,7 +16049,7 @@ Value = 0.227818067377138
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
 
 
 
@@ -15966,7 +16071,18 @@ Value = 0.227818067377138
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Compare with Gurobi:</p>
+<h3 id="Benchmark-with-Gurobi">Benchmark with Gurobi<a class="anchor-link" href="#Benchmark-with-Gurobi">&#182;</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We benchmark our solution with the one obtained by <code>Gurobi</code>, and verify that it is the same:</p>
 
 </div>
 </div>
@@ -15976,7 +16092,7 @@ Value = 0.227818067377138
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">stigler_dictionary</span><span class="o">.</span><span class="n">gurobi_solve</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
@@ -15997,7 +16113,20 @@ Value = 0.227818067377138
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Set parameter Username
+Academic license - for non-commercial use only - expires 2023-12-23
+</pre>
+</div>
+</div>
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
 
 
 
@@ -16031,7 +16160,7 @@ Value = 0.227818067377138
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="A-second-implementation-using-tableaux">A second implementation using tableaux<a class="anchor-link" href="#A-second-implementation-using-tableaux">&#182;</a></h1><p>Our implementation of the simplex algorithm provides a quick and intuitive version of the simplex, but the fact that it relies on <code>sympy</code> makes it extremely slow. In the sequel, we shall see a different implementation of the same algorithm using <em>tableaux</em>.</p>
+<h1 id="4.-Alternative-implementation-via-tableaux">4. Alternative implementation via tableaux<a class="anchor-link" href="#4.-Alternative-implementation-via-tableaux">&#182;</a></h1><p>Our implementation so far of the simplex algorithm provides a quick and intuitive version of the simplex, but the fact that it relies on <code>sympy</code> makes it extremely slow. In the sequel, we shall see a different implementation of the same algorithm using <em>tableaux</em>.</p>
 <p>The program in standard form is thus</p>
 \begin{align*}
 \max_{z \geq 0}  &amp; ~ (0^\top_I, c^\top) z \\
@@ -16056,7 +16185,7 @@ $Obj = (c_b)^\top( B^{-1} d )+ (c_n^\top -  B^{-1} N) (z_n)  $</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#from tabulate import tabulate</span>
@@ -16149,7 +16278,7 @@ $Obj = (c_b)^\top( B^{-1} d )+ (c_n^\top -  B^{-1} N) (z_n)  $</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tableau_ex</span> <span class="o">=</span> <span class="n">Tableau</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">]]),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]))</span>
@@ -16241,7 +16370,7 @@ Optimal solution found.
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
 
 
 
@@ -16273,7 +16402,7 @@ Optimal solution found.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tableau_ex</span><span class="o">.</span><span class="n">gurobi_solve</span><span class="p">()</span>
@@ -16294,7 +16423,7 @@ Optimal solution found.
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
 
 
 
@@ -16325,7 +16454,7 @@ Optimal solution found.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">other_ex</span> <span class="o">=</span> <span class="n">Tableau</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
@@ -16397,7 +16526,7 @@ Optimal solution found.
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
 
 
 
@@ -16417,7 +16546,7 @@ Optimal solution found.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">other_ex</span><span class="o">.</span><span class="n">gurobi_solve</span><span class="p">()</span>
@@ -16438,7 +16567,7 @@ Optimal solution found.
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[26]:</div>
 
 
 
@@ -16470,7 +16599,7 @@ Optimal solution found.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">stigler_tableau</span> <span class="o">=</span> <span class="n">Tableau</span><span class="p">(</span><span class="n">N_i_j</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">unitcost_j</span> <span class="p">,</span> <span class="n">minallowance_i</span><span class="p">,</span>
@@ -16495,7 +16624,7 @@ Optimal solution found.
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[26]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
 
 
 
@@ -16515,7 +16644,7 @@ Optimal solution found.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">stigler_tableau</span><span class="o">.</span><span class="n">gurobi_solve</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
@@ -16536,7 +16665,7 @@ Optimal solution found.
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[28]:</div>
 
 
 
