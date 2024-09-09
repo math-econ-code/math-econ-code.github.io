@@ -14645,7 +14645,7 @@ Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://www.math-
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14653,395 +14653,15 @@ Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://www.math-
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="ch">#!pip install nlopt # if from Colab</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
-<span class="c1">#!pip install nlopt # if from Colab</span>
 <span class="kn">import</span> <span class="nn">nlopt</span>
 </pre></div>
 
      </div>
 </div>
 </div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>
-A module that was compiled using NumPy 1.x cannot be run in
-NumPy 2.1.1 as it may crash. To support both 1.x and 2.x
-versions of NumPy, modules must be compiled with NumPy 2.0.
-Some module may need to rebuild instead e.g. with &#39;pybind11&gt;=2.12&#39;.
-
-If you are a user of the module, the easiest solution will be to
-downgrade to &#39;numpy&lt;2&#39; or try to upgrade the affected module.
-We expect that some modules will need time to support NumPy 2.
-
-Traceback (most recent call last):  File &#34;&lt;frozen runpy&gt;&#34;, line 198, in _run_module_as_main
-  File &#34;&lt;frozen runpy&gt;&#34;, line 88, in _run_code
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel_launcher.py&#34;, line 17, in &lt;module&gt;
-    app.launch_new_instance()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\traitlets\config\application.py&#34;, line 992, in launch_instance
-    app.start()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelapp.py&#34;, line 711, in start
-    self.io_loop.start()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\tornado\platform\asyncio.py&#34;, line 195, in start
-    self.asyncio_loop.run_forever()
-  File &#34;C:\Users\alfre\anaconda3\Lib\asyncio\base_events.py&#34;, line 607, in run_forever
-    self._run_once()
-  File &#34;C:\Users\alfre\anaconda3\Lib\asyncio\base_events.py&#34;, line 1922, in _run_once
-    handle._run()
-  File &#34;C:\Users\alfre\anaconda3\Lib\asyncio\events.py&#34;, line 80, in _run
-    self._context.run(self._callback, *self._args)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 510, in dispatch_queue
-    await self.process_one()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 499, in process_one
-    await dispatch(*args)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 406, in dispatch_shell
-    await result
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 729, in execute_request
-    reply_content = await reply_content
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\ipkernel.py&#34;, line 411, in do_execute
-    res = shell.run_cell(
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\zmqshell.py&#34;, line 531, in run_cell
-    return super().run_cell(*args, **kwargs)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3006, in run_cell
-    result = self._run_cell(
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3061, in _run_cell
-    result = runner(coro)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\async_helpers.py&#34;, line 129, in _pseudo_sync_runner
-    coro.send(None)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3266, in run_cell_async
-    has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3445, in run_ast_nodes
-    if await self.run_code(code, result, async_=asy):
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3505, in run_code
-    exec(code_obj, self.user_global_ns, self.user_ns)
-  File &#34;C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\1912542414.py&#34;, line 2, in &lt;module&gt;
-    import pandas as pd
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\__init__.py&#34;, line 39, in &lt;module&gt;
-    from pandas.compat import (
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\compat\__init__.py&#34;, line 27, in &lt;module&gt;
-    from pandas.compat.pyarrow import (
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\compat\pyarrow.py&#34;, line 8, in &lt;module&gt;
-    import pyarrow as pa
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pyarrow\__init__.py&#34;, line 65, in &lt;module&gt;
-    import pyarrow.lib as _lib
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                            Traceback (most recent call last)
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: _ARRAY_API not found</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>
-A module that was compiled using NumPy 1.x cannot be run in
-NumPy 2.1.1 as it may crash. To support both 1.x and 2.x
-versions of NumPy, modules must be compiled with NumPy 2.0.
-Some module may need to rebuild instead e.g. with &#39;pybind11&gt;=2.12&#39;.
-
-If you are a user of the module, the easiest solution will be to
-downgrade to &#39;numpy&lt;2&#39; or try to upgrade the affected module.
-We expect that some modules will need time to support NumPy 2.
-
-Traceback (most recent call last):  File &#34;&lt;frozen runpy&gt;&#34;, line 198, in _run_module_as_main
-  File &#34;&lt;frozen runpy&gt;&#34;, line 88, in _run_code
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel_launcher.py&#34;, line 17, in &lt;module&gt;
-    app.launch_new_instance()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\traitlets\config\application.py&#34;, line 992, in launch_instance
-    app.start()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelapp.py&#34;, line 711, in start
-    self.io_loop.start()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\tornado\platform\asyncio.py&#34;, line 195, in start
-    self.asyncio_loop.run_forever()
-  File &#34;C:\Users\alfre\anaconda3\Lib\asyncio\base_events.py&#34;, line 607, in run_forever
-    self._run_once()
-  File &#34;C:\Users\alfre\anaconda3\Lib\asyncio\base_events.py&#34;, line 1922, in _run_once
-    handle._run()
-  File &#34;C:\Users\alfre\anaconda3\Lib\asyncio\events.py&#34;, line 80, in _run
-    self._context.run(self._callback, *self._args)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 510, in dispatch_queue
-    await self.process_one()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 499, in process_one
-    await dispatch(*args)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 406, in dispatch_shell
-    await result
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 729, in execute_request
-    reply_content = await reply_content
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\ipkernel.py&#34;, line 411, in do_execute
-    res = shell.run_cell(
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\zmqshell.py&#34;, line 531, in run_cell
-    return super().run_cell(*args, **kwargs)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3006, in run_cell
-    result = self._run_cell(
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3061, in _run_cell
-    result = runner(coro)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\async_helpers.py&#34;, line 129, in _pseudo_sync_runner
-    coro.send(None)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3266, in run_cell_async
-    has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3445, in run_ast_nodes
-    if await self.run_code(code, result, async_=asy):
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3505, in run_code
-    exec(code_obj, self.user_global_ns, self.user_ns)
-  File &#34;C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\1912542414.py&#34;, line 2, in &lt;module&gt;
-    import pandas as pd
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\__init__.py&#34;, line 62, in &lt;module&gt;
-    from pandas.core.api import (
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\api.py&#34;, line 9, in &lt;module&gt;
-    from pandas.core.dtypes.dtypes import (
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\dtypes\dtypes.py&#34;, line 24, in &lt;module&gt;
-    from pandas._libs import (
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pyarrow\__init__.py&#34;, line 65, in &lt;module&gt;
-    import pyarrow.lib as _lib
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                            Traceback (most recent call last)
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: _ARRAY_API not found</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>
-A module that was compiled using NumPy 1.x cannot be run in
-NumPy 2.1.1 as it may crash. To support both 1.x and 2.x
-versions of NumPy, modules must be compiled with NumPy 2.0.
-Some module may need to rebuild instead e.g. with &#39;pybind11&gt;=2.12&#39;.
-
-If you are a user of the module, the easiest solution will be to
-downgrade to &#39;numpy&lt;2&#39; or try to upgrade the affected module.
-We expect that some modules will need time to support NumPy 2.
-
-Traceback (most recent call last):  File &#34;&lt;frozen runpy&gt;&#34;, line 198, in _run_module_as_main
-  File &#34;&lt;frozen runpy&gt;&#34;, line 88, in _run_code
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel_launcher.py&#34;, line 17, in &lt;module&gt;
-    app.launch_new_instance()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\traitlets\config\application.py&#34;, line 992, in launch_instance
-    app.start()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelapp.py&#34;, line 711, in start
-    self.io_loop.start()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\tornado\platform\asyncio.py&#34;, line 195, in start
-    self.asyncio_loop.run_forever()
-  File &#34;C:\Users\alfre\anaconda3\Lib\asyncio\base_events.py&#34;, line 607, in run_forever
-    self._run_once()
-  File &#34;C:\Users\alfre\anaconda3\Lib\asyncio\base_events.py&#34;, line 1922, in _run_once
-    handle._run()
-  File &#34;C:\Users\alfre\anaconda3\Lib\asyncio\events.py&#34;, line 80, in _run
-    self._context.run(self._callback, *self._args)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 510, in dispatch_queue
-    await self.process_one()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 499, in process_one
-    await dispatch(*args)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 406, in dispatch_shell
-    await result
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 729, in execute_request
-    reply_content = await reply_content
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\ipkernel.py&#34;, line 411, in do_execute
-    res = shell.run_cell(
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\zmqshell.py&#34;, line 531, in run_cell
-    return super().run_cell(*args, **kwargs)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3006, in run_cell
-    result = self._run_cell(
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3061, in _run_cell
-    result = runner(coro)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\async_helpers.py&#34;, line 129, in _pseudo_sync_runner
-    coro.send(None)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3266, in run_cell_async
-    has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3445, in run_ast_nodes
-    if await self.run_code(code, result, async_=asy):
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3505, in run_code
-    exec(code_obj, self.user_global_ns, self.user_ns)
-  File &#34;C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\1912542414.py&#34;, line 2, in &lt;module&gt;
-    import pandas as pd
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\__init__.py&#34;, line 62, in &lt;module&gt;
-    from pandas.core.api import (
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\api.py&#34;, line 28, in &lt;module&gt;
-    from pandas.core.arrays import Categorical
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\arrays\__init__.py&#34;, line 1, in &lt;module&gt;
-    from pandas.core.arrays.arrow import ArrowExtensionArray
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\arrays\arrow\__init__.py&#34;, line 5, in &lt;module&gt;
-    from pandas.core.arrays.arrow.array import ArrowExtensionArray
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\arrays\arrow\array.py&#34;, line 50, in &lt;module&gt;
-    from pandas.core import (
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\ops\__init__.py&#34;, line 8, in &lt;module&gt;
-    from pandas.core.ops.array_ops import (
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\ops\array_ops.py&#34;, line 56, in &lt;module&gt;
-    from pandas.core.computation import expressions
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\computation\expressions.py&#34;, line 21, in &lt;module&gt;
-    from pandas.core.computation.check import NUMEXPR_INSTALLED
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\computation\check.py&#34;, line 5, in &lt;module&gt;
-    ne = import_optional_dependency(&#34;numexpr&#34;, errors=&#34;warn&#34;)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\compat\_optional.py&#34;, line 135, in import_optional_dependency
-    module = importlib.import_module(name)
-  File &#34;C:\Users\alfre\anaconda3\Lib\importlib\__init__.py&#34;, line 126, in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\numexpr\__init__.py&#34;, line 24, in &lt;module&gt;
-    from numexpr.interpreter import MAX_THREADS, use_vml, __BLOCK_SIZE1__
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                            Traceback (most recent call last)
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: _ARRAY_API not found</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>
-A module that was compiled using NumPy 1.x cannot be run in
-NumPy 2.1.1 as it may crash. To support both 1.x and 2.x
-versions of NumPy, modules must be compiled with NumPy 2.0.
-Some module may need to rebuild instead e.g. with &#39;pybind11&gt;=2.12&#39;.
-
-If you are a user of the module, the easiest solution will be to
-downgrade to &#39;numpy&lt;2&#39; or try to upgrade the affected module.
-We expect that some modules will need time to support NumPy 2.
-
-Traceback (most recent call last):  File &#34;&lt;frozen runpy&gt;&#34;, line 198, in _run_module_as_main
-  File &#34;&lt;frozen runpy&gt;&#34;, line 88, in _run_code
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel_launcher.py&#34;, line 17, in &lt;module&gt;
-    app.launch_new_instance()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\traitlets\config\application.py&#34;, line 992, in launch_instance
-    app.start()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelapp.py&#34;, line 711, in start
-    self.io_loop.start()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\tornado\platform\asyncio.py&#34;, line 195, in start
-    self.asyncio_loop.run_forever()
-  File &#34;C:\Users\alfre\anaconda3\Lib\asyncio\base_events.py&#34;, line 607, in run_forever
-    self._run_once()
-  File &#34;C:\Users\alfre\anaconda3\Lib\asyncio\base_events.py&#34;, line 1922, in _run_once
-    handle._run()
-  File &#34;C:\Users\alfre\anaconda3\Lib\asyncio\events.py&#34;, line 80, in _run
-    self._context.run(self._callback, *self._args)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 510, in dispatch_queue
-    await self.process_one()
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 499, in process_one
-    await dispatch(*args)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 406, in dispatch_shell
-    await result
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\kernelbase.py&#34;, line 729, in execute_request
-    reply_content = await reply_content
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\ipkernel.py&#34;, line 411, in do_execute
-    res = shell.run_cell(
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\ipykernel\zmqshell.py&#34;, line 531, in run_cell
-    return super().run_cell(*args, **kwargs)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3006, in run_cell
-    result = self._run_cell(
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3061, in _run_cell
-    result = runner(coro)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\async_helpers.py&#34;, line 129, in _pseudo_sync_runner
-    coro.send(None)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3266, in run_cell_async
-    has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3445, in run_ast_nodes
-    if await self.run_code(code, result, async_=asy):
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\IPython\core\interactiveshell.py&#34;, line 3505, in run_code
-    exec(code_obj, self.user_global_ns, self.user_ns)
-  File &#34;C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\1912542414.py&#34;, line 2, in &lt;module&gt;
-    import pandas as pd
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\__init__.py&#34;, line 62, in &lt;module&gt;
-    from pandas.core.api import (
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\api.py&#34;, line 28, in &lt;module&gt;
-    from pandas.core.arrays import Categorical
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\arrays\__init__.py&#34;, line 1, in &lt;module&gt;
-    from pandas.core.arrays.arrow import ArrowExtensionArray
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\arrays\arrow\__init__.py&#34;, line 5, in &lt;module&gt;
-    from pandas.core.arrays.arrow.array import ArrowExtensionArray
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\arrays\arrow\array.py&#34;, line 64, in &lt;module&gt;
-    from pandas.core.arrays.masked import BaseMaskedArray
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\arrays\masked.py&#34;, line 60, in &lt;module&gt;
-    from pandas.core import (
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\core\nanops.py&#34;, line 52, in &lt;module&gt;
-    bn = import_optional_dependency(&#34;bottleneck&#34;, errors=&#34;warn&#34;)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\pandas\compat\_optional.py&#34;, line 135, in import_optional_dependency
-    module = importlib.import_module(name)
-  File &#34;C:\Users\alfre\anaconda3\Lib\importlib\__init__.py&#34;, line 126, in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-  File &#34;C:\Users\alfre\anaconda3\Lib\site-packages\bottleneck\__init__.py&#34;, line 7, in &lt;module&gt;
-    from .move import (move_argmax, move_argmin, move_max, move_mean, move_median,
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                            Traceback (most recent call last)
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: _ARRAY_API not found</pre>
-</div>
-</div>
-
-</div>
-
 </div>
 
 </div>
@@ -15075,7 +14695,7 @@ Traceback (most recent call last):  File &#34;&lt;frozen runpy&gt;&#34;, line 19
     
     <span class="k">def</span> <span class="nf">getcleandata</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">nrow</span><span class="p">):</span>
         <span class="n">filepath</span> <span class="o">=</span> <span class="n">thepath</span><span class="o">+</span><span class="n">name</span><span class="o">+</span><span class="s1">'.asc'</span>
-        <span class="n">thearray</span> <span class="o">=</span>  <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nrow</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">'F'</span><span class="p">)</span>
+        <span class="n">thearray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nrow</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">'F'</span><span class="p">)</span>
         <span class="n">odometer1</span> <span class="o">=</span> <span class="n">thearray</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="p">:]</span>  <span class="c1"># mileage at first replacement (0 if no replacement)</span>
         <span class="n">odometer2</span> <span class="o">=</span> <span class="n">thearray</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="p">:]</span>  <span class="c1"># mileage at second replacement (0 if no replacement)</span>
 
@@ -15138,12 +14758,30 @@ Traceback (most recent call last):  File &#34;&lt;frozen runpy&gt;&#34;, line 19
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>We may not build the model used by Rust in the original 1987 paper:</p>
+<p>We may now build the model used by Rust in the original 1987 paper. This model states that:</p>
+<ul>
+<li>the operating cost (minus the payoff if $y=0$) is equal to $ 0.001 \lambda_0 x $, and </li>
+<li>the repair cost (minus the payoff if $y=1$) is equal to $\lambda_1$.</li>
+</ul>
+<p>Hence $K=2$, and $\lambda_0$ is the per period incremental operating cost, while $\lambda_1$ is the repair cost.</p>
+<p>Further, if one lets the bus run, that is if $y=0$, there is a probability</p>
+<ul>
+<li>$\theta_{30}$ of transitioning from state $x$ to state $x$</li>
+<li>$\theta_{31}$ of transitioning from state $x$ to state $x+1$</li>
+<li>$\theta_{32}$ of transitioning from state $x$ to state $x+2$</li>
+</ul>
+<p>and if $y=1$, the bus returns to the initial state $x=0$ and then runs, so there is a probability</p>
+<ul>
+<li>$\theta_{30}$ of transitioning from state $x$ to state $0$</li>
+<li>$\theta_{31}$ of transitioning from state $x$ to state $1$</li>
+<li>$\theta_{32}$ of transitioning from state $x$ to state $2$</li>
+</ul>
+<p>The following code estimates $\theta_{30}$, $\theta_{31}$, and $\theta_{32}$, and sets up the payoff function $\phi_{xyk}$.</p>
 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15173,42 +14811,12 @@ Traceback (most recent call last):  File &#34;&lt;frozen runpy&gt;&#34;, line 19
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
         <span class="n">muhat_x_y</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">thedata</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span><span class="n">x</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">thedata</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
         <span class="n">muhat_x_y</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">thedata</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span><span class="n">x</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">thedata</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">P_xp_x_y</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">X</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">phi_x_y_k</span><span class="p">,</span> <span class="n">muhat_x_y</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">P_xp_x_y</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">X</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))),</span> <span class="n">phi_x_y_k</span><span class="p">,</span> <span class="n">muhat_x_y</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 </pre></div>
 
      </div>
 </div>
 </div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\3089002874.py:7: FutureWarning: The &#39;delim_whitespace&#39; keyword in pd.read_csv is deprecated and will be removed in a future version. Use ``sep=&#39;\s+&#39;`` instead
-  thearray =  pd.read_csv( filepath, delim_whitespace=True, header=None).to_numpy().reshape((nrow, -1), order=&#39;F&#39;)
-C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\3089002874.py:7: FutureWarning: The &#39;delim_whitespace&#39; keyword in pd.read_csv is deprecated and will be removed in a future version. Use ``sep=&#39;\s+&#39;`` instead
-  thearray =  pd.read_csv( filepath, delim_whitespace=True, header=None).to_numpy().reshape((nrow, -1), order=&#39;F&#39;)
-C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\3089002874.py:7: FutureWarning: The &#39;delim_whitespace&#39; keyword in pd.read_csv is deprecated and will be removed in a future version. Use ``sep=&#39;\s+&#39;`` instead
-  thearray =  pd.read_csv( filepath, delim_whitespace=True, header=None).to_numpy().reshape((nrow, -1), order=&#39;F&#39;)
-C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\3089002874.py:7: FutureWarning: The &#39;delim_whitespace&#39; keyword in pd.read_csv is deprecated and will be removed in a future version. Use ``sep=&#39;\s+&#39;`` instead
-  thearray =  pd.read_csv( filepath, delim_whitespace=True, header=None).to_numpy().reshape((nrow, -1), order=&#39;F&#39;)
-</pre>
-</div>
-</div>
-
-</div>
-
 </div>
 
 </div>
@@ -15218,7 +14826,7 @@ C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\3089002874.py:7: FutureWarning
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>We define the important functions of the model, which encode the log-likelihood:</p>
+<p>We define the important elements of the model, which encode the log-likelihood:</p>
 
 </div>
 </div>
@@ -15238,10 +14846,9 @@ C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\3089002874.py:7: FutureWarning
 
 <span class="c1"># Computing:</span>
 <span class="n">phi_xy_k</span> <span class="o">=</span> <span class="n">phi_x_y_k</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">K</span><span class="p">))</span>
-<span class="n">SigmaY</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">Y</span><span class="p">)))</span>
-<span class="n">Psi</span> <span class="o">=</span> <span class="n">beta</span><span class="o">*</span> <span class="n">P_xprime_xy</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">Y</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
-<span class="n">P_xy_xprime</span> <span class="o">=</span> <span class="n">P_xprime_xy</span><span class="o">.</span><span class="n">T</span>
-<span class="n">P_x_y_xprime</span><span class="o">=</span>  <span class="n">P_xy_xprime</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">X</span><span class="p">))</span>
+<span class="n">SigmaY</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">Y</span><span class="p">)))</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+<span class="n">P_xy_xprime</span> <span class="o">=</span> <span class="n">P_xprime_xy</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+<span class="n">Psi</span> <span class="o">=</span> <span class="p">(</span><span class="n">beta</span><span class="o">*</span> <span class="n">P_xy_xprime</span> <span class="o">-</span> <span class="n">SigmaY</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">tocsr</span><span class="p">())</span>
 <span class="n">phi_x_y_k</span> <span class="o">=</span> <span class="n">phi_xy_k</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">K</span><span class="p">))</span>
 <span class="c1">#tol_lambda = rel_tol* np.abs(phi_x_y_k).max()*muhat_xy.sum()</span>
 
@@ -15272,14 +14879,14 @@ C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\3089002874.py:7: FutureWarning
     <span class="n">XY</span> <span class="o">=</span> <span class="n">X</span><span class="o">*</span><span class="n">Y</span>
     <span class="n">TTT</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span> <span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">XY</span><span class="p">,(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">XY</span><span class="p">)),</span> <span class="p">[</span><span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">XY</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">XY</span><span class="p">)])),</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">XY</span><span class="p">,</span><span class="n">XY</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span> <span class="p">)</span>
     <span class="n">Tdlogpisquare</span> <span class="o">=</span>  <span class="n">TTT</span> <span class="o">@</span> <span class="n">sp</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">dlogpi</span><span class="p">,</span><span class="n">dlogpi</span> <span class="p">)</span>
-    <span class="n">d2u</span> <span class="o">=</span> <span class="o">-</span> <span class="n">sp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span> <span class="n">SigmaY</span> <span class="o">@</span> <span class="n">sp</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span><span class="n">pi_xy</span><span class="p">)</span> <span class="o">@</span> <span class="n">Psi</span> <span class="p">,</span> <span class="n">SigmaY</span> <span class="o">@</span> <span class="n">sp</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span><span class="n">pi_xy</span><span class="p">)</span> <span class="o">@</span>  <span class="n">Tdlogpisquare</span><span class="p">)</span>
+    <span class="n">d2u</span> <span class="o">=</span> <span class="o">-</span> <span class="n">sp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span> <span class="n">SigmaY</span> <span class="o">@</span> <span class="n">sp</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span><span class="n">pi_xy</span><span class="p">)</span> <span class="o">@</span> <span class="n">Psi</span> <span class="p">,</span> <span class="p">(</span><span class="n">SigmaY</span> <span class="o">@</span> <span class="n">sp</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span><span class="n">pi_xy</span><span class="p">)</span> <span class="o">@</span>  <span class="n">Tdlogpisquare</span><span class="p">)</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span> <span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span> <span class="n">muhat_xy</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Psi</span> <span class="o">@</span> <span class="n">d2u</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">K</span><span class="p">,</span><span class="n">K</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">F</span><span class="p">(</span><span class="n">lambda_k</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span> <span class="c1"># sample log-likelihood</span>
     <span class="n">u_x</span> <span class="o">=</span> <span class="n">fu_x</span><span class="p">(</span><span class="n">lambda_k</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">grad</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">grad</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">muhat_xy</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span> <span class="n">Psi</span> <span class="o">@</span> <span class="n">fdu_x</span><span class="p">(</span><span class="n">lambda_k</span><span class="p">,</span><span class="n">u_x</span><span class="p">)</span> <span class="o">+</span> <span class="n">phi_xy_k</span><span class="p">)</span>
-    <span class="k">return</span>  <span class="n">muhat_xy</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span> <span class="n">phi_xy_k</span> <span class="o">@</span> <span class="n">lambda_k</span> <span class="o">+</span> <span class="n">Psi</span> <span class="o">@</span> <span class="n">u_x</span><span class="p">)</span>
+        <span class="n">grad</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">muhat_xy</span> <span class="o">@</span> <span class="p">(</span> <span class="n">Psi</span> <span class="o">@</span> <span class="n">fdu_x</span><span class="p">(</span><span class="n">lambda_k</span><span class="p">,</span><span class="n">u_x</span><span class="p">)</span> <span class="o">+</span> <span class="n">phi_xy_k</span><span class="p">)</span>
+    <span class="k">return</span>  <span class="n">muhat_xy</span> <span class="o">@</span> <span class="p">(</span> <span class="n">phi_xy_k</span> <span class="o">@</span> <span class="n">lambda_k</span> <span class="o">+</span> <span class="n">Psi</span> <span class="o">@</span> <span class="n">u_x</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15319,6 +14926,8 @@ C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\3089002874.py:7: FutureWarning
 <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">muhat_xy</span><span class="p">)</span> <span class="o">/</span> <span class="n">I</span> <span class="o">-</span> <span class="n">muhat_xy</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">@</span> <span class="n">muhat_xy</span><span class="p">[</span><span class="kc">None</span><span class="p">,:]</span> <span class="o">/</span> <span class="p">(</span><span class="n">I</span><span class="o">*</span><span class="n">I</span><span class="p">)</span>
 <span class="n">u_x</span> <span class="o">=</span> <span class="n">fu_x</span><span class="p">(</span><span class="n">lambdahat_k</span><span class="p">)</span>
 <span class="n">HinvB</span> <span class="o">=</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">hessF</span><span class="p">(</span><span class="n">lambdahat_k</span><span class="p">,</span><span class="n">u_x</span><span class="p">),</span> <span class="p">(</span><span class="n">phi_xy_k</span> <span class="o">+</span> <span class="n">Psi</span> <span class="o">@</span> <span class="n">fdu_x</span><span class="p">(</span><span class="n">lambdahat_k</span><span class="p">,</span><span class="n">u_x</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Nb observations='</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Cov(lambdahat)='</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">HinvB</span> <span class="o">@</span> <span class="n">V</span> <span class="o">@</span> <span class="n">HinvB</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 </pre></div>
@@ -15341,40 +14950,14 @@ C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\3089002874.py:7: FutureWarning
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
 
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\2150451091.py:32: SparseEfficiencyWarning: spsolve requires A be CSC or CSR matrix format
-  return - sp.linalg.spsolve(SigmaY @ sp.diags(pi_xy) @ Psi , SigmaY @ sp.diags(pi_xy) @ phi_xy_k)
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>lambdahat: [9.78513363 2.60375824]
-Log-likelihood: -300.2375249515492
+Log-likelihood: -300.23752495157146
+Nb observations=
+8260.0
 Cov(lambdahat)=
 [[5.35249297e-05 2.49830904e-05]
  [2.49830904e-05 1.62135559e-05]]
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\2150451091.py:42: SparseEfficiencyWarning: spsolve requires A be CSC or CSR matrix format
-  d2u = - sp.linalg.spsolve( SigmaY @ sp.diags(pi_xy) @ Psi , SigmaY @ sp.diags(pi_xy) @  Tdlogpisquare)
-C:\Users\alfre\AppData\Local\Temp\ipykernel_20864\2150451091.py:42: SparseEfficiencyWarning: spsolve is more efficient when sparse b is in the CSC matrix format
-  d2u = - sp.linalg.spsolve( SigmaY @ sp.diags(pi_xy) @ Psi , SigmaY @ sp.diags(pi_xy) @  Tdlogpisquare)
 </pre>
 </div>
 </div>
