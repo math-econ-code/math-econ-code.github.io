@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>gt03_nash</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>gt02_nash</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -7516,10 +7516,9 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Nash-equilibria-in-bimatrix-games"><center>Nash equilibria in bimatrix games</center><a class="anchor-link" href="#Nash-equilibria-in-bimatrix-games">¶</a></h1><h3 id="Alfred-Galichon-(NYU-&amp;-Sciences-Po)-and-Antoine-Jacquet-(Sciences-Po)"><center>Alfred Galichon (NYU &amp; Sciences Po) and Antoine Jacquet (Sciences Po)</center><a class="anchor-link" href="#Alfred-Galichon-(NYU-&amp;-Sciences-Po)-and-Antoine-Jacquet-(Sciences-Po)">¶</a></h3><h2 id="'math+econ+code'-masterclass-series"><center>'math+econ+code' masterclass series</center><a class="anchor-link" href="#'math+econ+code'-masterclass-series">¶</a></h2><h4 id="With-python-code-examples"><center>With python code examples</center><a class="anchor-link" href="#With-python-code-examples">¶</a></h4><p>© 2018–2024 by Alfred Galichon.
-Past and present support from NSF grant DMS-1716489, ERC grant CoG-866274 are acknowledged, as well as inputs from contributors listed <a href="http://www.math-econ-code.org/team">here</a>.</p>
+<h1 id="Nash-equilibria-in-bimatrix-games"><center>Nash equilibria in bimatrix games</center><a class="anchor-link" href="#Nash-equilibria-in-bimatrix-games">¶</a></h1><h3 id="Alfred-Galichon-(NYU-&amp;-Sciences-Po)-and-Antoine-Jacquet-(Sciences-Po)"><center>Alfred Galichon (NYU &amp; Sciences Po) and Antoine Jacquet (Sciences Po)</center><a class="anchor-link" href="#Alfred-Galichon-(NYU-&amp;-Sciences-Po)-and-Antoine-Jacquet-(Sciences-Po)">¶</a></h3><h2 id="'math+econ+code'-masterclass-series"><center>'math+econ+code' masterclass series</center><a class="anchor-link" href="#'math+econ+code'-masterclass-series">¶</a></h2><h4 id="With-python-code-examples"><center>With python code examples</center><a class="anchor-link" href="#With-python-code-examples">¶</a></h4><p>© 2018–2025 by Alfred Galichon and Antoine Jacquet. Past and present support from NSF grant DMS-1716489, ERC grant CoG-866274 are acknowledged, as well as inputs from contributors listed <a href="http://www.math-econ-code.org/team">here</a>.</p>
 <p><strong>If you reuse material from this masterclass, please cite as:</strong><br/>
-Alfred Galichon and Antoine Jacquet, 'Nash equilibria in bimatrix games', 'math+econ+code' masterclass series. <a href="https://www.math-econ-code.org/">https://www.math-econ-code.org/</a></p>
+Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://www.math-econ-code.org/">https://www.math-econ-code.org/</a></p>
 </div>
 </div>
 </div>
@@ -7533,11 +7532,11 @@ Alfred Galichon and Antoine Jacquet, 'Nash equilibria in bimatrix games', 'math+
 <h3 id="References">References<a class="anchor-link" href="#References">¶</a></h3><ul>
 <li>Mangasarian and Stone (1964). "Two-person nonzero-sum games and quadratic programming." <em>Journal of Mathematical Analysis and Applications</em>.</li>
 <li>Lemke and Howson (1964). "Equilibrium points of bimatrix games." <em>SIAM Journal on Applied Mathematics</em>.</li>
-<li>Bruno Codenotti. <em>Computational Aspects of Game Theory</em> Bertinoro Spring School 2011. Lecture 11: The Lemke-Howson Algorithm
-<a href="http://wwwold.iit.cnr.it/staff/bruno.codenotti/lecture11p.pdf">http://wwwold.iit.cnr.it/staff/bruno.codenotti/lecture11p.pdf</a></li>
+<li>Bruno Codenotti. <em>Computational Aspects of Game Theory</em>. Bertinoro Spring School 2011, Lecture 11: The Lemke–Howson Algorithm</li>
 </ul>
+<p><a href="http://wwwold.iit.cnr.it/staff/bruno.codenotti/lecture11p.pdf">http://wwwold.iit.cnr.it/staff/bruno.codenotti/lecture11p.pdf</a></p>
 <h3 id="Learning-objectives">Learning objectives<a class="anchor-link" href="#Learning-objectives">¶</a></h3><ul>
-<li>LCP formulation of Nash equilibria</li>
+<li>KKT conditions for Nash equilibrium</li>
 <li>Mangasarian–Stone quadratic programming formulation</li>
 <li>Lemke–Howson algorithm</li>
 </ul>
@@ -7555,6 +7554,7 @@ Alfred Galichon and Antoine Jacquet, 'Nash equilibria in bimatrix games', 'math+
 <div class="highlight hl-ipython3"><pre><span></span><span class="ch">#!pip install mec --upgrade</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">grb</span>
+<span class="kn">import</span> <span class="nn">mec</span>
 </pre></div>
 </div>
 </div>
@@ -7567,17 +7567,8 @@ Alfred Galichon and Antoine Jacquet, 'Nash equilibria in bimatrix games', 'math+
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Nash-equilibrium-in-a-two-player-bimatrix-game">Nash equilibrium in a two-player bimatrix game<a class="anchor-link" href="#Nash-equilibrium-in-a-two-player-bimatrix-game">¶</a></h1><p>Consider a two-player game where if player 1 plays $i \in \mathcal I$ and player 2 plays $j \in \mathcal J$, the payoff to player 1 is $A_{ij} &gt; 0$ and the payoff to player 2 is $B_{ij} &gt; 0$. (Assuming positive payoffs is without loss of generality.)</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Nash-equilibrium-in-a-two-player-bimatrix-game">Nash equilibrium in a two-player bimatrix game<a class="anchor-link" href="#Nash-equilibrium-in-a-two-player-bimatrix-game">¶</a></h1><p>Consider a two-player game where if player 1 plays $i \in \mathcal I$ and player 2 plays $j \in \mathcal J$, the payoff to player 1 is $A_{ij} &gt; 0$ and the payoff to player 2 is $B_{ij} &gt; 0$.</p>
+<p><em>Remark.</em> Assuming positive payoffs is without loss of generality.</p>
 <p>Let's begin by defining a Python class for bimatrix games.</p>
 </div>
 </div>
@@ -7596,7 +7587,6 @@ Alfred Galichon and Antoine Jacquet, 'Nash equilibria in bimatrix games', 'math+
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"A_i_j and B_i_j must be of the same size."</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span> <span class="o">=</span> <span class="n">A_i_j</span><span class="p">,</span> <span class="n">B_i_j</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span> <span class="o">=</span> <span class="n">A_i_j</span><span class="o">.</span><span class="n">shape</span>
-    
 </pre></div>
 </div>
 </div>
@@ -7609,24 +7599,23 @@ Alfred Galichon and Antoine Jacquet, 'Nash equilibria in bimatrix games', 'math+
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Now recall the definition of a Nash equilibrium: it is a pair of vectors $p = (p_i)_{i \in \mathcal I}$ and $q = (q_j)_{j \in \mathcal J}$ which simultaneously solve</p>
-<p>\begin{equation}
-\max_{p \geq 0} \left\{ p^\top A q \mid \textstyle\sum_i p_i = 1 \right\},
-\qquad
-\max_{q \geq 0} \left\{ p^\top B q \mid \textstyle\sum_j q_j = 1 \right\}.
-\end{equation}</p>
-<p>By writing the KKT conditions for these two linear programs we obtain necessary and sufficient conditions for $p$ and $q$ to be a Nash equilibrium: there must exist two real numbers $\alpha$ and $\beta$ (the dual variables associated with the equality constraints) such that</p>
-<p>\begin{align}
-p_i &amp;\geq 0 \\
-q_j &amp;\geq 0 \\
+<p>Now recall the definition of a Nash equilibrium:
+it is a pair of vectors $p = (p_i)_{i \in \mathcal I}, q = (q_j)_{j \in \mathcal J}$ which simultaneously solve</p>
+\begin{equation}
+\max_{p \geq 0} \big\{ p^\top A q \;\big|\; {\textstyle\sum_i} p_i = 1 \big\},
+\qquad\qquad
+\max_{q \geq 0} \big\{ p^\top B q \;\big|\; {\textstyle\sum_j} q_j = 1 \big\}.
+\end{equation}<p>By writing the KKT conditions for these two linear programs we obtain necessary and sufficient conditions for $p$ and $q$ to be a Nash equilibrium: there must exist two real numbers $\alpha$ and $\beta$ such that</p>
+\begin{align}
+p_i &amp;\geq 0  \quad (\forall i) \\
+q_j &amp;\geq 0  \quad (\forall j) \\
 \textstyle\sum_i p_i &amp;= 1 \\
 \textstyle\sum_j q_j &amp;= 1 \\
-\alpha - (A q)_i &amp;\geq 0 \quad (\forall i) \\
-\beta - (B^\top p)_j &amp;\geq 0 \quad (\forall j) \\
-p_i \big( \alpha - (Aq)_i \big) &amp;= 0 \quad (\forall i) \\
-q_j \big( \beta - (B^\top p)_j \big) &amp;= 0 \quad (\forall j).
-\end{align}</p>
-<p><em>Question.</em> What is the interpretation of $\alpha$ and $\beta$?</p>
+\alpha - (A q)_i &amp;\geq 0      \quad (\forall i) \\
+\beta - (B^\top p)_j &amp;\geq 0  \quad (\forall j) \\
+\textstyle\sum_i p_i \big( \alpha - (A q)_i \big) &amp;= 0 \\
+\textstyle\sum_j q_j \big( \beta - (B^\top p)_j \big) &amp;= 0.
+\end{align}<p><em>Question.</em> What is the interpretation of $\alpha$ and $\beta$?</p>
 </div>
 </div>
 </div>
@@ -7637,52 +7626,9 @@ q_j \big( \beta - (B^\top p)_j \big) &amp;= 0 \quad (\forall j).
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="LCP-formulation">LCP formulation<a class="anchor-link" href="#LCP-formulation">¶</a></h2><p>The above problem is not a LCP in a strict sense for two reasons:<br>
-(i) there are no nonnegativity constraints on $\alpha$ and $\beta$ a priori,<br/>
-(ii) there are equality constraints $\sum_i p_i = 1$ and $\sum_j q_j = 1$.<br/>
-This is sometimes called a <em>mixed linear complementarity problem</em>.
-Still, it can be turned into a bona fide LCP:</br></p>
-<p>$0 \leq p \perp \alpha 1_{\mathcal I} - Aq \geq 0$</p>
-<p>$0 \leq q \perp \beta 1_{\mathcal J} - B^\top p \geq 0$</p>
-<p>$0 \leq \alpha \perp - 1 + 1_{\mathcal I}^\top p \geq 0$</p>
-<p>$0 \leq \beta \perp - 1 + 1_{\mathcal J}^\top q \geq 0$.</p>
-<p>The difference with the previous formulation is that we enforce $\alpha \geq 0$ and $\beta \geq 0$, and we relax the equalities to inequalities: $\sum_i p_i \geq 1$ and $\sum_j q_j \geq 1$.</p>
-<p><em>Exercise.</em> Show that the solutions $(p, q, \alpha, \beta)$ of this LCP coincide with those of the KKT conditions above. (Recall that $A_{ij} &gt; 0$ and $B_{ij} &gt; 0$.)</p>
-<!--
-In practice this is not a problem for our solutions.
-Indeed, since $- 1 + 1_{\mathcal J}^\top q \geq 0$ there must be at least one $q_j > 0$.  
-Then, because $A_{ij} > 0$ for all $ij$ and $\alpha 1_{\mathcal I} - Aq \geq 0$, we must have $\alpha > 0$, hence imposing $\alpha \geq 0$ is not an issue.  
-Furthermore, since $\alpha > 0$ the equality $- 1 + 1_{\mathcal I}^\top p = 0$ must hold.  
-By a similar argument, we must have $\beta > 0$ and $- 1 + 1_{\mathcal J}^\top q = 0$.
--->
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Mangasarian-and-Stone-formulation">Mangasarian and Stone formulation<a class="anchor-link" href="#Mangasarian-and-Stone-formulation">¶</a></h2><p>Let's look at the quadratic program associated with this LCP. It is</p>
-<p>\begin{align}
+<h2 id="Mangasarian-and-Stone-formulation">Mangasarian and Stone formulation<a class="anchor-link" href="#Mangasarian-and-Stone-formulation">¶</a></h2><p>Now let's look at the following quadratic program (QP) formulation proposed by Mangasarian and Stone:</p>
+\begin{align}
 \min_{p \geq 0, q \geq 0, \alpha \geq 0, \beta \geq 0}
-&amp;\Big\{
-p^\top (\alpha 1_{\mathcal I} - Aq )
-+ q^\top (\beta 1_{\mathcal J} - B^\top p)
-+ \alpha (-1 + 1_{\mathcal I}^\top p) + \beta (-1 + 1_{\mathcal J}^\top q) 
-\Big\} \\
-\text{s.t.} ~ &amp; \alpha 1_{\mathcal I} - Aq \geq 0 \\
-              &amp; \beta 1_{\mathcal J} - B^\top p \geq 0 \\
-              &amp; -1 + 1_{\mathcal I}^\top p \geq 0 \\
-              &amp; -1 + 1_{\mathcal J}^\top q \geq 0.
-\end{align}</p>
-<p>The constraint $-1 + 1_{\mathcal I}^\top p \geq 0$ must bind: if not, we can take $\tilde p$ such that $\tilde p_i = p_i / 1_{\mathcal I}^\top p &lt; p_i$ and $\tilde \beta = \beta / 1_{\mathcal I}^\top p &lt; \beta$ to decrease our objective.<br/>
-Similarly, the constraint $-1 + 1_{\mathcal J}^\top q \geq 0$ must also bind.</p>
-<p>Thus, after simplification we obtain Mangasarian and Stone's formulation:</p>
-<p>\begin{align}
-\min_{p \geq 0, q \geq 0, \alpha, \beta}
 &amp;\left\{
 \alpha + \beta - p^\top (A + B) q
 \right\} \\
@@ -7690,26 +7636,16 @@ Similarly, the constraint $-1 + 1_{\mathcal J}^\top q \geq 0$ must also bind.</p
               &amp; \beta 1_{\mathcal J} - B^\top p \geq 0 \\
               &amp; -1 + 1_{\mathcal I}^\top p = 0 \\
               &amp; -1 + 1_{\mathcal J}^\top q = 0.
-\end{align}</p>
-<p><em>Remark.</em> This formulation is actually valid even when the matrices $A$ and $B$ are not positive.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Abridged-LCP-representation">Abridged LCP representation<a class="anchor-link" href="#Abridged-LCP-representation">¶</a></h2><p><em>Exercise.</em> Show that if $(p,q)$ is a Nash equilibrium with associated values $\alpha$ and $\beta$, then $x$ and $y$ defined by $x_i = \dfrac{p_i}{\beta}$ and $y_j = \dfrac{q_j}{\alpha}$ satisfy the LCP:<br/>
-$0 \leq x \perp 1_{\mathcal I} - A y \geq 0$</p>
-<p>$0 \leq y \perp 1_{\mathcal J} - B^\top x \geq 0$.</p>
-<p>Conversely, show that if $(x,y)$ satisfies this LCP, then either:</p>
-<ul>
-<li>$x=0$ and $y=0$, or</li>
-<li>$p_i = \dfrac{x_i}{\sum_k x_k}$ and $q_j = \dfrac{y_j}{\sum_l y_l}$ is a Nash equilibrium, and in that case, $\alpha = \dfrac{1}{\sum_l y_l}$ and $\beta = \dfrac{1}{\sum_k x_k}$.</li>
-</ul>
+\end{align}<p><strong>Claim.</strong>
+The solutions to the Mangasarian–Stone quadratic program are exactly the Nash equilibria of the bimatrix game $(A, B)$.</p>
+<p><em>Proof.</em>
+Because of the two equality constraints, the objective can be rewritten as
+$p^\top \big( \alpha 1_{\mathcal I} - Aq \big) + \big(\beta 1_{\mathcal J} - B^\top p\big)^\top q$,
+which is always non-negative under the constraints of the program.</p>
+<p>Furthermore, any Nash equilibrium satisfies the quadratic program's constraints, and attains an objective value of 0.
+Hence Nash equilibria are solutions to this quadratic program.</p>
+<p>Conversely, since we know that Nash equilibria exist, the value of the program must be 0.
+As a consequence, any solution of this program must satisfy the system derived above, so must be a Nash equilibrium.</p>
 </div>
 </div>
 </div>
@@ -7721,7 +7657,6 @@ $0 \leq x \perp 1_{\mathcal I} - A y \geq 0$</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Zero-sum-games">Zero-sum games<a class="anchor-link" href="#Zero-sum-games">¶</a></h1><p>Assume $B = c - A$ with $c$ a constant.</p>
-<p>We use the data from Palacios–Huerta (2003) on penalty kicks. (See the <a href="https://www.math-econ-code.org/matrix-games">lecture on zero-sum games</a>.)</p>
 </div>
 </div>
 </div>
@@ -7737,7 +7672,8 @@ $0 \leq x \perp 1_{\mathcal I} - A y \geq 0$</p>
                          <span class="p">[</span><span class="mf">90.26</span><span class="p">,</span> <span class="mf">42.81</span><span class="p">,</span> <span class="mf">86.12</span><span class="p">],</span> 
                          <span class="p">[</span><span class="mf">96.88</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mf">75.43</span><span class="p">]])</span>
 
-<span class="n">penalty_zero_sum</span> <span class="o">=</span> <span class="n">Bimatrix_game</span><span class="p">(</span><span class="n">A_i_j</span> <span class="o">=</span> <span class="n">penalty_data</span><span class="p">,</span> <span class="n">B_i_j</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">-</span> <span class="n">penalty_data</span><span class="p">)</span>
+<span class="n">penalty_zero_sum</span> <span class="o">=</span> <span class="n">Bimatrix_game</span><span class="p">(</span><span class="n">A_i_j</span> <span class="o">=</span> <span class="n">penalty_data</span><span class="p">,</span>
+                                 <span class="n">B_i_j</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">-</span> <span class="n">penalty_data</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'A_i_j =</span><span class="se">\n</span><span class="s1">'</span><span class="p">,</span> <span class="n">penalty_zero_sum</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -7767,13 +7703,13 @@ $0 \leq x \perp 1_{\mathcal I} - A y \geq 0$</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Here only $A_{ij}$ is used. $B_{ij}$ is ignored, and the game is solved as a zero-sum game, i.e. as a LP from one of the two players' perspective.<br/>
-Recall for instance, from the perspective of player 1:
+<p>Here only $A_{ij}$ is used. $B_{ij}$ is ignored, and the game is solved as a zero-sum game.</p>
+<p>Recall that in a zero-sum game, we can solve for the equilibrium using a LP from one of the two players' perspective.<br>
+For instance, from the perspective of player 1:</br></p>
 \begin{align}
-\min_{x_i \geq 0} ~&amp; \textstyle\sum_i x_i \\
-\text{s.t.} ~&amp; \textstyle\sum_i A_{ij} x_i \geq 1 \quad [y_j \geq 0].
-\end{align}</p>
-<p>We then recover the strategy using $p_i = \dfrac{x_i}{\sum_i x_i}$, $q_j = \dfrac{y_j}{\sum_i x_i}$ (since $\sum_i x_i = \sum_j y_j$ by strong duality).</p>
+\min_{x_i \geq 0} ~&amp; \sum_i x_i \\
+\text{s.t.} ~&amp; \sum_i A_{ij} x_i \geq 1 \quad [y_j \geq 0].
+\end{align}<p>We then recover the strategies using $p_i = \dfrac{x_i}{\sum_i x_i}$, $q_j = \dfrac{y_j}{\sum_i x_i}$.</p>
 </div>
 </div>
 </div>
@@ -7784,7 +7720,7 @@ Recall for instance, from the perspective of player 1:
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Solution-using-Gurobi">Solution using Gurobi<a class="anchor-link" href="#Solution-using-Gurobi">¶</a></h2><p>We can adapt the Gurobi solver from the <code>Matrix_game</code> class.</p>
+<h2 id="Solution-using-Gurobi">Solution using Gurobi<a class="anchor-link" href="#Solution-using-Gurobi">¶</a></h2><p>We shall solve the LP problem using Gurobi.</p>
 </div>
 </div>
 </div>
@@ -7796,26 +7732,20 @@ Recall for instance, from the perspective of player 1:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">mec.gt</span> <span class="kn">import</span> <span class="n">Matrix_game</span>
-
-<span class="k">def</span> <span class="nf">Bimatrix_game_zero_sum_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">Matrix_game</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Bimatrix_game_zero_sum_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">grb</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">Params</span><span class="o">.</span><span class="n">OutputFlag</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"x"</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)</span> <span class="o">@</span> <span class="n">x</span><span class="p">,</span> <span class="n">grb</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">MINIMIZE</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span> 
+    <span class="n">U</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">ObjVal</span>
+    <span class="n">p_i</span> <span class="o">=</span> <span class="n">U</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">'x'</span><span class="p">))</span>
+    <span class="n">q_j</span> <span class="o">=</span> <span class="n">U</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">'pi'</span><span class="p">))</span>
+    <span class="n">sol_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'val'</span><span class="p">:</span> <span class="n">U</span><span class="p">,</span> <span class="s1">'p_i'</span><span class="p">:</span> <span class="n">p_i</span><span class="p">,</span> <span class="s1">'q_j'</span><span class="p">:</span> <span class="n">q_j</span><span class="p">}</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">sol_dict</span><span class="p">)</span>
 
 <span class="n">Bimatrix_game</span><span class="o">.</span><span class="n">zero_sum_solve</span> <span class="o">=</span> <span class="n">Bimatrix_game_zero_sum_solve</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">sparse</span>
 </pre></div>
 </div>
 </div>
@@ -7826,7 +7756,7 @@ Recall for instance, from the perspective of player 1:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_zero_sum</span><span class="o">.</span><span class="n">zero_sum_solve</span><span class="p">()</span>
@@ -7842,17 +7772,16 @@ Recall for instance, from the perspective of player 1:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Set parameter Username
-Academic license - for non-commercial use only - expires 2025-01-21
+<pre>Restricted license - for non-production use only - expires 2025-11-24
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'p_i': array([0.3033884 , 0.15180727, 0.54480433]),
- 'q_j': array([0.21908541, 0.10161508, 0.67929951]),
- 'val': 82.62606457928055}</pre>
+<pre>{'val': 82.62606457928055,
+ 'p_i': array([0.3033884 , 0.15180727, 0.54480433]),
+ 'q_j': array([0.21908541, 0.10161508, 0.67929951])}</pre>
 </div>
 </div>
 </div>
@@ -7864,8 +7793,8 @@ Academic license - for non-commercial use only - expires 2025-01-21
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Solving-non-zero-sum-games">Solving non-zero-sum games<a class="anchor-link" href="#Solving-non-zero-sum-games">¶</a></h1><p>Now we consider a version of the game with another $B$, such that the game is not zero-sum anymore.<br/>
-Imagine for instance that the goalkeeper gets a bonus if he jumps in the correct direction of the penalty kick, whether or not he catches the ball.</p>
+<h1 id="Nonzero-sum-games">Nonzero-sum games<a class="anchor-link" href="#Nonzero-sum-games">¶</a></h1><p>Consider a version of the game with another $B$, which is not zero-sum.<br/>
+Here, imagine for instance that the goalkeeper gets some bonus points if he dives where the player shoots, whether or not he catches the ball.</p>
 </div>
 </div>
 </div>
@@ -7874,13 +7803,14 @@ Imagine for instance that the goalkeeper gets a bonus if he jumps in the correct
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_nonzero_sum</span> <span class="o">=</span> <span class="n">Bimatrix_game</span><span class="p">(</span><span class="n">A_i_j</span> <span class="o">=</span> <span class="n">penalty_data</span><span class="p">,</span>
                                     <span class="n">B_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
                                                       <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
-                                                      <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">]])</span> <span class="o">-</span> <span class="n">penalty_data</span><span class="p">)</span>
+                                                      <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">]])</span>
+                                            <span class="o">-</span> <span class="n">penalty_data</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'A_i_j =</span><span class="se">\n</span><span class="s1">'</span><span class="p">,</span> <span class="n">penalty_nonzero_sum</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'B_i_j =</span><span class="se">\n</span><span class="s1">'</span><span class="p">,</span> <span class="n">penalty_nonzero_sum</span><span class="o">.</span><span class="n">B_i_j</span><span class="p">)</span>
 </pre></div>
@@ -7915,36 +7845,17 @@ B_i_j =
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Mangasarian%E2%80%93Stone">Mangasarian–Stone<a class="anchor-link" href="#Mangasarian%E2%80%93Stone">¶</a></h2><p>We implement the Mangasarian–Stone formulation using Gurobi.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">tst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">tst</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>array([[1.],
-       [1.],
-       [1.]])</pre>
-</div>
+<h2 id="Solution-using-the-Mangasarian%E2%80%93Stone-formulation">Solution using the Mangasarian–Stone formulation<a class="anchor-link" href="#Solution-using-the-Mangasarian%E2%80%93Stone-formulation">¶</a></h2><p>Recall the Mangasarian–Stone formulation:</p>
+\begin{align}
+\min_{p \geq 0, q \geq 0, \alpha \geq 0, \beta \geq 0}
+&amp;\left\{
+\alpha + \beta - p^\top (A + B) q
+\right\} \\
+\text{s.t.} ~ &amp; \alpha 1_{\mathcal I} - Aq \geq 0 \\
+              &amp; \beta 1_{\mathcal J} - B^\top p \geq 0 \\
+              &amp; -1 + 1_{\mathcal I}^\top p = 0 \\
+              &amp; -1 + 1_{\mathcal J}^\top q = 0.
+\end{align}
 </div>
 </div>
 </div>
@@ -7953,7 +7864,7 @@ B_i_j =
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Bimatrix_game_mangasarian_stone_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -7962,14 +7873,14 @@ B_i_j =
     <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">NonConvex</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">p_i</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)</span>
     <span class="n">q_j</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)</span>
-    <span class="n">α</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">lb</span> <span class="o">=</span> <span class="o">-</span><span class="n">grb</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">INFINITY</span><span class="p">)</span>
-    <span class="n">β</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">lb</span> <span class="o">=</span> <span class="o">-</span><span class="n">grb</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">INFINITY</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span> <span class="n">α</span> <span class="o">+</span> <span class="n">β</span>  <span class="o">-</span> <span class="n">p_i</span> <span class="o">@</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span><span class="p">)</span> <span class="o">@</span> <span class="n">q_j</span> <span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">grb</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">MINIMIZE</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="o">@</span> <span class="n">α</span>  <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">@</span> <span class="n">q_j</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="o">@</span> <span class="n">β</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">p_i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">α</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">β</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">α</span> <span class="o">+</span> <span class="n">β</span> <span class="o">-</span> <span class="n">p_i</span> <span class="o">@</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span><span class="p">)</span> <span class="o">@</span> <span class="n">q_j</span><span class="p">,</span> <span class="n">sense</span> <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">MINIMIZE</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">α</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">@</span> <span class="n">q_j</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">β</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">p_i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">p_i</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">q_j</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span> 
     <span class="n">sol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">'x'</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">'p_i ='</span><span class="p">,</span> <span class="n">sol</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">],</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">q_j ='</span><span class="p">,</span> <span class="n">sol</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">:(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)])</span>
     <span class="k">return</span> <span class="p">{</span><span class="s1">'p_i'</span><span class="p">:</span> <span class="n">sol</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">],</span> <span class="s1">'q_j'</span><span class="p">:</span> <span class="n">sol</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">:(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)],</span>
@@ -7986,36 +7897,7 @@ B_i_j =
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_nonzero_sum</span><span class="o">.</span><span class="n">mangasarian_stone_solve</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'p_i': array([0.3374337 , 0.24917907, 0.41338723]),
- 'q_j': array([0.21908541, 0.10161508, 0.67929951]),
- 'val1': 82.62606457928057,
- 'val2': 36.37698012002112}</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_zero_sum</span><span class="o">.</span><span class="n">mangasarian_stone_solve</span><span class="p">()</span>
@@ -8029,261 +7911,22 @@ B_i_j =
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'p_i': array([0.3033884 , 0.15180727, 0.54480433]),
  'q_j': array([0.21908541, 0.10161508, 0.67929951]),
- 'val1': 82.62606457928057,
+ 'val1': 82.62606457928055,
  'val2': 17.373935420719445}</pre>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Notice that the goalkeeper (player 2) keeps the same strategy, and his payoff increases.<br/>
-Conversely, the kicker (player 1) changes strategy, but his payoff stays the same. Why?</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Lemke%E2%80%93Howson-algorithm">Lemke–Howson algorithm<a class="anchor-link" href="#Lemke%E2%80%93Howson-algorithm">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The Lemke–Howson algorithm was developed in 1964 to solve bimatrix games.
-It was later extended by Lemke to solve LCPs (see previous lecture).</p>
-<p>This algorithm finds a non-trivial solution to the abridged representation LCP seen above:</p>
-<p>$0 \leq x \perp 1_{\mathcal I} - A y \geq 0$</p>
-<p>$0 \leq y \perp 1_{\mathcal J} - B^\top x \geq 0$.</p>
-<p>Write $z = \binom{x}{y}$ and define
-\begin{equation}
-    C =
-    \begin{pmatrix}
-    0_{\mathcal I \times \mathcal I} &amp; A \\
-    B^\top &amp; 0_{\mathcal J \times \mathcal J}
-    \end{pmatrix}.
-\end{equation}
-Then the problem is to find $z$ and $w$ such that</p>
-<p>\begin{equation}
-    z \geq 0,
-    \qquad
-    w \geq 0,
-    \qquad
-    w + Cz = 1_{\mathcal I + \mathcal J},
-    \qquad
-    z_k w_k = 0 \quad (\forall k).
-\end{equation}</p>
-<p>Because the right-hand vector in $w + Cz = 1_{\mathcal I + \mathcal J}$ is positive, we can begin by setting the basic variables as $(w_1, \dots, w_{\mathcal I + \mathcal J})$, and the nonbasic variables as $(z_1, \dots, z_{\mathcal I + \mathcal J})$.
-This is a complemetary basis, in the sense that it includes exactly one variable from the pair $(z_k, w_k)$ for all $k$.
-Its associated solution is the trivial one, $z = 0$ (which is the only solution not corresponding to a Nash equilibrium).</p>
-<p>We use the equation $w + Cz = 1_{\mathcal I + \mathcal J}$ to build an initial tableau associated with our LCP.
-We then choose an arbitrary variable $z_k$ to enter the basis, and we perform complementary pivot operations until we find another complementary basis.
-This end basis will necessarily correspond to a nontrivial solution.</p>
-<p><em>Question.</em> Why can't this algorithm end with ray termination?</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<hr/>
-<p><em>Lemke–Howson algorithm</em></p>
-<p><strong>Step 0.</strong>
-Choose some nonbasic variable, for instance $z_1$, which enters the basis.</p>
-<p><strong>Step 1.</strong>
-Determine the departing variable using the minimum-ratio rule in the current tableau, and update the tableau.<br/>
-Now, check if the new basis is complementary:
-if yes, we have found a solution;
-if not, update the tableau for the new basis and go to step 2.</p>
-<p><strong>Step 2.</strong>
-The new entering variable is the complement of the one which just left.
-Go back to step 1.</p>
-<hr/>
-<p>Note that since we maintain almost-complementarity of the basis throughout, it is enough to check that:<br/>
-(i) the complement of the variable which just departed <em>is</em> in the basis,<br/>
-(ii) the complement of the variable which just entered <em>is not</em> in the basis.</p>
-<p><em>Remark.</em> The Lemke–Howson algorithm actually works for LCPs not only associated with bimatrix games, but for any matrix $C$ which is nonnegative with at least one positive entry per column, and a nonnegative right-hand vector.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Bimatrix_game_is_nondegenerate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="n">Aprime</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">(</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span><span class="mi">1</span><span class="p">))],</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">,</span><span class="mi">1</span><span class="p">))]]</span> <span class="p">)</span>
-    <span class="n">Bprime</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">(</span> <span class="p">[[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span><span class="p">],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)),</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">))]]</span> <span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">Aprime</span><span class="p">)</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">Aprime</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">Bprime</span><span class="p">)</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">Bprime</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
-
-<span class="n">Bimatrix_game</span><span class="o">.</span><span class="n">is_nondegenerate</span> <span class="o">=</span> <span class="n">Bimatrix_game_is_nondegenerate</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_nonzero_sum</span><span class="o">.</span><span class="n">is_nondegenerate</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>True</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">mec.lp</span> <span class="kn">import</span> <span class="n">Tableau</span>
-
-<span class="k">def</span> <span class="nf">Bimatrix_game_lemke_howson_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
-    <span class="n">A_i_j</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>     <span class="c1"># ensures that matrices are positive</span>
-    <span class="n">B_i_j</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-    <span class="n">zks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'x_'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">'y_'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)]</span>
-    <span class="n">wks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'r_'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">'s_'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)]</span>
-    <span class="n">complements</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">zks</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">zks</span><span class="p">)))</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">zks</span><span class="p">)))</span>
-    <span class="n">C_k_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)),</span> <span class="n">A_i_j</span><span class="p">],</span>
-                      <span class="p">[</span><span class="n">B_i_j</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">))]])</span>
-    <span class="n">tab</span> <span class="o">=</span> <span class="n">Tableau</span><span class="p">(</span><span class="n">C_k_l</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">),</span> <span class="n">wks</span><span class="p">,</span> <span class="n">zks</span><span class="p">)</span>
-    <span class="n">kent</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">wks</span><span class="p">)</span> <span class="c1"># z_1 enters</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">kdep</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">determine_departing</span><span class="p">(</span><span class="n">kent</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">'Basis: '</span><span class="p">,</span> <span class="p">[(</span><span class="n">wks</span><span class="o">+</span><span class="n">zks</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tab</span><span class="o">.</span><span class="n">k_b</span><span class="p">])</span>
-            <span class="nb">print</span><span class="p">((</span><span class="n">wks</span><span class="o">+</span><span class="n">zks</span><span class="p">)[</span><span class="n">kent</span><span class="p">],</span> <span class="s1">'enters,'</span><span class="p">,</span> <span class="p">(</span><span class="n">wks</span><span class="o">+</span><span class="n">zks</span><span class="p">)[</span><span class="n">kdep</span><span class="p">],</span> <span class="s1">'departs'</span><span class="p">)</span>
-        <span class="n">tab</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kent</span><span class="p">,</span> <span class="n">kdep</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">complements</span><span class="p">[</span><span class="n">kent</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tab</span><span class="o">.</span><span class="n">k_b</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">complements</span><span class="p">[</span><span class="n">kdep</span><span class="p">]</span> <span class="ow">in</span> <span class="n">tab</span><span class="o">.</span><span class="n">k_b</span><span class="p">):</span>
-            <span class="k">break</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">kent</span> <span class="o">=</span> <span class="n">complements</span><span class="p">[</span><span class="n">kdep</span><span class="p">]</span>
-    <span class="n">z_k</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span> <span class="c1"># solution() returns: x_j, y_i, x_j @ self.c_j</span>
-    <span class="n">x_i</span><span class="p">,</span> <span class="n">y_j</span> <span class="o">=</span> <span class="n">z_k</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">],</span> <span class="n">z_k</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">:]</span>
-    <span class="n">α</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">y_j</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="n">β</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">x_i</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="n">p_i</span> <span class="o">=</span> <span class="n">x_i</span> <span class="o">*</span> <span class="n">β</span>
-    <span class="n">q_j</span> <span class="o">=</span> <span class="n">y_j</span> <span class="o">*</span> <span class="n">α</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s1">'p_i'</span><span class="p">:</span> <span class="n">p_i</span><span class="p">,</span> <span class="s1">'q_j'</span><span class="p">:</span> <span class="n">q_j</span><span class="p">,</span>
-            <span class="s1">'val1'</span><span class="p">:</span> <span class="n">α</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s1">'val2'</span><span class="p">:</span> <span class="n">β</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">}</span>
-
-<span class="n">Bimatrix_game</span><span class="o">.</span><span class="n">lemke_howson_solve</span> <span class="o">=</span> <span class="n">Bimatrix_game_lemke_howson_solve</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_nonzero_sum</span><span class="o">.</span><span class="n">lemke_howson_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Basis:  ['r_1', 'r_2', 'r_3', 's_1', 's_2', 's_3']
-x_1 enters, s_1 departs
-Basis:  ['r_1', 'r_2', 'r_3', 'x_1', 's_2', 's_3']
-y_1 enters, r_3 departs
-Basis:  ['r_1', 'r_2', 'y_1', 'x_1', 's_2', 's_3']
-x_3 enters, s_3 departs
-Basis:  ['r_1', 'r_2', 'y_1', 'x_1', 's_2', 'x_3']
-y_3 enters, r_2 departs
-Basis:  ['r_1', 'y_3', 'y_1', 'x_1', 's_2', 'x_3']
-x_2 enters, s_2 departs
-Basis:  ['r_1', 'y_3', 'y_1', 'x_1', 'x_2', 'x_3']
-y_2 enters, r_1 departs
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'p_i': array([0.3374337 , 0.24917907, 0.41338723]),
- 'q_j': array([0.21908541, 0.10161508, 0.67929951]),
- 'val1': 82.62606457928055,
- 'val2': 36.37698012002113}</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>To compare with the solution from Mangasarian–Stone:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_nonzero_sum</span><span class="o">.</span><span class="n">mangasarian_stone_solve</span><span class="p">()</span>
@@ -8297,11 +7940,11 @@ y_2 enters, r_1 departs
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'p_i': array([0.3374337 , 0.24917907, 0.41338723]),
  'q_j': array([0.21908541, 0.10161508, 0.67929951]),
- 'val1': 82.62606457928057,
+ 'val1': 82.62606457928055,
  'val2': 36.37698012002112}</pre>
 </div>
 </div>
@@ -8314,7 +7957,7 @@ y_2 enters, r_1 departs
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Benchmarking">Benchmarking<a class="anchor-link" href="#Benchmarking">¶</a></h1><h2 id="Pritchard's-example">Pritchard's example<a class="anchor-link" href="#Pritchard's-example">¶</a></h2>
+<p>Let's verify that this is indeed a Nash equilibrium:</p>
 </div>
 </div>
 </div>
@@ -8323,12 +7966,21 @@ y_2 enters, r_1 departs
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># example from David Pritchard (EPFL)'s lecture notes. </span>
-<span class="n">pritchard_ex</span> <span class="o">=</span> <span class="n">Bimatrix_game</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]]),</span>
-                             <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">]]))</span> 
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Bimatrix_game_is_NashEq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p_i</span><span class="p">,</span> <span class="n">q_j</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">@</span> <span class="n">q_j</span> <span class="o">&gt;</span> <span class="n">p_i</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">@</span> <span class="n">q_j</span> <span class="o">+</span> <span class="n">tol</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'Pure strategy i ='</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s1">'beats p_i.'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">p_i</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">p_i</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span> <span class="o">@</span> <span class="n">q_j</span> <span class="o">+</span> <span class="n">tol</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'Pure strategy j ='</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="s1">'beats q_j.'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+<span class="n">Bimatrix_game</span><span class="o">.</span><span class="n">is_NashEq</span> <span class="o">=</span> <span class="n">Bimatrix_game_is_NashEq</span>
 </pre></div>
 </div>
 </div>
@@ -8339,10 +7991,163 @@ y_2 enters, r_1 departs
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pritchard_ex</span><span class="o">.</span><span class="n">lemke_howson_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">sol</span> <span class="o">=</span> <span class="n">penalty_nonzero_sum</span><span class="o">.</span><span class="n">mangasarian_stone_solve</span><span class="p">()</span>
+<span class="n">p_i</span><span class="p">,</span> <span class="n">q_j</span> <span class="o">=</span> <span class="n">sol</span><span class="p">[</span><span class="s1">'p_i'</span><span class="p">],</span> <span class="n">sol</span><span class="p">[</span><span class="s1">'q_j'</span><span class="p">]</span>
+
+<span class="n">penalty_nonzero_sum</span><span class="o">.</span><span class="n">is_NashEq</span><span class="p">(</span><span class="n">p_i</span><span class="p">,</span> <span class="n">q_j</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>True</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="The-Lemke%E2%80%93Howson-algorithm">The Lemke–Howson algorithm<a class="anchor-link" href="#The-Lemke%E2%80%93Howson-algorithm">¶</a></h1><p>The Lemke–Howson algorithm was developed in 1964 to solve bimatrix games. 
+Like the simplex, it is a path-following method.
+As we will see, it relies on the notion of <em>complementarity</em>.</p>
+<h2 id="Abridged-system-formulation">Abridged system formulation<a class="anchor-link" href="#Abridged-system-formulation">¶</a></h2><p>Recall our Nash equilibrium system, which we write here in matrix form:</p>
+\begin{align}
+p &amp;\geq 0 \\
+q &amp;\geq 0 \\
+1_{\mathcal I}^\top p &amp;= 1 \\
+1_{\mathcal J}^\top q &amp;= 1 \\
+\alpha 1_{\mathcal I} - A q &amp;\geq 0 \\
+\beta 1_{\mathcal J} - B^\top p &amp;\geq 0 \\
+p^\top \big( \alpha 1_{\mathcal I} - A q \big) &amp;= 0 \\
+q^\top \big( \beta 1_{\mathcal J} - B^\top p \big) &amp;= 0.
+\end{align}<p>We know that any solution has $\alpha &gt; 0$ and $\beta &gt; 0$, so we can use the change of variables $x = p / \beta$ and $y = q / \alpha$ to obtain</p>
+\begin{align}
+x &amp;\geq 0 \\
+y &amp;\geq 0 \\
+1_{\mathcal I}^\top x &amp;= 1/\beta \\
+1_{\mathcal J}^\top y &amp;= 1/\alpha \\
+1_{\mathcal I} - A y &amp;\geq 0 \\
+1_{\mathcal J} - B^\top x &amp;\geq 0 \\
+x^\top \big( 1_{\mathcal I} - A y \big) &amp;= 0 \\
+y^\top \big( 1_{\mathcal J} - B^\top x \big) &amp;= 0.
+\end{align}<p>The variables $x$ and $y$ are simply scaled versions of the players' mixed strategies: if we find a solution $(x,y)$ to this system, then we recover a Nash equilibrium with</p>
+<p>$p = \frac{x}{\sum_i x_i}$ and $q = \frac{y}{\sum_j y_j}$.</p>
+<p>(Note that this is the same normalization we saw in the zero-sum case!)</p>
+<p>Since we can always adjust $\alpha$ and $\beta$ to verify $1/\beta = 1_{\mathcal I}^\top x$ and $1/\alpha = 1_{\mathcal J}^\top y$, we can actually drop these equations.
+Our system boils down to the abridged representation</p>
+\begin{align}
+x &amp;\geq 0 \\
+y &amp;\geq 0 \\
+1_{\mathcal I} - A y &amp;\geq 0 \\
+1_{\mathcal J} - B^\top x &amp;\geq 0 \\
+x^\top \big( 1_{\mathcal I} - A y \big) &amp;= 0 \\
+y^\top \big( 1_{\mathcal J} - B^\top x \big) &amp;= 0.
+\end{align}<p>Observe that our abridged system has $x = 0$, $y = 0$ as a trivial solution.
+But this solution does not correspond to a Nash equilibrium!
+This is because the change of variable we performed above is not possible in this case.</p>
+<p>This 'fake' solution, however, is good news:
+it will be our entry point to a path towards an actual solution.</p>
+<p><em>Remark.</em> The system above can be interpreted as a Linear Complementarity Problem (LCP):</p>
+<p>$0 \leq x \perp 1_{\mathcal I} - A y \geq 0$</p>
+<p>$0 \leq y \perp 1_{\mathcal J} - B^\top x \geq 0$.</p>
+<p>This LCP has the trivial solution $(x,y) = (0,0)$. To avoid this, one may instead consider that $A &gt; 0$ is the loss matrix of player 1, in which case the problem becomes</p>
+<p>$0 \leq x \perp -1_I + A y \geq 0$<br/>
+$0 \leq y \perp 1_J - B^\top x \geq 0$</p>
+<p>which does not have a trivial solution anymore.</p>
+<p>For more info, see the <a href="https://www.math-econ-code.org/lcps">math+econ+code notebook on LCPs</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Lemke%E2%80%93Howson-on-an-example">Lemke–Howson on an example<a class="anchor-link" href="#Lemke%E2%80%93Howson-on-an-example">¶</a></h2><p>Let's take a simple example to illustrate:</p>
+\begin{equation}
+A = \begin{pmatrix} 3 &amp; 1 \\ 1 &amp; 2 \end{pmatrix},
+\quad
+B = \begin{pmatrix} 2 &amp; 1 \\ 1 &amp; 3 \end{pmatrix}.
+\end{equation}<p>This is a battle-of-the-sexes game, which has 2 equilibria in pure strategies, and 1 in mixed strategies.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">battle_game</span> <span class="o">=</span> <span class="n">Bimatrix_game</span><span class="p">(</span><span class="n">A_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]),</span>
+                            <span class="n">B_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Step-1:-Initialize.">Step 1: Initialize.<a class="anchor-link" href="#Step-1:-Initialize.">¶</a></h4><p>To start with, let's introduce the slack variables $s$ and $t$ defined by $s_i = 1 - (A y)_i$ and $t_j = 1 - (B^\top x)_j$, i.e.</p>
+\begin{align}
+s_1 &amp;= 1 &amp;        &amp;        &amp;- 3 y_1 &amp;- y_2   \\
+s_2 &amp;= 1 &amp;        &amp;        &amp;- y_1   &amp;- 2 y_2 \\
+t_1 &amp;= 1 &amp;- 2 x_1 &amp;- x_2   &amp;        &amp;        \\
+t_2 &amp;= 1 &amp;- x_1   &amp;- 3 x_2 &amp;        &amp;
+\end{align}<p>With these notations, our problem becomes the following: find vectors $x, y, s, t \geq 0$ which satisfy the equalities above, as well as the complementarity conditions</p>
+\begin{align}
+x_i s_i &amp;= 0 \quad \text{for all $i$} \\
+y_j t_j &amp;= 0 \quad \text{for all $j$}.
+\end{align}<p>As in the case of linear programming, we reason in terms of <em>basic</em> and <em>non-basic</em> variables.<br/>
+Our initial solution is $(x=0, y=0)$, so our initial basic variables are $s_1, s_2, t_1, t_2$, and the non-basic variables are $x_1, x_2, y_1, y_2$.</p>
+<p>Let's code this using the <code>Dictionary</code> method we built for LPs.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">mec.lp</span>
+<span class="kn">from</span> <span class="nn">mec.lp</span> <span class="kn">import</span> <span class="n">Dictionary</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">battle_dict</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="p">(</span><span class="n">slack_var_names_i</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'s_1'</span><span class="p">,</span> <span class="s1">'s_2'</span><span class="p">,</span> <span class="s1">'t_1'</span><span class="p">,</span> <span class="s1">'t_2'</span><span class="p">],</span>
+                         <span class="n">decision_var_names_j</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'x_1'</span><span class="p">,</span> <span class="s1">'x_2'</span><span class="p">,</span> <span class="s1">'y_1'</span><span class="p">,</span> <span class="s1">'y_2'</span><span class="p">],</span>
+                         <span class="n">A_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">battle_game</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span> <span class="n">battle_game</span><span class="o">.</span><span class="n">nbi</span><span class="p">)),</span>
+                                            <span class="n">battle_game</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">],</span>
+                                           <span class="p">[</span><span class="n">battle_game</span><span class="o">.</span><span class="n">B_i_j</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                                            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">battle_game</span><span class="o">.</span><span class="n">nbj</span><span class="p">,</span> <span class="n">battle_game</span><span class="o">.</span><span class="n">nbj</span><span class="p">))]]),</span>
+                         <span class="n">b_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="n">battle_dict</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -8355,28 +8160,262 @@ y_2 enters, r_1 departs
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Basis:  ['r_1', 'r_2', 'r_3', 's_1', 's_2', 's_3']
-x_1 enters, s_1 departs
-Basis:  ['r_1', 'r_2', 'r_3', 'x_1', 's_2', 's_3']
-y_1 enters, r_3 departs
-Basis:  ['r_1', 'r_2', 'y_1', 'x_1', 's_2', 's_3']
-x_3 enters, s_3 departs
-Basis:  ['r_1', 'r_2', 'y_1', 'x_1', 's_2', 'x_3']
-y_3 enters, r_2 departs
-Basis:  ['r_1', 'y_3', 'y_1', 'x_1', 's_2', 'x_3']
-x_2 enters, s_2 departs
-Basis:  ['r_1', 'y_3', 'y_1', 'x_1', 'x_2', 'x_3']
-y_2 enters, r_1 departs
+<pre>-------------------------- 
+Objective and constraints:
+s_1 = -3.0*y_1 - 1.0*y_2 + 1
+s_2 = -1.0*y_1 - 2.0*y_2 + 1
+t_1 = -2.0*x_1 - 1.0*x_2 + 1
+t_2 = -1.0*x_1 - 3.0*x_2 + 1
 </pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Let's also list the variables which are complements:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Dictionary_make_complements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">comp_vars</span> <span class="o">=</span> <span class="p">{</span><span class="n">Symbol</span><span class="p">(</span><span class="n">name</span><span class="p">):</span> <span class="n">Symbol</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decision_var_names_j</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">name</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slack_var_names_i</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">comp_vars</span><span class="o">.</span><span class="n">update</span><span class="p">(</span> <span class="p">{</span><span class="n">Symbol</span><span class="p">(</span><span class="n">name</span><span class="p">):</span> <span class="n">Symbol</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slack_var_names_i</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">name</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decision_var_names_j</span><span class="p">)</span> <span class="p">}</span> <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">complements</span> <span class="o">=</span> <span class="n">comp_vars</span>
+    <span class="k">return</span>
+
+<span class="n">Dictionary</span><span class="o">.</span><span class="n">make_complements</span> <span class="o">=</span> <span class="n">Dictionary_make_complements</span>
+
+<span class="n">battle_dict</span><span class="o">.</span><span class="n">make_complements</span><span class="p">()</span>
+<span class="n">battle_dict</span><span class="o">.</span><span class="n">complements</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'p_i': array([0.46153846, 0.23076923, 0.30769231]),
- 'q_j': array([0.11111111, 0.33333333, 0.55555556]),
- 'val1': 1.1111111111111112,
- 'val2': 1.1538461538461537}</pre>
+<pre>{s_1: x_1,
+ s_2: x_2,
+ t_1: y_1,
+ t_2: y_2,
+ x_1: s_1,
+ x_2: s_2,
+ y_1: t_1,
+ y_2: t_2}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Step-2:-Departing-variable.">Step 2: Departing variable.<a class="anchor-link" href="#Step-2:-Departing-variable.">¶</a></h4><p>Now to start off the algorithm, we pick any non-basic variable to enter the basis.
+Let's choose $y_1$ for instance.</p>
+<p>Since a variable entered the basis, another one needs to leave it.
+To determine the departing variable, we use the same method as in the simplex algorithm.
+When $y_1$ enters, we increase its value until we hit one of the constraints $s_i \geq 0$ or $t_j \geq 0$.
+Since $y_1$ only appears in the expressions of the $s$ variables, it will necessarily be one of those which leaves the basis:</p>
+\begin{align}
+s_1 &amp;= 1 - 3 y_1 - y_2   \\
+s_2 &amp;= 1 - y_1   - 2 y_2.
+\end{align}<p>Here it is the constraint $s_1 \geq 0$ that we hit first, for $y_1 = 1/3$.
+Hence $s_1$ is our departing variable.</p>
+<p>This is the minimum-ratio rule, and the good news is that we already coded this step in the simplex algorithm!
+We can simply reuse the function <code>determine_departing</code> we built for linear programs.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">entering_var</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s1">'y_1'</span><span class="p">)</span>
+<span class="n">departing_var</span> <span class="o">=</span> <span class="n">battle_dict</span><span class="o">.</span><span class="n">determine_departing</span><span class="p">(</span><span class="n">entering_var</span><span class="p">)</span>
+<span class="n">departing_var</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
+<div class="jp-RenderedLatex jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/latex" tabindex="0">
+$\displaystyle s_{1}$
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>In general, as in the simplex algorithm, if $y_{j^\star}$ is the entering variable, then the departing variable $s_{i^\star}$ is determined with:</p>
+<p>$i^\star = \arg\min_{\, i} \left\{ \frac {1} {A_{i \, j^\star}} \right\}$.</p>
+<p>Now, you may remark that in making $y_1$ enter the basis, we violated one complementarity condition, namely $y_1 t_1 = 0$.</p>
+<p>If $t_1$ had left the basis this wouldn't be a problem, but this is not the case (in fact it cannot be the case at the first step, since we saw that it was an $s$ variable which had to leave).</p>
+<p>We say that the basis is now <em>almost-complementary</em>, because it violates exactly one complementarity condition.<br/>
+This is a property we will maintain throughout the algorithm. 
+And if we manage to reestablish full complementarity, then it means we found a solution!</p>
+<p>First we update our tableau using the <code>pivot</code> method we built for LPs.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">battle_dict</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">entering_var</span><span class="p">,</span> <span class="n">departing_var</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">battle_dict</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Entering = y_1; departing = s_1
+-------------------------- 
+Objective and constraints:
+s_2 = 0.33*s_1 - 1.67*y_2 + 0.67
+t_1 = -2.0*x_1 - 1.0*x_2 + 1
+t_2 = -1.0*x_1 - 3.0*x_2 + 1
+y_1 = -0.33*s_1 - 0.33*y_2 + 0.33
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Step-3:-Entering-variable.">Step 3: Entering variable.<a class="anchor-link" href="#Step-3:-Entering-variable.">¶</a></h4><p>Recall that in the simplex algorithm, the entering variable was determined by updating the objective with the new non-basic variables, and taking one of the non-basic variables which had a positive coefficient in this updated objective.</p>
+<p>Here there is no objective to optimize, but instead we will choose the entering variable using our complementarity conditions.</p>
+<p>Here, since $s_1$ left the basis, the complementarity conditions allows $x_1$ to enter.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">entering_var</span> <span class="o">=</span> <span class="n">battle_dict</span><span class="o">.</span><span class="n">complements</span><span class="p">[</span><span class="n">departing_var</span><span class="p">]</span>
+<span class="n">entering_var</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+<div class="jp-RenderedLatex jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/latex" tabindex="0">
+$\displaystyle x_{1}$
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Now that we have an entering variable, we can go back to finding a departing variable using the minimum-ratio rule, etc.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Step-4:-Stopping-condition.">Step 4: Stopping condition.<a class="anchor-link" href="#Step-4:-Stopping-condition.">¶</a></h4><p>The algorithm stops when we have reestablished a complementary basis.
+(It is possible to show that this always happens.)</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Dictionary_is_basis_complementary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">comp_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">complements</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">comp_var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"Basis contains "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">var</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" and "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">comp_var</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Complementary basis found!"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+<span class="n">Dictionary</span><span class="o">.</span><span class="n">is_basis_complementary</span> <span class="o">=</span> <span class="n">Dictionary_is_basis_complementary</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -8389,93 +8428,7 @@ y_2 enters, r_1 departs
 <div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pritchard_ex</span><span class="o">.</span><span class="n">mangasarian_stone_solve</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'p_i': array([0.46153846, 0.23076923, 0.30769231]),
- 'q_j': array([0.11111111, 0.33333333, 0.55555556]),
- 'val1': 1.1111111111111112,
- 'val2': 1.1538461538461537}</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Random-example">Random example<a class="anchor-link" href="#Random-example">¶</a></h2>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">I</span><span class="p">,</span> <span class="n">J</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span>
-<span class="n">random_game</span> <span class="o">=</span> <span class="n">Bimatrix_game</span><span class="p">(</span><span class="n">A_i_j</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J</span><span class="p">),</span>
-                            <span class="n">B_i_j</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">random_game</span><span class="o">.</span><span class="n">mangasarian_stone_solve</span><span class="p">()</span> 
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'p_i': array([1., 0., 0., 0., 0.]),
- 'q_j': array([1., 0., 0., 0.]),
- 'val1': 93.72236043429095,
- 'val2': 89.56188907069242}</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">sol</span> <span class="o">=</span> <span class="n">random_game</span><span class="o">.</span><span class="n">lemke_howson_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">sol</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">battle_dict</span><span class="o">.</span><span class="n">is_basis_complementary</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8488,21 +8441,154 @@ y_2 enters, r_1 departs
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Basis:  ['r_1', 'r_2', 'r_3', 'r_4', 'r_5', 's_1', 's_2', 's_3', 's_4']
-x_1 enters, s_1 departs
-Basis:  ['r_1', 'r_2', 'r_3', 'r_4', 'r_5', 'x_1', 's_2', 's_3', 's_4']
-y_1 enters, r_1 departs
+<pre>Basis contains t_1 and y_1
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>False</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Now we can iterate these steps.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">while</span> <span class="ow">not</span> <span class="n">battle_dict</span><span class="o">.</span><span class="n">is_basis_complementary</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">departing_var</span> <span class="o">=</span> <span class="n">battle_dict</span><span class="o">.</span><span class="n">determine_departing</span><span class="p">(</span><span class="n">entering_var</span><span class="p">)</span>
+    <span class="n">battle_dict</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">entering_var</span><span class="p">,</span> <span class="n">departing_var</span><span class="p">)</span>
+    <span class="n">entering_var</span> <span class="o">=</span> <span class="n">battle_dict</span><span class="o">.</span><span class="n">complements</span><span class="p">[</span><span class="n">departing_var</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Basis contains t_1 and y_1
+Complementary basis found!
+dict_keys([s_2, t_2, y_1, x_1])
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Finally, we recover our strategies by normalizing the $x$ and $y$ we found:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">z_sol</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">battle_dict</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span>
+
+<span class="n">x_sol</span> <span class="o">=</span> <span class="n">z_sol</span><span class="p">[:</span><span class="n">battle_game</span><span class="o">.</span><span class="n">nbi</span><span class="p">]</span>
+<span class="n">y_sol</span> <span class="o">=</span> <span class="n">z_sol</span><span class="p">[</span><span class="n">battle_game</span><span class="o">.</span><span class="n">nbi</span><span class="p">:(</span><span class="n">battle_game</span><span class="o">.</span><span class="n">nbi</span><span class="o">+</span><span class="n">battle_game</span><span class="o">.</span><span class="n">nbj</span><span class="p">)]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"p ="</span><span class="p">,</span> <span class="n">x_sol</span><span class="o">/</span><span class="n">x_sol</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"q ="</span><span class="p">,</span> <span class="n">y_sol</span><span class="o">/</span><span class="n">y_sol</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>p = [1. 0.]
+q = [1. 0.]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Let's compare with Mangasarian–Stone:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">battle_game</span><span class="o">.</span><span class="n">mangasarian_stone_solve</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'p_i': array([1., 0., 0., 0., 0.]),
- 'q_j': array([1., 0., 0., 0.]),
- 'val1': 93.72236043429095,
- 'val2': 89.56188907069243}</pre>
+<pre>{'p_i': array([0.66666667, 0.33333333]),
+ 'q_j': array([0.33333333, 0.66666667]),
+ 'val1': 1.6666666666666667,
+ 'val2': 1.6666666666666667}</pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Full-algorithm">Full algorithm<a class="anchor-link" href="#Full-algorithm">¶</a></h1><p>Now we can code the full algorithm and test it on the penalty game:</p>
 </div>
 </div>
 </div>
@@ -8514,18 +8600,34 @@ y_1 enters, r_1 departs
 <div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Bimatrix_game_is_NashEq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p_i</span><span class="p">,</span> <span class="n">q_j</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">@</span> <span class="n">q_j</span> <span class="o">&gt;</span> <span class="n">p_i</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">@</span> <span class="n">q_j</span> <span class="o">+</span> <span class="n">tol</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">'Pure strategy i ='</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s1">'beats p_i.'</span><span class="p">)</span>
-                <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">p_i</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">p_i</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span> <span class="o">@</span> <span class="n">q_j</span> <span class="o">+</span> <span class="n">tol</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">'Pure strategy j ='</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="s1">'beats q_j.'</span><span class="p">)</span>
-                <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="kc">True</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Bimatrix_game_lemke_howson_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="n">dictionary</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="p">(</span><span class="n">slack_var_names_i</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'s_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+                                                <span class="o">+</span> <span class="p">[</span><span class="s1">'t_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span>
+                            <span class="n">decision_var_names_j</span><span class="o">=</span> <span class="p">[</span><span class="s1">'x_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+                                                  <span class="o">+</span> <span class="p">[</span><span class="s1">'y_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span>
+                            <span class="n">A_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">],</span>
+                                            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">))]]),</span>
+                            <span class="n">b_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">))</span>
+    <span class="n">dictionary</span><span class="o">.</span><span class="n">make_complements</span><span class="p">()</span>
+    <span class="n">entering_var</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">nonbasic</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">departing_var</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">determine_departing</span><span class="p">(</span><span class="n">entering_var</span><span class="p">)</span>
+    <span class="n">dictionary</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">entering_var</span><span class="p">,</span> <span class="n">departing_var</span><span class="p">)</span>
+    <span class="n">entering_var</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">complements</span><span class="p">[</span><span class="n">departing_var</span><span class="p">]</span>
+    
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">is_basis_complementary</span><span class="p">(</span><span class="n">verbose</span><span class="p">):</span>
+        <span class="n">departing_var</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">determine_departing</span><span class="p">(</span><span class="n">entering_var</span><span class="p">)</span>
+        <span class="n">dictionary</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">entering_var</span><span class="p">,</span> <span class="n">departing_var</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">entering_var</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">complements</span><span class="p">[</span><span class="n">departing_var</span><span class="p">]</span>
+    
+    <span class="n">z_sol</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span>
+    <span class="n">x_sol</span> <span class="o">=</span> <span class="n">z_sol</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">]</span>
+    <span class="n">y_sol</span> <span class="o">=</span> <span class="n">z_sol</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">:(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)]</span>
+    <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="n">x_sol</span><span class="o">/</span><span class="n">x_sol</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">y_sol</span><span class="o">/</span><span class="n">y_sol</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span>
 
-<span class="n">Bimatrix_game</span><span class="o">.</span><span class="n">is_NashEq</span> <span class="o">=</span> <span class="n">Bimatrix_game_is_NashEq</span>
+<span class="n">Bimatrix_game</span><span class="o">.</span><span class="n">lemke_howson_solve</span> <span class="o">=</span> <span class="n">Bimatrix_game_lemke_howson_solve</span>
+    
 </pre></div>
 </div>
 </div>
@@ -8539,7 +8641,68 @@ y_1 enters, r_1 departs
 <div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">random_game</span><span class="o">.</span><span class="n">is_NashEq</span><span class="p">(</span><span class="n">sol</span><span class="p">[</span><span class="s1">'p_i'</span><span class="p">],</span> <span class="n">sol</span><span class="p">[</span><span class="s1">'q_j'</span><span class="p">])</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_nonzero_sum</span><span class="o">.</span><span class="n">lemke_howson_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Basis contains s_1 and x_1
+Entering = y_1; departing = s_3
+y_1 = -0.01*s_3 - 1.03*y_2 - 0.78*y_3 + 0.01
+Basis contains s_1 and x_1
+Entering = x_3; departing = t_3
+x_3 = -0.01*t_3 - 0.18*x_2 + 0.01
+Basis contains s_1 and x_1
+Entering = y_3; departing = s_2
+y_3 = -0.06*s_2 + 0.06*s_3 + 3.18*y_2
+Basis contains s_1 and x_1
+Entering = x_2; departing = t_2
+x_2 = 0.01 - 0.e-2*t_2
+Basis contains s_1 and x_1
+Entering = y_2; departing = s_1
+y_2 = -0.e-2*s_1 + 0.02*s_2 - 0.01*s_3
+Complementary basis found!
+dict_keys([x_1, y_1, x_3, y_3, x_2, y_2])
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>(array([0.3374337 , 0.24917907, 0.41338723]),
+ array([0.21908541, 0.10161508, 0.67929951]))</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Compare with the Mangasarian–Stone method:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_nonzero_sum</span><span class="o">.</span><span class="n">mangasarian_stone_solve</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -8550,10 +8713,86 @@ y_1 enters, r_1 departs
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>True</pre>
+<pre>{'p_i': array([0.3374337 , 0.24917907, 0.41338723]),
+ 'q_j': array([0.21908541, 0.10161508, 0.67929951]),
+ 'val1': 82.62606457928055,
+ 'val2': 36.37698012002112}</pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>We also compare with the method we built to solve LCPs:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">mec.gt</span> <span class="kn">import</span> <span class="n">LCP</span>
+
+<span class="k">def</span> <span class="nf">Bimatrix_game_to_LCP</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">M_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)),</span> <span class="n">M</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">],</span>
+                      <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">B_i_j</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">))]])</span>
+    <span class="n">q_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">LCP</span><span class="p">(</span><span class="n">M_i_j</span><span class="p">,</span> <span class="n">q_i</span><span class="p">)</span>
+
+<span class="n">Bimatrix_game</span><span class="o">.</span><span class="n">to_LCP</span> <span class="o">=</span> <span class="n">Bimatrix_game_to_LCP</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_nonzero_sum</span><span class="o">.</span><span class="n">to_LCP</span><span class="p">()</span><span class="o">.</span><span class="n">lemke_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>==========
+Solution not found: Ray termination.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Since the Lemke–Howson algorithm is certain to find a solution, it is more robust than Lemke's algorithm to find solutions to bimatrix games.</p>
 </div>
 </div>
 </div>

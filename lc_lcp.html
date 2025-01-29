@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>gt01_zerosum-games</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>lc01_lcp</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -7510,36 +7510,34 @@ a.anchor-link {
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=604e1d5b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Zero-sum-games"><center>Zero-sum games</center><a class="anchor-link" href="#Zero-sum-games">¶</a></h1><h3 id="Alfred-Galichon-(NYU-&amp;-Sciences-Po)-and-Antoine-Jacquet-(Sciences-Po)"><center>Alfred Galichon (NYU &amp; Sciences Po) and Antoine Jacquet (Sciences Po)</center><a class="anchor-link" href="#Alfred-Galichon-(NYU-&amp;-Sciences-Po)-and-Antoine-Jacquet-(Sciences-Po)">¶</a></h3><h2 id="'math+econ+code'-masterclass-series"><center>'math+econ+code' masterclass series</center><a class="anchor-link" href="#'math+econ+code'-masterclass-series">¶</a></h2><h4 id="With-python-code-examples"><center>With python code examples</center><a class="anchor-link" href="#With-python-code-examples">¶</a></h4><p>© 2018–2025 by Alfred Galichon. Past and present support from NSF grant DMS-1716489, ERC grant CoG-866274 are acknowledged, as well as inputs from contributors listed <a href="http://www.math-econ-code.org/team">here</a>.</p>
-<p><strong>If you reuse material from this masterclass, please cite as:</strong><br/>
-Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://www.math-econ-code.org/">https://www.math-econ-code.org/</a></p>
+<h1 id="Linear-Complementarity-Problems"><center>Linear Complementarity Problems</center><a class="anchor-link" href="#Linear-Complementarity-Problems">¶</a></h1><h3 id="Alfred-Galichon-(NYU-&amp;-Sciences-Po)-and-Antoine-Jacquet-(Sciences-Po)"><center>Alfred Galichon (NYU &amp; Sciences Po) and Antoine Jacquet (Sciences Po)</center><a class="anchor-link" href="#Alfred-Galichon-(NYU-&amp;-Sciences-Po)-and-Antoine-Jacquet-(Sciences-Po)">¶</a></h3><h2 id="'math+econ+code'-masterclass-on-linear-complementarity"><center>'math+econ+code' masterclass on linear complementarity</center><a class="anchor-link" href="#'math+econ+code'-masterclass-on-linear-complementarity">¶</a></h2><h4 id="With-python-code-examples"><center>With python code examples</center><a class="anchor-link" href="#With-python-code-examples">¶</a></h4><p>© 2018–2024 by Alfred Galichon with contributions by Antoine Jacquet. Past and present support from NSF grant DMS-1716489, ERC grant CoG-866274 are acknowledged, as well as inputs from contributors listed <a href="http://www.math-econ-code.org/team">here</a>.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4fd5ed0b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Learning-objectives">Learning objectives<a class="anchor-link" href="#Learning-objectives">¶</a></h2><ul>
-<li>Zero-sum games</li>
-<li>Computing equilibria using linear programming</li>
+<h3 id="References">References<a class="anchor-link" href="#References">¶</a></h3><ul>
+<li>Murty (1997). <em>Linear Complementarity, Linear and Nonlinear Programming: Internet Edition</em>.</li>
+<li>Cottle, Pang, Stone (2008). <em>The Linear Complementarity Problem</em>.</li>
 </ul>
-<h2 id="References">References<a class="anchor-link" href="#References">¶</a></h2><ul>
-<li>Palacios–Huerta (2003). "Professionals play minimax." <em>The Review of Economic Studies</em>.</li>
+<h3 id="Learning-objectives">Learning objectives<a class="anchor-link" href="#Learning-objectives">¶</a></h3><ul>
+<li>Lemke algorithm</li>
 </ul>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=810fca1d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7551,25 +7549,49 @@ Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://www.math-
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">grb</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3de2dc75">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="The-penalty-game">The penalty game<a class="anchor-link" href="#The-penalty-game">¶</a></h1><p>We use the example of penalty kicks from Palacios–Huerta (2003).
-Player 1 (kicker) takes action $i \in \{L,C, R \}$, and so does Player 2 (goalkeeper).
-The following matrix indicates the probability $A_{ij}$ of scoring a goal if Player 1 plays $i$ and Player 2 plays $j$ (it is constructed from Table 2 in the paper).</p>
+<h1 id="The-Linear-complementarity-problem">The Linear complementarity problem<a class="anchor-link" href="#The-Linear-complementarity-problem">¶</a></h1><p>Let $q \in \mathbf R^n$ and $M$ a square matrix of size $n$. 
+The linear complementarity problem $(M, q)$ consists in finding two vectors $z \in \mathbf R^n$ and $w \in \mathbf R^n$ such that:</p>
+<ul>
+<li>$z \geq 0$ and $w \geq 0$,</li>
+<li>$w = M z + q$,</li>
+<li>$z^\top w = 0$, i.e. $\forall i, \; z_i \, w_i = 0$.</li>
+</ul>
+<p>A common shortened notation for this problem is:</p>
+<p>$0 \leq z \perp Mz + q \geq 0$.</p>
+<p><em>Remark.</em> If $q \geq 0$, then the LCP has a trivial solution: $z = 0$, $w = q$.</p>
+<h2 id="Quadratic-programming-formulation">Quadratic programming formulation<a class="anchor-link" href="#Quadratic-programming-formulation">¶</a></h2><p>Closely related to the LCP above is the quadratic programming (QP) problem:</p>
+\begin{align}
+\min_{z, w \geq 0} ~&amp; z^\top w \\
+\text{s.t.} ~&amp; w = Mz + q.
+\end{align}<p>If $z, w$ is a solution to this QP problem which achieves an objective value of 0, then it is a solution to the LCP.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fa5c7d7c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>We start by defining a class <code>LCP</code>, along with a method <code>qp_solve</code> which solves LCPs using the QP formulation and Gurobi.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=3ef58507">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7577,42 +7599,53 @@ The following matrix indicates the probability $A_{ij}$ of scoring a goal if Pla
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">A_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">53.21</span><span class="p">,</span> <span class="mf">71.35</span><span class="p">,</span> <span class="mf">93.80</span><span class="p">],</span> 
-                  <span class="p">[</span><span class="mf">90.26</span><span class="p">,</span> <span class="mf">42.81</span><span class="p">,</span> <span class="mf">86.12</span><span class="p">],</span> 
-                  <span class="p">[</span><span class="mf">96.88</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mf">75.43</span><span class="p">]])</span>
-
-<span class="n">A_i_j</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">LCP</span><span class="p">:</span> <span class="c1"># z &gt;= 0, w = M z + q &gt;= 0, z.w = 0</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M_i_j</span><span class="p">,</span> <span class="n">q_i</span><span class="p">,</span> <span class="n">z_names_i</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">w_names_i</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">M_i_j</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">M_i_j</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"M_i_j must be square."</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">M_i_j</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_i</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"M_i_j and q_i must be of the same size."</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M_i_j</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_i</span> <span class="o">=</span> <span class="n">M_i_j</span><span class="p">,</span> <span class="n">q_i</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">z_names_i</span> <span class="ow">is</span> <span class="kc">None</span> <span class="p">:</span>
+            <span class="n">z_names_i</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'z_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">w_names_i</span> <span class="ow">is</span> <span class="kc">None</span> <span class="p">:</span>
+            <span class="n">w_names_i</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'w_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z_names_i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_names_i</span> <span class="o">=</span> <span class="n">z_names_i</span><span class="p">,</span> <span class="n">w_names_i</span>
+    
+    <span class="k">def</span> <span class="nf">qp_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="n">qp</span> <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">silent</span><span class="p">:</span>
+            <span class="n">qp</span><span class="o">.</span><span class="n">Params</span><span class="o">.</span><span class="n">OutputFlag</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">qp</span><span class="o">.</span><span class="n">Params</span><span class="o">.</span><span class="n">NonConvex</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">qp</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">qp</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)</span>
+        <span class="n">qp</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">M_i_j</span> <span class="o">@</span> <span class="n">z</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_i</span><span class="p">)</span>
+        <span class="n">qp</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">z</span> <span class="o">@</span> <span class="n">w</span><span class="p">,</span> <span class="n">sense</span> <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">MINIMIZE</span><span class="p">)</span>
+        <span class="n">qp</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+        <span class="n">zsol</span><span class="p">,</span> <span class="n">wsol</span><span class="p">,</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">qp</span><span class="o">.</span><span class="n">ObjVal</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'z.w ='</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'z ='</span><span class="p">,</span> <span class="n">zsol</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'w ='</span><span class="p">,</span> <span class="n">wsol</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">zsol</span><span class="p">,</span> <span class="n">wsol</span><span class="p">,</span> <span class="n">obj</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>array([[ 53.21,  71.35,  93.8 ],
-       [ 90.26,  42.81,  86.12],
-       [ 96.88, 100.  ,  75.43]])</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cc4e8b5d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The next table indicates the observed probability $\pi_{ij}$ that player 1 takes action $i$ and that player 2 takes action $j$.</p>
+<p>Let's look at a few examples.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=925f96ad">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7620,403 +7653,10 @@ The following matrix indicates the probability $A_{ij}$ of scoring a goal if Pla
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">π_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">.160</span><span class="p">,</span><span class="mf">.004</span><span class="p">,</span><span class="mf">.229</span><span class="p">],</span>
-                  <span class="p">[</span><span class="mf">.034</span><span class="p">,</span><span class="mf">.004</span><span class="p">,</span><span class="mf">.037</span><span class="p">],</span>
-                  <span class="p">[</span><span class="mf">.207</span><span class="p">,</span><span class="mf">.008</span><span class="p">,</span><span class="mf">.313</span><span class="p">]])</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">kostreva_ex</span> <span class="o">=</span> <span class="n">LCP</span><span class="p">(</span><span class="n">M_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]),</span>
+                  <span class="n">q_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
 
-<span class="n">π_i_j</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>array([[0.16 , 0.004, 0.229],
-       [0.034, 0.004, 0.037],
-       [0.207, 0.008, 0.313]])</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Consider the penalty game as a zero-sum game: if player $1$ plays $i \in I$ and player 2 plays $j \in J$, then:</p>
-<ul>
-<li>the payoff to player 1 is $A_{ij}$,</li>
-<li>the payoff to player 2 is $-A_{ij}$.</li>
-</ul>
-<p>Hence zero-sum games can be represented using a single matrix $A$: for this reason they are also known as <em>matrix games</em>.
-we define a Python class for these objects.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Matrix_game</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A_i_j</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span> <span class="o">=</span> <span class="n">A_i_j</span><span class="o">.</span><span class="n">shape</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">=</span> <span class="n">A_i_j</span>
-
-<span class="n">penalty_game</span> <span class="o">=</span> <span class="n">Matrix_game</span><span class="p">(</span><span class="n">A_i_j</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Equilibrium-in-pure-strategies">Equilibrium in pure strategies<a class="anchor-link" href="#Equilibrium-in-pure-strategies">¶</a></h2><p>If player 1 plays $i$, then player 2's best response is $J(i) = \arg\min_j A_{ij}$.</p>
-<p>If player 2 plays $j$, then player 1's best response is $I(j) = \arg\max_i A_{ij}$.</p>
-<p>An equilibrium in pure strategies is a pair $(i^*,j^*)$ such that $i^* \in I(j^*)$ and $j^* \in J(i^*)$.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Matrix_game_BRI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">j</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[:,</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[:,</span><span class="n">j</span><span class="p">]))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-
-<span class="k">def</span> <span class="nf">Matrix_game_BRJ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">[</span><span class="n">i</span><span class="p">,:]))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-
-<span class="n">Matrix_game</span><span class="o">.</span><span class="n">BRI</span> <span class="o">=</span> <span class="n">Matrix_game_BRI</span>
-<span class="n">Matrix_game</span><span class="o">.</span><span class="n">BRJ</span> <span class="o">=</span> <span class="n">Matrix_game_BRJ</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_game</span><span class="o">.</span><span class="n">BRI</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">penalty_game</span><span class="o">.</span><span class="n">BRJ</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> 
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>(array([2], dtype=int64), array([0], dtype=int64))</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Look for equilibria in pure strategies using:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Matrix_game_purestrat_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">[</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">BRI</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">BRJ</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">)</span> <span class="p">]</span>
-
-<span class="n">Matrix_game</span><span class="o">.</span><span class="n">purestrat_solve</span> <span class="o">=</span> <span class="n">Matrix_game_purestrat_solve</span>
-
-<span class="n">penalty_game</span><span class="o">.</span><span class="n">purestrat_solve</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>[]</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>We see that in this game, there is no equilibrium in pure strategies.
-In fact, it is possible to show that a game has an equilibrium in pure strategies if there is no advantage in playing first in the sequential version of the game, i.e. the value of the game is the same regardless of whether player 1 plays first or second.
-Clearly, this is not the case here: if the kicker plays first, then the goalkeeper can move to where the kicker kicked in order to decrease the probability of a goal.
-If the goalkeeper plays first, then the kicker can kick where the goalkeeper did not move.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Equilibrium-in-mixed-strategies">Equilibrium in mixed strategies<a class="anchor-link" href="#Equilibrium-in-mixed-strategies">¶</a></h2><p>Assume player 1 plays mixed strategy $p = (p_i) \in \Delta_I$,
-and player 2 plays mixed strategy $q = (q_j) \in \Delta_J$.
-Then:</p>
-<ul>
-<li><p>the expected payoff to player 1 is $\sum_{ij} p_i q_ j A_{ij} = p^\top A q$.</p>
-</li>
-<li><p>the expected payoff to player 2 is minus the former.</p>
-</li>
-</ul>
-<p>If player 1 plays $p$, then player 2's best response is $Q(p) = \arg\min_{q \in \Delta_J} p^\top A q$.</p>
-<p>If player 2 plays $q$, then player 1's best response is $P(q) = \arg\max_{p \in \Delta_I} p^\top A q$.</p>
-<p>An equilibrium in mixed strategies is a pair $(p^*, q^*)$ such that $p^* \in P(q^*)$ and $q^* \in Q(p^*)$.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Equilibrium-as-a-linear-programming-problem">Equilibrium as a linear programming problem<a class="anchor-link" href="#Equilibrium-as-a-linear-programming-problem">¶</a></h1><p>Hence, at equilibrium, $p$ and $q$ are played in order to
-\begin{equation}
-\max_{p \in \Delta_I} \, \min_{q \in \Delta_J} ~ p^\top A q.
-\end{equation}</p>
-<p>In general, we have 
-\begin{equation}
-\max_{p \in \Delta_I} \, \min_{q \in \Delta_J} ~ p^\top A q
-\leq \min_{q \in \Delta_J} \, \max_{p \in \Delta_I} ~ p^\top A q
-\end{equation}</p>
-<p>but here we have in fact equality.
-Indeed, we show below that both programs are in fact dual linear programs.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Player-1's-problem">Player 1's problem<a class="anchor-link" href="#Player-1's-problem">¶</a></h2><p>From the point of view of player 1, the problem is
-\begin{equation*}
-\max_{p \in \Delta_I} \, \min_{q \in \Delta_J} ~ p^\top A q.
-\end{equation*}</p>
-<p>First, the problem of player 2 anticipating that player 1 will play $p$ is 
-\begin{align}
-\min_{q \in \Delta_J} p^\top A q
-&amp;= \min_{q \in \Delta_J} \sum_j q_j \left( \sum_i A_{ij} p_i \right) \\
-&amp;= \min_{j \in J} \sum_i A_{ij} p_i.
-\end{align}</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Then, player 1 wants to 
-\begin{equation}
-\max_{p \in \Delta_I, U} \left\{ U : U = \min_{j \in J} \sum_i A_{ij} p_i \right\}
-\end{equation}
-but this is equivalent with 
-\begin{equation}
-\max_{p \in \Delta_I, U} \left\{ U : U \leq \min_{j \in J} \sum_i A_{ij} p_i \right\}.
-\end{equation}</p>
-<p>Thus the program of player 1 is 
-\begin{equation}
-\max_{p \in \Delta_I, U} \left\{ U : U \leq \sum_i A_{ij} p_i \text{ for all $j$} \right\},
-\end{equation}</p>
-<p>that is
-\begin{align}
-V_1 = \max_{ p_i \geq 0, U} ~ &amp; U \\
-\text{s.t.} ~ &amp; U \leq \textstyle\sum_i A_{ij} p_i \quad (\forall j) \\
-&amp; \textstyle\sum_i p_i = 1.
-\end{align}</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Introduce $x_i = p_i/U$.
-We can reformulate the previous problem as</p>
-\begin{align}
-V_1 = \max_{x_i \geq 0, U} ~ &amp; U \\
-\text{s.t.} ~ &amp; U \leq \textstyle\sum_i A_{ij} x_i U \quad (\forall j) \\
-&amp;\textstyle\sum_i x_i U = 1
-\end{align}<p>which, using $U = \frac{1}{\sum_i x_i}$, simplifies into
-\begin{align}
-V_1 = \max_{x_i \geq 0} ~ &amp; \frac{1}{\sum_i x_i} \\
-\text{s.t.} ~ &amp; 1 \leq \textstyle\sum_i A_{ij} x_i \quad (\forall j)
-\end{align}
-and finally into the linear programming problem:
-\begin{align}
-\frac{1}{V_1} = \min_{x_i \geq 0} ~ &amp;\sum_i x_i \\
-\text{s.t.} ~ &amp; \textstyle\sum_i A_{ij} x_i \geq 1 \quad (\forall j) \quad [y_j \geq 0].
-\end{align}</p>
-<p>Recall that $x_i = p_i/U$ and $U = \frac{1}{\sum_i x_i}$. Therefore
-\begin{equation}
-p_i = x_i U = \frac{x_i}{\sum_i x_i}.
-\end{equation}</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Player-2's-problem">Player 2's problem<a class="anchor-link" href="#Player-2's-problem">¶</a></h2><p>From the point of view of player 2, the problem is 
-\begin{equation}
-\min_{q \in \Delta_J} \, \max_{p \in \Delta_I} ~ p^\top A q.
-\end{equation}</p>
-<p>If player 1 anticipates that player 2 will play $q$, then she does 
-\begin{equation}
-\max_{p \in \Delta_I} ~ p^\top A q = \max_{i \in I} \sum_j A_{ij} q_j.
-\end{equation}</p>
-<p>Then, player 2 wants to 
-\begin{equation}
-\min_{q \in \Delta_J, V} \left\{ V : V \geq \max_{i \in I} \sum_j A_{ij} q_j \right\}
-\end{equation}
-which is also
-\begin{equation}
-\min_{q \in \Delta_J, V} \left\{ V : V \geq \sum_j A_{ij} q_j \text{ for all $i$} \right\}
-\end{equation}
-that is
-\begin{align}
-V_2 = \min_{q_j \geq 0, V} ~ &amp; V \\
-\text{s.t.} ~ &amp; V \geq \textstyle\sum_j A_{ij} q_j \quad (\forall i) \\
-&amp; \textstyle\sum_j q_j = 1.
-\end{align}</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Introducing $y_j = q_j/V$, we can again reformulate this problem as</p>
-\begin{align}
-\frac{1}{V_2} = \max_{y_j \geq 0} ~ &amp; \sum_j y_j \\
-\text{s.t.} ~ &amp; \textstyle\sum_j A_{ij} y_j \leq 1 \quad (\forall i) \quad [x_i \geq 0]
-\end{align}<p>and we have 
-\begin{equation}
-q_j = y_j V = \frac{y_j}{\sum_j y_j}.
-\end{equation}</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Computation-using-Gurobi">Computation using Gurobi<a class="anchor-link" href="#Computation-using-Gurobi">¶</a></h2><p>We use player 2's point of view to solve for the equilibrium.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Matrix_game_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">Params</span><span class="o">.</span><span class="n">OutputFlag</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addMVar</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span><span class="p">,</span> <span class="n">grb</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">@</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">))</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span> 
-    <span class="n">ystar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">'x'</span><span class="p">))</span>
-    <span class="n">xstar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">'pi'</span><span class="p">))</span>
-    <span class="n">V_2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">'ObjVal'</span><span class="p">)</span>
-    <span class="n">p_i</span> <span class="o">=</span> <span class="n">V_2</span> <span class="o">*</span> <span class="n">xstar</span>
-    <span class="n">q_j</span> <span class="o">=</span> <span class="n">V_2</span> <span class="o">*</span> <span class="n">ystar</span>
-    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">'p_i ='</span><span class="p">,</span> <span class="n">p_i</span><span class="p">,</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">q_j ='</span><span class="p">,</span> <span class="n">q_j</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s1">'p_i'</span><span class="p">:</span> <span class="n">p_i</span><span class="p">,</span> <span class="s1">'q_j'</span><span class="p">:</span> <span class="n">q_j</span><span class="p">,</span> <span class="s1">'val'</span><span class="p">:</span> <span class="n">V_2</span><span class="p">}</span>
-
-<span class="n">Matrix_game</span><span class="o">.</span><span class="n">solve</span> <span class="o">=</span> <span class="n">Matrix_game_solve</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">sol</span> <span class="o">=</span> <span class="n">penalty_game</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">kostreva_ex</span><span class="o">.</span><span class="n">qp_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8030,152 +7670,34 @@ q_j = y_j V = \frac{y_j}{\sum_j y_j}.
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Restricted license - for non-production use only - expires 2025-11-24
-p_i = [0.3033884  0.15180727 0.54480433] 
-q_j = [0.21908541 0.10161508 0.67929951]
+z.w = 0.0
+z = [   0.         4914.97458044 4913.97458044]
+w = [19659.89832177     0.             0.        ]
 </pre>
 </div>
 </div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">p_i</span><span class="p">,</span> <span class="n">q_j</span> <span class="o">=</span> <span class="n">sol</span><span class="p">[</span><span class="s1">'p_i'</span><span class="p">],</span> <span class="n">sol</span><span class="p">[</span><span class="s1">'q_j'</span><span class="p">]</span>
-<span class="n">p_i</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">q_j</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>array([[0.06646797, 0.03082884, 0.20609159],
-       [0.03325876, 0.01542591, 0.1031226 ],
-       [0.11935868, 0.05536033, 0.37008532]])</pre>
+<pre>(array([   0.        , 4914.97458044, 4913.97458044]),
+ array([19659.89832177,     0.        ,     0.        ]),
+ 0.0)</pre>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Compare this with the observed probabilties of playing $i$ and $j$:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9b8cb8d6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">π_i_j</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>array([[0.16 , 0.004, 0.229],
-       [0.034, 0.004, 0.037],
-       [0.207, 0.008, 0.313]])</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Higher consistency is obtained in the original paper by merging the actions $C$ and $R$.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Computation-using-the-simplex-algorithm">Computation using the simplex algorithm<a class="anchor-link" href="#Computation-using-the-simplex-algorithm">¶</a></h2><p>We use the simplex algorithm that we implemented in the <a href="https://www.math-econ-code.org/simplex">lectures on linear programming</a>, still from player 2's point of view.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Dictionary">Dictionary<a class="anchor-link" href="#Dictionary">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">mec.lp</span>
-<span class="kn">from</span> <span class="nn">mec.lp</span> <span class="kn">import</span> <span class="n">Dictionary</span>
-<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="k">def</span> <span class="nf">Matrix_game_simplex_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="n">dictionary</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="p">(</span><span class="n">A_i_j</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">,</span> <span class="n">b_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">),</span> <span class="n">c_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">),</span>
-                            <span class="n">decision_var_names_j</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'y_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)])</span>
-    <span class="n">ystar</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">ystar_sum</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">simplex_solve</span><span class="p">()</span> <span class="c1"># this returns the decision and slack variables</span>
-    <span class="n">q_j</span> <span class="o">=</span> <span class="n">ystar</span> <span class="o">/</span> <span class="n">ystar_sum</span>
-    <span class="n">expr_obj</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">base</span><span class="p">[</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">'obj'</span><span class="p">)]</span> <span class="c1"># dual variables are coefficients in the objective</span>
-    <span class="n">xstar</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">expr_obj</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">var</span><span class="p">))</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">nonbasic</span><span class="p">])</span>
-    <span class="n">p_i</span> <span class="o">=</span> <span class="n">xstar</span> <span class="o">/</span> <span class="n">ystar_sum</span>
-    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">'p_i ='</span><span class="p">,</span> <span class="n">p_i</span><span class="p">,</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">q_j ='</span><span class="p">,</span> <span class="n">q_j</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s1">'p_i'</span><span class="p">:</span> <span class="n">p_i</span><span class="p">,</span> <span class="s1">'q_j'</span><span class="p">:</span> <span class="n">q_j</span><span class="p">,</span> <span class="s1">'val'</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="n">ystar_sum</span><span class="p">}</span>
-
-<span class="n">Matrix_game</span><span class="o">.</span><span class="n">simplex_solve</span> <span class="o">=</span> <span class="n">Matrix_game_simplex_solve</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_game</span><span class="o">.</span><span class="n">simplex_solve</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">kostreva_ex2</span> <span class="o">=</span> <span class="n">LCP</span><span class="p">(</span><span class="n">M_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]),</span>
+                   <span class="n">q_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]))</span> <span class="c1"># supposed to cause cycling and to have unique solution?!?</span>
+                                                 <span class="c1"># but we find different solutions here and later</span>
+<span class="n">kostreva_ex2</span><span class="o">.</span><span class="n">qp_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8188,33 +7710,565 @@ q_j = [0.21908541 0.10161508 0.67929951]
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Optimal solution found.
-=======================
+<pre>z.w = 0.0
+z = [0.33333333 0.33333333 0.33333333]
+w = [0. 0. 0.]
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'p_i': array([0.3033884 , 0.15180727, 0.54480433]),
- 'q_j': array([0.21908541, 0.10161508, 0.67929951]),
- 'val': 82.62606457928055}</pre>
+<pre>(array([0.33333333, 0.33333333, 0.33333333]), array([0., 0., 0.]), 0.0)</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=38cac692">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">murty_ex_2_9</span> <span class="o">=</span> <span class="n">LCP</span><span class="p">(</span><span class="n">M_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]]),</span>
+                   <span class="n">q_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span> <span class="c1"># supposed to ray-terminate</span>
+
+<span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">qp_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>z.w = 0.0
+z = [3.  2.5 0. ]
+w = [0.  0.  7.5]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>(array([3. , 2.5, 0. ]), array([0. , 0. , 7.5]), 0.0)</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=eba36bd2">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">murty_ex_2_10</span> <span class="o">=</span> <span class="n">LCP</span><span class="p">(</span><span class="n">M_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]]),</span>
+                    <span class="n">q_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span><span class="o">-</span><span class="mi">14</span><span class="p">]))</span>
+
+<span class="n">murty_ex_2_10</span><span class="o">.</span><span class="n">qp_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>z.w = 0.0
+z = [8. 0. 0.]
+w = [0. 4. 2.]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>(array([8., 0., 0.]), array([0., 4., 2.]), 0.0)</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9a962279">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Tableau">Tableau<a class="anchor-link" href="#Tableau">¶</a></h3>
+<h2 id="Linear-programming-as-LCP">Linear programming as LCP<a class="anchor-link" href="#Linear-programming-as-LCP">¶</a></h2><p>Consider the linear program $P$ together with its dual $D$:</p>
+\begin{align}
+    P: \; \max_{x \geq 0} &amp; ~ c^\top x &amp;\qquad D : \; \min_{y \geq 0} &amp; ~ b^{\top} y \\
+          \text{s.t.} &amp; ~ A x \leq b   &amp;              \text{s.t.} &amp; ~ A^\top y \geq c,
+\end{align}<p>where $b \in \mathbf R^m$, $c \in \mathbf R^n$, and $A$ is a $m \times n$ matrix.</p>
+<p>Introducing $v \in \mathbf R^m$ the primal slack variables, and $u \in \mathbf R^n$ the dual slack variables, the optimality conditions are</p>
+<p><strong>Primal feasibility.</strong> $x \geq 0$, $v \geq 0$, $A x + v = b$</p>
+<p><strong>Dual feasibility.</strong> $y \geq 0$, $u \geq 0$, $A^\top y - u = c$</p>
+<p><strong>Complementary slackness.</strong> $x^\top u = 0$ and $y^\top v = 0$</p>
+<p>We can rearrange this as</p>
+\begin{equation}
+    \begin{pmatrix} x \\ y \end{pmatrix} \geq 0,
+    \quad
+    \begin{pmatrix} u \\ v \end{pmatrix} \geq 0,
+    \quad
+    \begin{pmatrix} u \\ v \end{pmatrix} = 
+    \begin{pmatrix} 0 &amp; A^\top \\ -A &amp; 0 \end{pmatrix}
+    \begin{pmatrix} x \\ y \end{pmatrix}
+    + \begin{pmatrix} -c \\ b \end{pmatrix},
+    \quad
+    \begin{pmatrix} x \\ y \end{pmatrix}^\top \begin{pmatrix} u \\ v \end{pmatrix} = 0
+\end{equation}<p>which is a LCP of order $n + m$ with
+\begin{equation}
+    M = \begin{pmatrix} 0 &amp; A^\top \\ -A &amp; 0 \end{pmatrix},
+    \quad
+    q = \begin{pmatrix} -c \\ b \end{pmatrix}.
+\end{equation}</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=aa6e05a1">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Geometry-of-the-LCP">Geometry of the LCP<a class="anchor-link" href="#Geometry-of-the-LCP">¶</a></h2><p>One can see the LCP as a combinatorial problem, where for each $i = 1,\dots,n$ we are able to choose either the variable $z_i$ or the variable $w_i$.<br/>
+In the equation $w - Mz = q$, each one of these variables is associated with a vector:</p>
+<ul>
+<li>for $w_i$, the column vector $E_i$ defined as column $i$ of the identity matrix $\text I_n$ (the vectors $E_i$ form the canonical basis of $\mathbf R^n$),</li>
+<li>for $z_i$, the column vector $-M_{\cdot i}$, where $M_{\cdot i}$ is column $i$ of matrix $M$.</li>
+</ul>
+<p>Therefore, it is as if we were searching for $n$ coefficients $\alpha_i \geq 0$ and $n$ vectors $J_i \in \{E_i, -M_{\cdot i}\}$ such that</p>
+\begin{equation}
+    \alpha_1 J_1 + \dots + \alpha_n J_n = q.
+\end{equation}<p>When the coefficients $\alpha_i$ describe $\mathbf R_+$, the left-hand side of this equation is actually the <em>cone</em> generated by the vectors $(J_1, \dots, J_n)$.
+Hence the LCP is equivalent to finding a combination of $n$ vectors, with vector $i$ being either $E_i$ or $-M_{\cdot i}$, such that the vector $q$ is in the cone generated by these $n$ vectors.</p>
+<p><em>Remark.</em> Since the cone generated by the columns of $\text I_n$ is the positive quadrant $\{ q \in \mathbf R^n : q \geq 0 \}$, we notice again with this geometric interpretation that the problem is trivial when $q \geq 0$.</p>
+<p>This geometric formulation actually provides a way to solve the LCP, called the <em>exhaustive search</em>:</p>
+\begin{equation}
+    \text{find $\alpha_1, \dots, \alpha_n \geq 0$ such that }
+    \alpha_1 J_1 + \dots + \alpha_n J_n = q
+\end{equation}<p>for all combinations of $J_i \in \{E_i, -M_{\cdot i}\}$. In practice however this method is not useful, because it requires to solve $2^n$ linear systems with positivity constraints on the coefficients.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=07fb8d3b">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Let's illustrate the geometry using a simple problem of order 2,</p>
+\begin{equation}
+    M = \begin{pmatrix}
+        5 &amp; -10 \\ -10 &amp; 4
+    \end{pmatrix},
+    \qquad
+    q = \begin{pmatrix}
+        8 \\ -1
+    \end{pmatrix}.
+\end{equation}<p>We attach a method <code>plot_cones</code> to the <code>LCP</code> class: for problems of order 2, it plots the (normalized) column vectors from the matrices $\text I_2$ and $-M$, as well as $q$, and the four cones generated by the process described above.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=9ac67301">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">LCP_plot_cones</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Can</span><span class="se">\'</span><span class="s1">t plot in 2D because the problem is of order different from 2.'</span><span class="p">)</span>
+    <span class="n">A</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">M_i_j</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_i</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'left'</span><span class="p">]</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="s1">'zero'</span><span class="p">),</span> <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'bottom'</span><span class="p">]</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="s1">'zero'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">'none'</span><span class="p">),</span> <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">'none'</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">.6</span><span class="p">,</span><span class="mf">.7</span><span class="p">],[</span><span class="mf">.8</span><span class="p">,</span><span class="mf">.9</span><span class="p">]])</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]])</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span> <span class="n">angles</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span><span class="n">j</span><span class="p">]))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+            <span class="n">angle_1</span> <span class="o">=</span> <span class="n">angles</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">angle_2</span> <span class="o">=</span> <span class="n">angles</span><span class="p">[</span><span class="n">j</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">angle_1</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">angle_2</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">angle_1</span> <span class="o">-</span> <span class="n">angle_2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span>
+                    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">angle_1</span><span class="p">,</span> <span class="n">angle_2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">angle_1</span><span class="p">,</span> <span class="n">angle_2</span><span class="p">),</span> <span class="mi">100</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">angle_1</span> <span class="o">-</span> <span class="n">angle_2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span>
+                    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">angle_1</span><span class="p">,</span> <span class="n">angle_2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">angle_1</span><span class="p">,</span> <span class="n">angle_2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)),</span> <span class="s1">'b'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">],</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale_units</span><span class="o">=</span><span class="s1">'xy'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'b'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">],</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">],</span> <span class="sa">r</span><span class="s1">'$E_{{</span><span class="si">{}</span><span class="s1">}}$'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'bottom'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span><span class="n">i</span><span class="p">]),</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span><span class="n">i</span><span class="p">]),</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale_units</span><span class="o">=</span><span class="s1">'xy'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'b'</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span><span class="n">i</span><span class="p">]),</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span><span class="n">i</span><span class="p">]),</span> <span class="sa">r</span><span class="s1">'$-M_{{\cdot</span><span class="si">{}</span><span class="s1">}}$'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'bottom'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">q</span><span class="p">),</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">q</span><span class="p">),</span> <span class="n">angles</span><span class="o">=</span><span class="s1">'xy'</span><span class="p">,</span> <span class="n">scale_units</span><span class="o">=</span><span class="s1">'xy'</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'r'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">),</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">LCP</span><span class="o">.</span><span class="n">plot_cones</span> <span class="o">=</span> <span class="n">LCP_plot_cones</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2c16b13f">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">ex_lcp</span> <span class="o">=</span> <span class="n">LCP</span><span class="p">(</span><span class="n">M_i_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]),</span> 
+             <span class="n">q_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+<span class="n">ex_lcp</span><span class="o">.</span><span class="n">qp_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ex_lcp</span><span class="o">.</span><span class="n">plot_cones</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>z.w = 3.298488253446001e-09
+z = [0.275  0.9375]
+w = [5.99660626e-09 1.75938297e-09]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedImage jp-OutputArea-output" tabindex="0">
+<img alt="No description has been provided for this image" class="" src="data:image/png;base64,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GkikQaxcKCCsXbsWgiB0uh05cqRHzyEIgtNlURRdrmtrw4YN0Ol0LVtKSkqPnp8omLByoYDw4IMP4q677up0n7S0NK8eOykpCYBUwej1+pbrKyoqXKqZtlavXo2VK1e2XDYajQwYIg8xXCggxMfHIz4+3iePnZ6ejqSkJOzduxfjxo0DIM04279/P5599tkO7xcZGYnIyEiftIlI69gtRqpTWlqKoqIilJaWwmazoaioCEVFRTCZTC37jBgxAjt27AAgdYfl5eXhmWeewY4dO/D1119j0aJF6NWrFxYuXKjUyyDSNFYupDpPPPEE3njjjZbLjmqkoKAAU6dOBQCcPXsWBoOhZZ/f/OY3aGxsxAMPPICamhpMnDgRe/bsQUxMjF/bThQseJwLkYd4nAuR59gtRkREsmO4EBGR7BguREQkO4YLERHJjuFCRESyY7gQEZHsGC5ERCQ7hgsREcmO4UJERLJjuBARkewYLkREJDuGCxERyY7hQkREsmO4EBGR7BguREQkO4YLERHJjuFCRESyY7gQEZHsGC5ERCQ7hgsREcmO4UJERLJjuBARkewYLkREJDuGCxERyY7hQkREsmO4EBGR7BguREQkO0EURVHpRhCpgSiKqKurQ0xMDARBULo5RAGN4UJERLJjtxgREcmO4UJERLJjuBARkewYLkREJDuGCxERyY7hQkREsmO4EBGR7P4/azg++bhB77EAAAAASUVORK5CYII="/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cbd2d3ff">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Here the vector $q$ lies in two of the cones, and therefore the LCP has a solution.<br/>
+We also see that if we decrease $q_1$ enough, the problem does not have a solution anymore.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=29173d70">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">ex_lcp</span><span class="o">.</span><span class="n">q_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+<span class="c1">#ex_lcp.qp_solve(verbose=1, silent=False)  # problem is not feasible</span>
+<span class="c1">#ex_lcp.lemke_solve(verbose=2)    # ray termination</span>
+<span class="n">ex_lcp</span><span class="o">.</span><span class="n">plot_cones</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedImage jp-OutputArea-output" tabindex="0">
+<img alt="No description has been provided for this image" class="" src="data:image/png;base64,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"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4b957849">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Lemke-algorithm">Lemke algorithm<a class="anchor-link" href="#Lemke-algorithm">¶</a></h1><p>The Lemke algorithm works in a manner similar to the simplex algorithm: at each step, it chooses an entering variable, a departing variable, and performs a pivot operation to update the tableau accordingly.
+Its specificity is that it always chooses the entering variable so as to maintain a property of the basis called <em>almost complementarity</em>.
+Let's provide a quick description here.</p>
+<hr/>
+<p><em>Lemke algorithm</em></p>
+<p><strong>Step 0.</strong>
+Introduce an artificial variable $z_0$ associated with the column vector $-1_n$.
+Let $i^* = \arg\min_i q_i$, and choose the initial basic variables as $w_1, \dots, w_{i^* - 1}, z_0, w_{i^* + 1}, \dots, w_n$.
+Update the tableau.</p>
+<p><strong>Step 1.</strong> Choose the entering variable as the complement of the last departing variable.
+(Right after step 0, this is $z_{i^*}$.)</p>
+<p><strong>Step 2.</strong>
+Determine the departing variable using the minimum-ratio rule in the current tableau.
+If there is no admissible departing variable, stop (this is called <em>ray termination</em>).</p>
+<p><strong>Step 3.</strong>
+Update the tableau.
+If the departing variable is $z_0$, stop and find the solution.
+If not, go back to step 1.</p>
+<hr/>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5404f4aa">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Step 0. Finding an initial basic feasible vector</strong></p>
+<p>We saw that the case $q \geq 0$ is trivial, and therefore we will assume that there is at least one $q_i &lt; 0$.
+For this reason, we cannot take $w_i = q_i$, $z_i = 0$ as our initial basic feasible vector.</p>
+<p>Instead, we introduce an artificial variable $z_0 \geq 0$ associated with the column vector $-1_n = ( -1, \dots, -1)^\top$, yielding the system</p>
+\begin{equation}
+    w - M z - z_0 1_n = q.
+\end{equation}<p>Denoting $i^* = \arg\min_i q_i$, we can then choose the initial basic feasible vector</p>
+\begin{align}
+    z_0 &amp;= -q_{i^*} &amp; ~ \\
+    z_i &amp;= 0 &amp;(\forall i \geq 1) \\
+    w_i &amp;= q_i - q_{i^*} &amp;(\forall i \neq i^*) \\
+    w_{i^*} &amp;= 0, &amp; ~
+\end{align}<p>and our initial basic variables are $w_1, \dots, w_{i^* - 1}, z_0, w_{i^* + 1}, \dots, w_n$.</p>
+<p>We say that this basis is <em>almost complementary</em>, because it contains exactly one variable from each complementary pair $(z_i, w_i)$, except for one, namely $(z_{i^*}, w_{i^*})$.
+This is a property of the basis that we want to maintain throughout: for this reason, we choose $z_{i^*}$ as the first entering variable.</p>
+<p>By maintaining almost complementarity of the basis, if at some point $z_0$ is chosen as the departing variable, our basis will become <em>complementary</em>, and we will have found a solution to the LCP.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=df482869">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>We will make use of the class <code>Tableau</code> from the linear programming lectures to implement the algorithm.
+We start with a method to create the tableau associated with a LCP, including the artificial variable $z_0$.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d6fc04dd">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">mec.lp</span> <span class="kn">import</span> <span class="n">Tableau</span>
+
+<span class="k">def</span> <span class="nf">LCP_create_tableau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">tab</span> <span class="o">=</span> <span class="n">Tableau</span><span class="p">(</span><span class="n">A_i_j</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">M_i_j</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">,</span><span class="mi">1</span><span class="p">))]),</span>
+                  <span class="n">b_i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_i</span><span class="p">,</span> <span class="n">c_j</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">decision_var_names_j</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">z_names_i</span><span class="o">+</span><span class="p">[</span><span class="s1">'z_0'</span><span class="p">],</span> <span class="n">slack_var_names_i</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">w_names_i</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span> <span class="o">=</span> <span class="n">tab</span>
+    <span class="k">if</span> <span class="n">display</span><span class="p">:</span> <span class="n">tab</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+
+<span class="n">LCP</span><span class="o">.</span><span class="n">create_tableau</span> <span class="o">=</span> <span class="n">LCP_create_tableau</span>
+
+<span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">create_tableau</span><span class="p">(</span><span class="n">display</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>+-----+-------+-------+-------+-------+-------+-------+-------+-------+
+|     |   w_1 |   w_2 |   w_3 |   z_1 |   z_2 |   z_3 |   z_0 |   RHS |
++=====+=======+=======+=======+=======+=======+=======+=======+=======+
+| w_1 |     1 |     0 |     0 |    -1 |    -0 |    -3 |    -1 |    -3 |
++-----+-------+-------+-------+-------+-------+-------+-------+-------+
+| w_2 |     0 |     1 |     0 |     1 |    -2 |    -5 |    -1 |    -2 |
++-----+-------+-------+-------+-------+-------+-------+-------+-------+
+| w_3 |     0 |     0 |     1 |    -2 |    -1 |    -2 |    -1 |    -1 |
++-----+-------+-------+-------+-------+-------+-------+-------+-------+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6aad2a51">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>We update the tableau according to our initial basis.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=7d96d2d2">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">LCP_initialize_basis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">create_tableau</span><span class="p">()</span>
+    <span class="n">zis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">decision_var_names_j</span>
+    <span class="n">wis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">slack_var_names_i</span>
+    <span class="n">kent</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span> <span class="c1"># z_0 enters</span>
+    <span class="n">kdep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q_i</span><span class="p">)</span> <span class="c1"># w_istar departs</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span> <span class="nb">print</span><span class="p">((</span><span class="n">wis</span><span class="o">+</span><span class="n">zis</span><span class="p">)[</span><span class="n">kent</span><span class="p">]</span> <span class="o">+</span> <span class="s1">' enters, '</span> <span class="o">+</span> <span class="p">(</span><span class="n">wis</span><span class="o">+</span><span class="n">zis</span><span class="p">)[</span><span class="n">kdep</span><span class="p">]</span> <span class="o">+</span> <span class="s1">' departs'</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">kent</span><span class="p">,</span> <span class="n">kdep</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">display</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">kdep</span>
+
+<span class="n">LCP</span><span class="o">.</span><span class="n">initialize_basis</span> <span class="o">=</span> <span class="n">LCP_initialize_basis</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ecdc340b">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">kdep</span> <span class="o">=</span> <span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">initialize_basis</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>z_0 enters, w_1 departs
++-----+-------+-------+-------+-------+-------+-------+-------+-------+
+|     |   w_1 |   w_2 |   w_3 |   z_1 |   z_2 |   z_3 |   z_0 |   RHS |
++=====+=======+=======+=======+=======+=======+=======+=======+=======+
+| z_0 |    -1 |    -0 |    -0 |     1 |     0 |     3 |     1 |     3 |
++-----+-------+-------+-------+-------+-------+-------+-------+-------+
+| w_2 |    -1 |     1 |     0 |     2 |    -2 |    -2 |     0 |     1 |
++-----+-------+-------+-------+-------+-------+-------+-------+-------+
+| w_3 |    -1 |     0 |     1 |    -1 |    -1 |     1 |     0 |     2 |
++-----+-------+-------+-------+-------+-------+-------+-------+-------+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fb93c377">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Step 1. Entering variable</strong></p>
+<p>In the Lemke algorithm, the entering variable is chosen so as to maintain an almost complementary basis.
+With this rule, there is a single choice for the entering variable at each iteration.
+For instance, since $w_{i^*}$ left the basis in step 0 (it was replaced by $z_0$), the next entering variable must be $z_{i^*}$.</p>
+<p>In general, as long as $z_0$ still belongs to the basis, the last departing variable must have been some $w_{i^*}$ or $z_{i^*}$ ($i^* \neq 0$). Then, in order to maintain an almost complementary basis, our choice for the next entering variable must be $z_{i^\star}$ or $w_{i^\star}$, respectively.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ec8ef25d">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">complements</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">nbi</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">nbi</span><span class="p">))</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">nbi</span><span class="p">))</span>
+<span class="n">kent</span> <span class="o">=</span> <span class="n">complements</span><span class="p">[</span><span class="n">kdep</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">((</span><span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">slack_var_names_i</span> <span class="o">+</span> <span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">decision_var_names_j</span><span class="p">)[</span><span class="n">kent</span><span class="p">],</span> <span class="s1">'enters'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>z_1 enters
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=607c38bb">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Step 2. Departing variable</strong></p>
+<p>The departing variable is chosen according to the minimum ratio rule, similar to the simplex algorithm.</p>
+<p>If there is no such departing variable (because the column vector associated with the entering variable has all  its entries nonnegative) then the algorithm stops without finding a solution.
+This is called <strong>ray termination</strong>, because all values of the entering variable lead to a feasible vector, creating a half-line of feasible vectors (but which are not solutions to the LCP).</p>
+<p>Importantly, ray termination can occur even if the LCP <em>has</em> a solution.
+Here, additional assumptions on the matrix $M$ can ensure that the Lemke algorithm finds a solution if one exists.
+We come back to this below.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dd95648e">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>The choice of a departing variable will be implemented using the method <code>determine_departing</code> from the <code>Tableau</code> class.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=70e0d451">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8222,24 +8276,45 @@ q_j = [0.21908541 0.10161508 0.67929951]
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">mec.lp</span> <span class="kn">import</span> <span class="n">Tableau</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">kdep</span> <span class="o">=</span> <span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">determine_departing</span><span class="p">(</span><span class="n">kent</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">Matrix_game_simplex_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="n">tableau</span> <span class="o">=</span> <span class="n">Tableau</span><span class="p">(</span><span class="n">A_i_j</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">,</span> <span class="n">b_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">),</span> <span class="n">c_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">),</span>
-                      <span class="n">decision_var_names_j</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'y_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbj</span><span class="p">)])</span>
-    <span class="n">ystar</span><span class="p">,</span> <span class="n">xstar</span><span class="p">,</span> <span class="n">ystar_sum</span> <span class="o">=</span> <span class="n">tableau</span><span class="o">.</span><span class="n">simplex_solve</span><span class="p">()</span>
-    <span class="n">p_i</span> <span class="o">=</span> <span class="n">xstar</span> <span class="o">/</span> <span class="n">ystar_sum</span>
-    <span class="n">q_j</span> <span class="o">=</span> <span class="n">ystar</span> <span class="o">/</span> <span class="n">ystar_sum</span>
-    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">'p_i ='</span><span class="p">,</span> <span class="n">p_i</span><span class="p">,</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">q_j ='</span><span class="p">,</span> <span class="n">q_j</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s1">'p_i'</span><span class="p">:</span> <span class="n">p_i</span><span class="p">,</span> <span class="s1">'q_j'</span><span class="p">:</span> <span class="n">q_j</span><span class="p">,</span> <span class="s1">'val'</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="n">ystar_sum</span><span class="p">}</span>
-
-<span class="n">Matrix_game</span><span class="o">.</span><span class="n">simplex_solve</span> <span class="o">=</span> <span class="n">Matrix_game_simplex_solve</span>
+<span class="nb">print</span><span class="p">((</span><span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">slack_var_names_i</span> <span class="o">+</span> <span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">decision_var_names_j</span><span class="p">)[</span><span class="n">kdep</span><span class="p">],</span> <span class="s1">'departs'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>w_2 departs
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=15401cec">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Step 3: Pivot</strong></p>
+<p>The tableau is updated using the <code>update</code> method from the <code>Tableau</code> class.</p>
+<p>Here, one of two cases can arise:</p>
+<ol>
+<li><em>The departing variable was not $z_0$.</em> The algorithm proceeds normally, back to step 1.</li>
+<li><em>The departing variable was $z_0$.</em> Then our new basis is complementary, leading to a complementary basic feasible vector, i.e. a solution to the LCP that we recover using the <code>solution</code> method.</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f6f42fe9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8247,7 +8322,8 @@ q_j = [0.21908541 0.10161508 0.67929951]
 <div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">penalty_game</span><span class="o">.</span><span class="n">simplex_solve</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">kent</span><span class="p">,</span> <span class="n">kdep</span><span class="p">)</span>
+<span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -8257,28 +8333,35 @@ q_j = [0.21908541 0.10161508 0.67929951]
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'p_i': array([0.3033884 , 0.15180727, 0.54480433]),
- 'q_j': array([0.21908541, 0.10161508, 0.67929951]),
- 'val': 82.62606457928057}</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>+-----+-------+-------+-------+-------+-------+-------+-------+-------+
+|     |   w_1 |   w_2 |   w_3 |   z_1 |   z_2 |   z_3 |   z_0 |   RHS |
++=====+=======+=======+=======+=======+=======+=======+=======+=======+
+| z_0 |  -0.5 |  -0.5 |    -0 |     0 |     1 |     4 |     1 |   2.5 |
++-----+-------+-------+-------+-------+-------+-------+-------+-------+
+| z_1 |  -0.5 |   0.5 |     0 |     1 |    -1 |    -1 |     0 |   0.5 |
++-----+-------+-------+-------+-------+-------+-------+-------+-------+
+| w_3 |  -1.5 |   0.5 |     1 |     0 |    -2 |     0 |     0 |   2.5 |
++-----+-------+-------+-------+-------+-------+-------+-------+-------+
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=316ba896">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Computation-using-Chambolle%E2%80%93Pock">Computation using Chambolle–Pock<a class="anchor-link" href="#Computation-using-Chambolle%E2%80%93Pock">¶</a></h2>
+<p>We are now ready to implement the algorithm using <code>lemke_solve</code>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=64fd4e6d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8286,35 +8369,53 @@ q_j = [0.21908541 0.10161508 0.67929951]
 <div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Matrix_game_chambolle_pock_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">10e-6</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
-    <span class="n">L1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="p">))</span>
-    <span class="n">sigma</span><span class="p">,</span> <span class="n">tau</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">L1</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">L1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">LCP_lemke_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q_i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'=========='</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Solution found: trivial LCP (q &gt;= 0).'</span><span class="p">)</span>
+        <span class="n">zsol</span><span class="p">,</span> <span class="n">wsol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_i</span>
+        <span class="k">return</span> <span class="n">zsol</span><span class="p">,</span> <span class="n">wsol</span>
+    <span class="n">kdep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialize_basis</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">zis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">decision_var_names_j</span>
+    <span class="n">wis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">slack_var_names_i</span>
+    <span class="n">complements</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">))</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">))</span>
+    <span class="k">while</span> <span class="n">counter</span> <span class="o">&lt;</span> <span class="n">maxit</span><span class="p">:</span>
+        <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">kent</span> <span class="o">=</span> <span class="n">complements</span><span class="p">[</span><span class="n">kdep</span><span class="p">]</span>
+        <span class="n">kdep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">determine_departing</span><span class="p">(</span><span class="n">kent</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kdep</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">kent</span><span class="p">,</span> <span class="n">kdep</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'Basis: '</span><span class="p">,</span> <span class="p">[(</span><span class="n">wis</span><span class="o">+</span><span class="n">zis</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">k_b</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">((</span><span class="n">wis</span><span class="o">+</span><span class="n">zis</span><span class="p">)[</span><span class="n">kent</span><span class="p">],</span> <span class="s1">'enters,'</span><span class="p">,</span> <span class="p">(</span><span class="n">wis</span><span class="o">+</span><span class="n">zis</span><span class="p">)[</span><span class="n">kdep</span><span class="p">],</span> <span class="s1">'departs'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kdep</span> <span class="o">==</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'=========='</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kdep</span> <span class="o">==</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Solution found: z_0 departed basis.'</span><span class="p">)</span>
+        <span class="n">zsol</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span>
+        <span class="n">wsol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">M_i_j</span> <span class="o">@</span> <span class="n">zsol</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_i</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'Complementarity: z.w = '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">zsol</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">wsol</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="s1">'z_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">' = '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">zsol</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="s1">'w_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">' = '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">wsol</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">zsol</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">wsol</span>
+    <span class="k">elif</span> <span class="n">counter</span> <span class="o">==</span> <span class="n">maxit</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Solution not found: maximum number of iterations ('</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">maxit</span><span class="p">)</span> <span class="o">+</span> <span class="s1">') reached.'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Solution not found: Ray termination.'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">p_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbi</span>
-    <span class="n">q_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbi</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbj</span>
-    <span class="n">q_prev</span> <span class="o">=</span> <span class="n">q_j</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-    <span class="n">gap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-    <span class="n">i</span><span class="o">=</span><span class="mi">0</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">gap</span> <span class="o">&gt;</span>  <span class="n">tol</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">max_iter</span><span class="p">):</span>
-        <span class="n">q_tilde</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">q_j</span> <span class="o">-</span> <span class="n">q_prev</span>
-        <span class="n">p_i</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">sigma</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">@</span> <span class="n">q_tilde</span><span class="p">)</span>
-        <span class="n">p_i</span> <span class="o">/=</span> <span class="n">p_i</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-
-        <span class="n">q_prev</span> <span class="o">=</span> <span class="n">q_j</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">q_j</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tau</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">p_i</span><span class="p">)</span>
-        <span class="n">q_j</span> <span class="o">/=</span> <span class="n">q_j</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-        <span class="n">gap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">p_i</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A_i_j</span> <span class="o">@</span> <span class="n">q_j</span><span class="p">)</span>
-        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="n">p_i</span><span class="p">,</span> <span class="n">q_j</span><span class="p">,</span> <span class="n">gap</span><span class="p">,</span> <span class="n">i</span>
-
-<span class="n">Matrix_game</span><span class="o">.</span><span class="n">chambolle_pock_solve</span> <span class="o">=</span> <span class="n">Matrix_game_chambolle_pock_solve</span>
+<span class="n">LCP</span><span class="o">.</span><span class="n">lemke_solve</span> <span class="o">=</span> <span class="n">LCP_lemke_solve</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f9bc69d6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8322,8 +8423,7 @@ q_j = [0.21908541 0.10161508 0.67929951]
 <div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">p_i</span><span class="p">,</span> <span class="n">q_j</span> <span class="p">,</span><span class="n">_</span> <span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">penalty_game</span><span class="o">.</span><span class="n">chambolle_pock_solve</span><span class="p">()</span>
-<span class="n">p_i</span><span class="p">,</span> <span class="n">q_j</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">murty_ex_2_9</span><span class="o">.</span><span class="n">lemke_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8333,23 +8433,224 @@ q_j = [0.21908541 0.10161508 0.67929951]
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>z_0 enters, w_1 departs
+Basis:  ['z_0', 'z_1', 'w_3']
+z_1 enters, w_2 departs
+Basis:  ['z_2', 'z_1', 'w_3']
+z_2 enters, z_0 departs
+==========
+Solution found: z_0 departed basis.
+Complementarity: z.w = 0.0
+z_1 = 3.0
+z_2 = 2.5
+z_3 = 0.0
+w_1 = 0.0
+w_2 = 0.0
+w_3 = 7.5
+</pre>
+</div>
+</div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>(array([0.3033884 , 0.15180727, 0.54480433]),
- array([0.21908606, 0.10161432, 0.67929961]))</pre>
+<pre>(array([3. , 2.5, 0. ]), array([0. , 0. , 7.5]))</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a4de7e97">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Exercises">Exercises<a class="anchor-link" href="#Exercises">¶</a></h1><p><strong>Exchangeability of solutions.</strong> Show that if $(p,q)$ and $(p',q')$ are two Nash equilibria of a zero-sum game, then $(p',q)$ is also a Nash equilibrium.</p>
+<h2 id="More-examples">More examples<a class="anchor-link" href="#More-examples">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0e3ba1e1">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">murty_ex_2_10</span><span class="o">.</span><span class="n">lemke_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>==========
+Solution found: z_0 departed basis.
+Complementarity: z.w = 0.0
+z_1 = 8.0
+z_2 = 0.0
+z_3 = 0.0
+w_1 = 0.0
+w_2 = 4.0
+w_3 = 2.0
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>(array([8., 0., 0.]), array([0., 4., 2.]))</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=17882fbc">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">kostreva_ex</span><span class="o">.</span><span class="n">lemke_solve</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>==========
+Solution found: z_0 departed basis.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>(array([0., 1., 0.]), array([4., 0., 0.]))</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=49cec043">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">kostreva_ex2</span><span class="o">.</span><span class="n">lemke_solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># cycles</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>z_0 enters, w_1 departs
+Basis:  ['z_0', 'z_1', 'w_3']
+z_1 enters, w_2 departs
+Basis:  ['z_0', 'z_2', 'w_3']
+z_2 enters, z_1 departs
+Basis:  ['z_0', 'z_2', 'w_1']
+w_1 enters, w_3 departs
+Basis:  ['z_0', 'z_3', 'w_1']
+z_3 enters, z_2 departs
+Basis:  ['z_0', 'z_3', 'w_2']
+w_2 enters, w_1 departs
+Basis:  ['z_0', 'z_1', 'w_2']
+z_1 enters, z_3 departs
+Basis:  ['z_0', 'z_1', 'w_3']
+w_3 enters, w_2 departs
+Basis:  ['z_0', 'z_2', 'w_3']
+z_2 enters, z_1 departs
+Basis:  ['z_0', 'z_2', 'w_1']
+w_1 enters, w_3 departs
+Basis:  ['z_0', 'z_3', 'w_1']
+z_3 enters, z_2 departs
+==========
+Solution not found: maximum number of iterations (10) reached.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=621dc2e9">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Appendix">Appendix<a class="anchor-link" href="#Appendix">¶</a></h1><h3 id="Sufficient-conditions-for-convergence">Sufficient conditions for convergence<a class="anchor-link" href="#Sufficient-conditions-for-convergence">¶</a></h3><p>The Lemke algorithm always finds a solution (if it exists) when:</p>
+<ul>
+<li>the matrix $M$ is copositive plus,</li>
+<li>the matrix $M$ is an $L$-matrix,</li>
+<li>the matrix $M$ is positive-definite: $z^\top M z &gt; 0$ for all $z \neq 0$</li>
+<li>the matrix $M$ is a P-matrix</li>
+</ul>
+<p><strong>Copositive matrices.</strong> $M$ is a copositive matrix iff $\forall z \geq 0, \; z^\top M z \geq 0$.</p>
+<p><strong>Copositive plus matrices.</strong> $M$ is a copositive plus matrix iff it is a copositive matrix and whenever $y \geq 0$  satisfies $y^\top M y = 0$ we have $y^\top (M + M^\top) = 0$.</p>
+<p><strong>Theorem (Murty 2.1).</strong> If $M$ is a copositive plus matrix and there is a feasible vector to the LCP $(M,q)$ (i.e. there exist $z, w \geq 0$ such that $w = Mz + q$), then this LCP has a solution and the Lemke algorithm terminates with a solution.<br/>
+(In particular when $M$ is strictly copositive, it always terminates with a solution.)</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cca889ba">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="LCPs-and-P-matrices">LCPs and P-matrices<a class="anchor-link" href="#LCPs-and-P-matrices">¶</a></h3><p><strong>Definition.</strong> A square matrix $M$ is a P-matrix if it satisfies one of following equivalent properties.</p>
+<ul>
+<li>Every principal minor of $M$ is positive.</li>
+<li>For any vector $z \neq 0$, there is a nonzero diagonal matrix $D_z$ with nonnegative coefficients such that $z^\top D_z M z &gt; 0$.</li>
+<li>For any vector $z \neq 0$, there is an index $i$ such that $z_i \neq 0$ and $z_i (M z)_i &gt; 0$.</li>
+</ul>
+<p>Linear complementarity problems have a natural relationship with P-matrices, given by the following theorem.</p>
+<hr/>
+<p><strong>Theorem.</strong> The linear complementarity problem $(M,q)$ has a unique solution for all vectors $q$ if and only if the matrix $M$ is a P-matrix.</p>
+<p><em>Proof.</em><br/>
+Let's show that if $M$ is a P-matrix, then the LCP $(M,q)$ has at most one solution.<br/>
+Suppose that $z$ and $z'$ are both solutions. Then for all $i$,</p>
+\begin{aligned}
+(z - z')_i \big( M(z-z') \big)_i
+&amp;= (z - z')_i \big( (Mz + q) - (Mz' + q) \big)_i \\
+&amp;= z_i (Mz + q)_i - z_i (Mz' + q)_i - z'_i (Mz + q)_i + z'_i (Mz' + q)_i \\
+&amp;= - z_i (Mz' + q)_i - z'_i (Mz + q)_i \leq 0
+\end{aligned}<p>since $z_i (Mz + q)_i = z'_i (Mz' + q)_i = 0$ and because of the positivity constraints of the LCP.<br/>
+Finally, since $M$ is a P-matrix, the inequality above implies that we must have $z - z' = 0$, i.e. $z = z'$.</p>
+<p>To do: existence, reverse implication.</p>
+<hr/>
+<p>In particular, it means that if $M$ is <em>not</em> a P-matrix, then there exists $q$ such that either:</p>
+<ol>
+<li>the LCP $(M,q)$ has no solution, or</li>
+<li>the LCP $(M,q)$ has more than one solution.</li>
+</ol>
+<p><em>Note: can the proof somehow apply to the case where the matrix is non-reversing?</em></p>
 </div>
 </div>
 </div>
