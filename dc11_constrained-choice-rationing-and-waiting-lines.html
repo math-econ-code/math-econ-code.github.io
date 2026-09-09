@@ -7312,7 +7312,6 @@ a.anchor-link {
                     processEnvironments: true
                 },
                 displayAlign: 'center',
-                messageStyle: 'none',
                 CommonHTML: {
                     linebreaks: {
                     automatic: true
@@ -7332,12 +7331,7 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
-    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
-    if(elkUrl) {
-      const elkLayouts = (await import(elkUrl)).default;
-      mermaid.registerLayoutLoaders(elkLayouts);
-    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7434,8 +7428,7 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
-      return `${SVG_XML_HEADER}${svg}`;
+      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
     }
 
 
@@ -7461,285 +7454,6 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
-
-
-  /**
-   * Named HTML entities with their decimal equivalent codes.
-   *
-   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
-   * */
-  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
-<!ENTITY aacute "&#225;">
-<!ENTITY Acirc "&#194;">
-<!ENTITY acirc "&#226;">
-<!ENTITY acute "&#180;">
-<!ENTITY AElig "&#198;">
-<!ENTITY aelig "&#230;">
-<!ENTITY Agrave "&#192;">
-<!ENTITY agrave "&#224;">
-<!ENTITY alefsym "&#8501;">
-<!ENTITY Alpha "&#913;">
-<!ENTITY alpha "&#945;">
-<!ENTITY amp "&#38;">
-<!ENTITY and "&#8869;">
-<!ENTITY ang "&#8736;">
-<!ENTITY Aring "&#197;">
-<!ENTITY aring "&#229;">
-<!ENTITY asymp "&#8776;">
-<!ENTITY Atilde "&#195;">
-<!ENTITY atilde "&#227;">
-<!ENTITY Auml "&#196;">
-<!ENTITY auml "&#228;">
-<!ENTITY bdquo "&#8222;">
-<!ENTITY Beta "&#914;">
-<!ENTITY beta "&#946;">
-<!ENTITY brvbar "&#166;">
-<!ENTITY bull "&#8226;">
-<!ENTITY cap "&#8745;">
-<!ENTITY Ccedil "&#199;">
-<!ENTITY ccedil "&#231;">
-<!ENTITY cedil "&#184;">
-<!ENTITY cent "&#162;">
-<!ENTITY Chi "&#935;">
-<!ENTITY chi "&#967;">
-<!ENTITY circ "&#710;">
-<!ENTITY clubs "&#9827;">
-<!ENTITY cong "&#8773;">
-<!ENTITY copy "&#169;">
-<!ENTITY crarr "&#8629;">
-<!ENTITY cup "&#8746;">
-<!ENTITY curren "&#164;">
-<!ENTITY dagger "&#8224;">
-<!ENTITY Dagger "&#8225;">
-<!ENTITY darr "&#8595;">
-<!ENTITY dArr "&#8659;">
-<!ENTITY deg "&#176;">
-<!ENTITY Delta "&#916;">
-<!ENTITY delta "&#948;">
-<!ENTITY diams "&#9830;">
-<!ENTITY divide "&#247;">
-<!ENTITY Eacute "&#201;">
-<!ENTITY eacute "&#233;">
-<!ENTITY Ecirc "&#202;">
-<!ENTITY ecirc "&#234;">
-<!ENTITY Egrave "&#200;">
-<!ENTITY egrave "&#232;">
-<!ENTITY empty "&#8709;">
-<!ENTITY emsp "&#8195;">
-<!ENTITY ensp "&#8194;">
-<!ENTITY epsilon "&#949;">
-<!ENTITY Epsilon "&#917;">
-<!ENTITY equiv "&#8801;">
-<!ENTITY Eta "&#919;">
-<!ENTITY eta "&#951;">
-<!ENTITY ETH "&#208;">
-<!ENTITY eth "&#240;">
-<!ENTITY Euml "&#203;">
-<!ENTITY euml "&#235;">
-<!ENTITY exist "&#8707;">
-<!ENTITY fnof "&#402;">
-<!ENTITY forall "&#8704;">
-<!ENTITY frac12 "&#189;">
-<!ENTITY frac14 "&#188;">
-<!ENTITY frac34 "&#190;">
-<!ENTITY frasl "&#8260;">
-<!ENTITY Gamma "&#915;">
-<!ENTITY gamma "&#947;">
-<!ENTITY ge "&#8805;">
-<!ENTITY gt "&#62;">
-<!ENTITY harr "&#8596;">
-<!ENTITY hArr "&#8660;">
-<!ENTITY hearts "&#9829;">
-<!ENTITY hellip "&#8230;">
-<!ENTITY Iacute "&#205;">
-<!ENTITY iacute "&#237;">
-<!ENTITY Icirc "&#206;">
-<!ENTITY icirc "&#238;">
-<!ENTITY iexcl "&#161;">
-<!ENTITY Igrave "&#204;">
-<!ENTITY igrave "&#236;">
-<!ENTITY image "&#8465;">
-<!ENTITY infin "&#8734;">
-<!ENTITY int "&#8747;">
-<!ENTITY Iota "&#921;">
-<!ENTITY iota "&#953;">
-<!ENTITY iquest "&#191;">
-<!ENTITY isin "&#8712;">
-<!ENTITY Iuml "&#207;">
-<!ENTITY iuml "&#239;">
-<!ENTITY Kappa "&#922;">
-<!ENTITY kappa "&#954;">
-<!ENTITY Lambda "&#923;">
-<!ENTITY lambda "&#955;">
-<!ENTITY lang "&#9001;">
-<!ENTITY laquo "&#171;">
-<!ENTITY larr "&#8592;">
-<!ENTITY lArr "&#8656;">
-<!ENTITY lceil "&#8968;">
-<!ENTITY ldquo "&#8220;">
-<!ENTITY le "&#8804;">
-<!ENTITY lfloor "&#8970;">
-<!ENTITY lowast "&#8727;">
-<!ENTITY loz "&#9674;">
-<!ENTITY lrm "&#8206;">
-<!ENTITY lsaquo "&#8249;">
-<!ENTITY lsquo "&#8216;">
-<!ENTITY lt "&#60;">
-<!ENTITY macr "&#175;">
-<!ENTITY mdash "&#8212;">
-<!ENTITY micro "&#181;">
-<!ENTITY middot "&#183;">
-<!ENTITY minus "&#8722;">
-<!ENTITY Mu "&#924;">
-<!ENTITY mu "&#956;">
-<!ENTITY nabla "&#8711;">
-<!ENTITY nbsp "&#160;">
-<!ENTITY ndash "&#8211;">
-<!ENTITY ne "&#8800;">
-<!ENTITY ni "&#8715;">
-<!ENTITY not "&#172;">
-<!ENTITY notin "&#8713;">
-<!ENTITY nsub "&#8836;">
-<!ENTITY Ntilde "&#209;">
-<!ENTITY ntilde "&#241;">
-<!ENTITY Nu "&#925;">
-<!ENTITY nu "&#957;">
-<!ENTITY Oacute "&#211;">
-<!ENTITY oacute "&#243;">
-<!ENTITY Ocirc "&#212;">
-<!ENTITY ocirc "&#244;">
-<!ENTITY OElig "&#338;">
-<!ENTITY oelig "&#339;">
-<!ENTITY Ograve "&#210;">
-<!ENTITY ograve "&#242;">
-<!ENTITY oline "&#8254;">
-<!ENTITY Omega "&#937;">
-<!ENTITY omega "&#969;">
-<!ENTITY Omicron "&#927;">
-<!ENTITY omicron "&#959;">
-<!ENTITY oplus "&#8853;">
-<!ENTITY or "&#8870;">
-<!ENTITY ordf "&#170;">
-<!ENTITY ordm "&#186;">
-<!ENTITY Oslash "&#216;">
-<!ENTITY oslash "&#248;">
-<!ENTITY Otilde "&#213;">
-<!ENTITY otilde "&#245;">
-<!ENTITY otimes "&#8855;">
-<!ENTITY Ouml "&#214;">
-<!ENTITY ouml "&#246;">
-<!ENTITY para "&#182;">
-<!ENTITY part "&#8706;">
-<!ENTITY permil "&#8240;">
-<!ENTITY perp "&#8869;">
-<!ENTITY Phi "&#934;">
-<!ENTITY phi "&#966;">
-<!ENTITY Pi "&#928;">
-<!ENTITY pi "&#960;">
-<!ENTITY piv "&#982;">
-<!ENTITY plusmn "&#177;">
-<!ENTITY pound "&#163;">
-<!ENTITY prime "&#8242;">
-<!ENTITY Prime "&#8243;">
-<!ENTITY prod "&#8719;">
-<!ENTITY prop "&#8733;">
-<!ENTITY Psi "&#936;">
-<!ENTITY psi "&#968;">
-<!ENTITY quot "&#34;">
-<!ENTITY radic "&#8730;">
-<!ENTITY rang "&#9002;">
-<!ENTITY raquo "&#187;">
-<!ENTITY rarr "&#8594;">
-<!ENTITY rArr "&#8658;">
-<!ENTITY rceil "&#8969;">
-<!ENTITY rdquo "&#8221;">
-<!ENTITY real "&#8476;">
-<!ENTITY reg "&#174;">
-<!ENTITY rfloor "&#8971;">
-<!ENTITY Rho "&#929;">
-<!ENTITY rho "&#961;">
-<!ENTITY rlm "&#8207;">
-<!ENTITY rsaquo "&#8250;">
-<!ENTITY rsquo "&#8217;">
-<!ENTITY sbquo "&#8218;">
-<!ENTITY Scaron "&#352;">
-<!ENTITY scaron "&#353;">
-<!ENTITY sdot "&#8901;">
-<!ENTITY sect "&#167;">
-<!ENTITY shy "&#173;">
-<!ENTITY Sigma "&#931;">
-<!ENTITY sigma "&#963;">
-<!ENTITY sigmaf "&#962;">
-<!ENTITY sim "&#8764;">
-<!ENTITY spades "&#9824;">
-<!ENTITY sub "&#8834;">
-<!ENTITY sube "&#8838;">
-<!ENTITY sum "&#8721;">
-<!ENTITY sup "&#8835;">
-<!ENTITY sup1 "&#185;">
-<!ENTITY sup2 "&#178;">
-<!ENTITY sup3 "&#179;">
-<!ENTITY supe "&#8839;">
-<!ENTITY szlig "&#223;">
-<!ENTITY Tau "&#932;">
-<!ENTITY tau "&#964;">
-<!ENTITY there4 "&#8756;">
-<!ENTITY Theta "&#920;">
-<!ENTITY theta "&#952;">
-<!ENTITY thetasym "&#977;">
-<!ENTITY thinsp "&#8201;">
-<!ENTITY THORN "&#222;">
-<!ENTITY thorn "&#254;">
-<!ENTITY tilde "&#732;">
-<!ENTITY times "&#215;">
-<!ENTITY trade "&#8482;">
-<!ENTITY Uacute "&#218;">
-<!ENTITY uacute "&#250;">
-<!ENTITY uarr "&#8593;">
-<!ENTITY uArr "&#8657;">
-<!ENTITY Ucirc "&#219;">
-<!ENTITY ucirc "&#251;">
-<!ENTITY Ugrave "&#217;">
-<!ENTITY ugrave "&#249;">
-<!ENTITY uml "&#168;">
-<!ENTITY upsih "&#978;">
-<!ENTITY Upsilon "&#933;">
-<!ENTITY upsilon "&#965;">
-<!ENTITY Uuml "&#220;">
-<!ENTITY uuml "&#252;">
-<!ENTITY weierp "&#8472;">
-<!ENTITY Xi "&#926;">
-<!ENTITY xi "&#958;">
-<!ENTITY Yacute "&#221;">
-<!ENTITY yacute "&#253;">
-<!ENTITY yen "&#165;">
-<!ENTITY Yuml "&#376;">
-<!ENTITY yuml "&#255;">
-<!ENTITY Zeta "&#918;">
-<!ENTITY zeta "&#950;">
-<!ENTITY zwj "&#8205;">
-<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
-
-  /**
-   * A reasonably strict xml declaration.
-   */
-  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
-
-  /**
-   * The beginning of the XML doctype declaration.
-   */
-  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
-
-  /**
-   * The end of the XML docype declaration.
-   */
-  const DOCTYPE_END = ']>';
-
-  /**
-   * A full header for an SVG XML document.
-   */
-  const SVG_XML_HEADER = `${XML_DECL}
-    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7833,6 +7547,7 @@ Alfred Galichon, 'math+econ+code' masterclass series. <a href="https://www.math-
 <li>Galichon (2026). <em>Discrete Choice Models</em>. Princeton University Press. <strong>Chapter 7, sections 7.1–7.4</strong>.</li>
 <li>Ortega and Rheinboldt (1970). <em>Iterative Solution of Nonlinear Equations in Several Variables</em>. Academic Press. M-functions, Z-maps, and the coordinate-wise iteration of section 1.</li>
 <li>Topkis (1998). <em>Supermodularity and Complementarity</em>. Princeton University Press. The comparative statics of section 5.</li>
+<li>Galichon, Alfred, Yu-Wei Hsieh, and Maxime Sylvestre. <a href="https://arxiv.org/abs/2304.12171">"Monotone Comparative Statics for Submodular Functions, with an Application to Aggregated Deferred Acceptance"</a>. Revise and resubmit, <em>Journal of Economic Theory</em>. The monotone comparative-statics arguments used in section 5.</li>
 <li>Barzel (1974). "A Theory of Rationing by Waiting". <em>Journal of Law and Economics</em> 17(1), 73–95.</li>
 <li>Naor (1969). "The Regulation of Queue Size by Levying Tolls". <em>Econometrica</em> 37(1), 15–24.</li>
 <li>Azevedo and Leshno (2016). "A Supply and Demand Framework for Two-Sided Matching Markets". <em>Journal of Political Economy</em> 124(5), 1235–1268. Shadow prices as admission cutoffs.</li>
@@ -7871,10 +7586,10 @@ a <strong>complementarity problem</strong>: a hospital that is not full is not c
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">optimize</span><span class="p">,</span> <span class="n">sparse</span> <span class="k">as</span> <span class="n">sp</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">linprog</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span><span class="p">,</span> <span class="n">sparse</span> <span class="k">as</span> <span class="n">sp</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">linprog</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>         <span class="c1"># lecture number</span>
 <span class="n">FAST_MODE</span> <span class="o">=</span> <span class="kc">True</span>
@@ -7910,7 +7625,7 @@ a <strong>complementarity problem</strong>: a hospital that is not full is not c
 <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">'H</span><span class="si">{</span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">'</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Y</span><span class="p">)]</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">pi_logit</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">pi_logit</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">'''Logit market shares with an outside option normalized to zero.'''</span>
     <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">e</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
@@ -7971,11 +7686,11 @@ $$\mathbf{q}(\theta):=\bar\pi-\theta^--\mathbf{\pi}(U-\theta^+)=0.$$</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">q_of</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">Uv</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">pb</span><span class="o">=</span><span class="n">pibar</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">q_of</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">Uv</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">pb</span><span class="o">=</span><span class="n">pibar</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">pb</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">pi_logit</span><span class="p">(</span><span class="n">Uv</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">solve_theta</span><span class="p">(</span><span class="n">Uv</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">pb</span><span class="o">=</span><span class="n">pibar</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-13</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">solve_theta</span><span class="p">(</span><span class="n">Uv</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">pb</span><span class="o">=</span><span class="n">pibar</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-13</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">'''The existence proof of proposition 7.4, run as an algorithm.'''</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pb</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Uv</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">10.0</span><span class="p">)</span>      <span class="c1"># theta^0 = c 1_Y</span>
     <span class="n">hist</span> <span class="o">=</span> <span class="p">[</span><span class="n">theta</span><span class="o">.</span><span class="n">copy</span><span class="p">()]</span>
@@ -8065,7 +7780,7 @@ Listing <code>7-01</code> solves this with Brent's method, in the variable $\mu=
 <div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">constrained_logit</span><span class="p">(</span><span class="n">Uv</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">pb</span><span class="o">=</span><span class="n">pibar</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">constrained_logit</span><span class="p">(</span><span class="n">Uv</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">pb</span><span class="o">=</span><span class="n">pibar</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">'''Listing 7-01: solve the scalar equation for mu = exp(-u).'''</span>
     <span class="n">mu</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">Uv</span><span class="p">),</span> <span class="n">pb</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
                          <span class="mf">1e-14</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-16</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">8.9e-16</span><span class="p">)</span>
@@ -8265,16 +7980,16 @@ Two programs, one number, and two derivatives that are the answer to the whole p
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">G</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">G</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">V</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">Gstar</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>                                   <span class="c1"># entropy of choice, logit</span>
+<span class="k">def</span> <span class="nf">Gstar</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>                                   <span class="c1"># entropy of choice, logit</span>
     <span class="n">p0</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">p0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p0</span><span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">Gtilde_dual</span><span class="p">(</span><span class="n">Uv</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">pb</span><span class="o">=</span><span class="n">pibar</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">Gtilde_dual</span><span class="p">(</span><span class="n">Uv</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">pb</span><span class="o">=</span><span class="n">pibar</span><span class="p">):</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">pb</span> <span class="o">@</span> <span class="n">t</span> <span class="o">+</span> <span class="n">G</span><span class="p">(</span><span class="n">Uv</span> <span class="o">-</span> <span class="n">t</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pb</span><span class="p">)),</span>
                           <span class="n">jac</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">pb</span> <span class="o">-</span> <span class="n">pi_logit</span><span class="p">(</span><span class="n">Uv</span> <span class="o">-</span> <span class="n">t</span><span class="p">),</span>
                           <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">pb</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">'L-BFGS-B'</span><span class="p">,</span>
@@ -8282,7 +7997,7 @@ Two programs, one number, and two derivatives that are the answer to the whole p
     <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">fun</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">x</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">Gtilde_primal</span><span class="p">(</span><span class="n">Uv</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">pb</span><span class="o">=</span><span class="n">pibar</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">Gtilde_primal</span><span class="p">(</span><span class="n">Uv</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">pb</span><span class="o">=</span><span class="n">pibar</span><span class="p">):</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span><span class="p">(</span><span class="n">p</span> <span class="o">@</span> <span class="n">Uv</span> <span class="o">-</span> <span class="n">Gstar</span><span class="p">(</span><span class="n">p</span><span class="p">)),</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">pb</span><span class="p">,</span>
                           <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mf">1e-12</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">pb</span><span class="p">],</span>
                           <span class="n">constraints</span><span class="o">=</span><span class="p">[{</span><span class="s1">'type'</span><span class="p">:</span> <span class="s1">'ineq'</span><span class="p">,</span>
@@ -8365,7 +8080,7 @@ whose dual is $\min_{u,\tau\ge0}\{\frac1I\sum_iu_i+\sum_y\bar\pi_y\tau_y\}$ subj
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">simulated_choice</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">Uv</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">pb</span><span class="o">=</span><span class="n">pibar</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">simulated_choice</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">Uv</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">pb</span><span class="o">=</span><span class="n">pibar</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">'''Listing 7-02 on HiGHS. Returns (tau, u_i, shares, value, lambda).'''</span>
     <span class="n">I</span><span class="p">,</span> <span class="n">Yp</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">],</span> <span class="n">Uv</span><span class="p">])[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
@@ -8526,15 +8241,15 @@ fitted slope of log RMSE on log I: -0.505  (parametric rate would be -0.5)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ChoiceProblem</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_x</span><span class="p">,</span> <span class="n">alpha_x_y</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChoiceProblem</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_x</span><span class="p">,</span> <span class="n">alpha_x_y</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_x_y</span> <span class="o">=</span> <span class="n">n_x</span><span class="p">,</span> <span class="n">alpha_x_y</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="n">alpha_x_y</span><span class="o">.</span><span class="n">shape</span>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">IndividualChoiceProblem</span><span class="p">(</span><span class="n">ChoiceProblem</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">IndividualChoiceProblem</span><span class="p">(</span><span class="n">ChoiceProblem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">'''No heterogeneity: greedy fill in order of payoff.'''</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">choice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">choice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">mubar</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">))</span>
                  <span class="k">if</span> <span class="n">constraint</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">constraint</span><span class="p">)</span>
         <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha_x_y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="mi">1</span><span class="p">))]])</span>
@@ -8553,9 +8268,9 @@ fitted slope of log RMSE on log I: -0.505  (parametric rate would be -0.5)
         <span class="k">return</span> <span class="n">mu</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">LogitChoiceProblem</span><span class="p">(</span><span class="n">ChoiceProblem</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">LogitChoiceProblem</span><span class="p">(</span><span class="n">ChoiceProblem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">'''Logit heterogeneity: the scalar equation of listing 7-01, per type.'''</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">choice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">choice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">mubar</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">))</span>
                  <span class="k">if</span> <span class="n">constraint</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">constraint</span><span class="p">)</span>
         <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">))</span>
@@ -8568,13 +8283,13 @@ fitted slope of log RMSE on log I: -0.505  (parametric rate would be -0.5)
         <span class="k">return</span> <span class="n">mu</span>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">SimulatedChoiceProblem</span><span class="p">(</span><span class="n">ChoiceProblem</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SimulatedChoiceProblem</span><span class="p">(</span><span class="n">ChoiceProblem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">'''Simulated heterogeneity: listing 7-02's linear program, on HiGHS.'''</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_x</span><span class="p">,</span> <span class="n">alpha_x_y</span><span class="p">,</span> <span class="n">eps_i_y</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_x</span><span class="p">,</span> <span class="n">alpha_x_y</span><span class="p">,</span> <span class="n">eps_i_y</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_x</span><span class="p">,</span> <span class="n">alpha_x_y</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps_i_y</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">choice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">choice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">mubar</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">))</span>
                  <span class="k">if</span> <span class="n">constraint</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">constraint</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">))</span>
@@ -8768,7 +8483,7 @@ value is zero, so u -&gt; 0 and tau_y -&gt; U_y for every rationed hospital.
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="5.-Comparative-statics:-tightening-one-capacity-raises-every-price">5. Comparative statics: tightening one capacity raises every price<a class="anchor-link" href="#5.-Comparative-statics:-tightening-one-capacity-raises-every-price">¶</a></h2><p>Theorem 7.6 says the map $\bar\pi\mapsto\mathbf{\tau}(U,\bar\pi)$ is <strong>antitone</strong> and $\bar\pi\mapsto\mathbf{\rho}(U,\bar\pi)$ is <strong>isotone</strong>. The first is stronger than it looks: tightening the capacity of hospital $y$ raises not only $\tau_y$ but $\tau_{y'}$ for every other $y'$, because the displaced patients push the others toward <em>their</em> limits.</p>
-<p>The proof is one line given proposition 7.3: $\mathbf{q}$ is an M-function, so its root moves monotonically with the right-hand side. What that line encodes is <strong>substitutability</strong> — a property discrete choice models have automatically, since an agent takes exactly one option.</p>
+<p>The proof is one line given proposition 7.3: $\mathbf{q}$ is an M-function, so its root moves monotonically with the right-hand side. This argument is closely related to the submodular comparative-statics results of Galichon, Hsieh, and Sylvestre. What that line encodes is <strong>substitutability</strong> — a property discrete choice models have automatically, since an agent takes exactly one option.</p>
 </div>
 </div>
 </div>
@@ -8854,15 +8569,15 @@ in which option 2 is wanted only to the extent that option 1 is available. The r
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">s_of</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">s_of</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
     <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">v</span><span class="p">))</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">demand_complements</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">demand_complements</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s_of</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">s_of</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">s_of</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">solve_complements</span><span class="p">(</span><span class="n">pb</span><span class="p">,</span> <span class="n">Uv</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])):</span>
+<span class="k">def</span> <span class="nf">solve_complements</span><span class="p">(</span><span class="n">pb</span><span class="p">,</span> <span class="n">Uv</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])):</span>
     <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">th</span><span class="p">:</span> <span class="n">pb</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="o">-</span><span class="n">th</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">demand_complements</span><span class="p">(</span><span class="n">Uv</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">th</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
     <span class="n">roots</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.</span><span class="p">,</span> <span class="o">-</span><span class="mf">.1</span><span class="p">]):</span>
@@ -9002,7 +8717,7 @@ which is a projected gradient step on the dual problem of section 3 — the queu
 <div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">tatonnement</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">tatonnement</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
     <span class="n">t_cur</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
         <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t_cur</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
